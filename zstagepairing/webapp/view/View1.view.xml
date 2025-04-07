@@ -1,68 +1,65 @@
 <mvc:View controllerName="com.ami.zstagepairing.controller.View1"
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:ndc="sap.ndc" xmlns:core="sap.ui.core">
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:ndc="sap.ndc"
+    xmlns:core="sap.ui.core">
     <App id="app">
-    <Page id="page" title="{i18n>title}">
-    <headerContent>
+        <Page id="page" title="{i18n>title}">
+            <!-- <headerContent>
             <Select id="languageSelect" change="onLanguageChange">
                 <core:Item key="en" text="English"/>
                 <core:Item key="fr" text="Français"/>
             </Select>
-        </headerContent>
-        <content>
-                   <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="true" finishButtonText="Confirm Pair" complete="fnPair">
-                    <WizardStep id="printerStep" title="{i18n>WizardStep1}" activate="onActivate" validated="false" >
+        </headerContent> -->
+            <content>
+                <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="false" finishButtonText="Confirm Pair" complete="fnPair">
+                    <WizardStep id="printerStep" title="{i18n>WizardStep1}" activate="onActivate" validated="false">
                         <VBox id="vbox">
                             <ComboBox id="printerSelect" required="true" change="onComboBoxChange" placeholder="{i18n>Select Pair}" width="auto" items="{ path:'/ZshPairingInstSet',length : 1500}">
-					<core:ListItem key="{Value}" text="{Value}"/>
+                                <core:ListItem key="{Value}" text="{Value}"/>
                             </ComboBox>
                         </VBox>
                     </WizardStep>
-                    <WizardStep id="Step1" title="{i18n>WizardStep2}" activate="onActivate" validated="true">
+                    <WizardStep id="Step1" title="{i18n>WizardStep2}" activate="onActivate" validated="false">
                         <VBox id="vbox2">
-                        <HBox 
+                            <HBox 
                         >
-            <ndc:BarcodeScannerButton
-			id="sampleBarcodeScannerButton"
-			scanSuccess="onScanSuccess"
-			scanFail="onScanError"
-			inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
+<ndc:BarcodeScannerButton id="sampleBarcodeScannerButton" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
                             <Input id="barcodeinput1" type="Number" maxLength="10" liveChange="onInputChange" submit="onScanBarcode"/>
-                             <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
-                               <Button text="{i18n>Button1}" id="1" press="onClearAll"/>
-                            </HBox>
-                           <VBox >
+                            <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+                            <Button text="{i18n>Button1}" id="1" press="onClearAll"/>
+                        </HBox>
+                        <VBox >
                             <List id="barcodeList1" items="{/barcodes}" width="auto" class="sapUiResponsivePadding">
                                 <CustomListItem>
                                     <HBox>
                                         <Button text="{barcode}  " width="auto" icon="sap-icon://decline" iconFirst="false" press="onDeleteBarcode"/>
                                     </HBox>
                                 </CustomListItem>
-                            </List></VBox>
-                        </VBox>	
-                    </WizardStep>
-                    <WizardStep id="Step2" title="{i18n>WizardStep3}" activate="onActivate" validated="true">
-                        <VBox id="vbox3">
+                            </List>
+                        </VBox>
+                    </VBox>
+                </WizardStep>
+                <WizardStep id="Step2" title="{i18n>WizardStep3}" activate="onActivate" validated="false">
+                    <VBox id="vbox3">
                         <HBox>
-            <ndc:BarcodeScannerButton
-			id="sampleBarcodeScannerButton1"
-			scanSuccess="onScanSuccess"
-			scanFail="onScanError"
-			inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
+                            <ndc:BarcodeScannerButton id="sampleBarcodeScannerButton1" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
                             <Input id="barcodeinput2" type="Number" maxLength="10" liveChange="onInputChange" submit="onScanBarcode"/>
-                             <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
-                               <Button text="{i18n>Button1}"  id="2"  press="onClearAll"/>
-                            </HBox>
-                           <VBox >
+                            <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+                            <Button text="{i18n>Button1}" id="2" press="onClearAll"/>
+                        </HBox>
+                        <VBox >
                             <List id="barcodeList2" items="{/barcodes}" width="auto" class="sapUiResponsivePadding">
                                 <CustomListItem>
                                     <HBox>
-                                    <Button text="{barcode}  " width="auto" icon="sap-icon://decline" iconFirst="false" press="onDeleteBarcode"/>
+                                        <Button text="{barcode}  " width="auto" icon="sap-icon://decline" iconFirst="false" press="onDeleteBarcode"/>
                                     </HBox>
                                 </CustomListItem>
-                            </List></VBox>
-                        </VBox>	
-                    </WizardStep>
-                </Wizard>
+                            </List>
+                        </VBox>
+                    </VBox>
+                </WizardStep>
+            </Wizard>
         </content>
         <!-- <footer>
 			<OverflowToolbar>
@@ -72,6 +69,18 @@
                 <ToolbarSpacer/>
 			</OverflowToolbar>
 		</footer> -->
+        <footer>
+            <Bar>
+                <contentLeft>
+                    <Button id="backBtn" icon="sap-icon://nav-back" text="{i18n>Back}" type="Emphasized" press="onBackStep" visible="true" enabled="true" />
+                </contentLeft>
+                <contentRight>
+                    <Button id="nextBtn" icon="sap-icon://navigation-right-arrow" text="{i18n>Next}" type="Emphasized" press="onNextStep" visible="true" enabled="false" />
+                    <Button id="finishBtn" icon="sap-icon://accept" text="{i18n>ConfirmPair}" type="Accept" press="onConfirmPair" visible="false" />
+                </contentRight>
+            </Bar>
+        </footer>
+
     </Page>
-    </App>
+</App>
 </mvc:View>

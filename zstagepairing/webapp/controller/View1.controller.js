@@ -60,6 +60,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
     return Controller.extend("com.ami.zstagepairing.controller.View1", {
         onInit: function () {
                 // Create JSON model for barcodes
+                this.onInitialLoad();
                 this._Page = this.byId("page");
                 var oModel = new JSONModel({ barcodes: [] });
                 var oModel1 = new JSONModel({ barcodes: [] });
@@ -91,9 +92,11 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             var oWizardStep1 = this.byId("printerStep");
 
             if (sSelectedKey) {
-                oWizardStep1.setValidated(true);
+                // oWizardStep1.setValidated(true);
+                this.oNextBtn.setEnabled(true);
             } else {
-                oWizardStep1.setValidated(false);
+                // oWizardStep1.setValidated(false);
+                this.oNextBtn.setEnabled(false);
             }
         },
         onInfoPress: function () {
@@ -102,7 +105,8 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
         toggleVisibility: function () {
             this._Page.setShowFooter(!this._Page.getShowFooter());
         },
-        onActivate: function (oEvent) {
+
+        onActivate_old: function (oEvent) {
             var sCurrentStepId = oEvent.getParameter("id");
             sCurrentStepId = sCurrentStepId.split('-').pop();
             if(sCurrentStepId === "Step2"){
@@ -115,13 +119,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                     return;
                 }
             }
-            // else if(sCurrentStepId === "Step2"){
-            //     if(this.getView().byId("barcodeList1").getModel().getData().length === 0){
-            //         MessageBox.information("Please enter a barcode first before proceeding.");
-            //     }
-            // }
-
-            // this.toggleVisibility();
+           
         },
         onCheckBarcode: function (sBarcode) {
             var oModel = this.getView().getModel();
@@ -418,20 +416,61 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
         onScanError: function(oEvent) {
             MessageToast.show("Scan failed: " + oEvent, { duration:1000 });
         },
-
-        onScanLiveupdate: function(oEvent) {
-            // User can implement the validation about inputting value
+        onInitialLoad: function () {
+            this.oWizard = this.byId("wizard");
+            this.oNextBtn = this.byId("nextBtn");
+            this.oBackBtn = this.byId("backBtn");
+            this.oFinishBtn = this.byId("finishBtn");
         },
-
-        onAfterRendering: function() {
-            // Reset the scan result
-            // var oScanButton = Element.getElementById(prefixId + 'sampleBarcodeScannerButton');
-            // if (oScanButton) {
-            //     $(oScanButton.getDomRef()).on("click", function(){
-            //         oScanResultText.setText('');
-            //     });
-            // }
-        }
+        
+        onNextStep: function () {
+            this.oWizard.nextStep();
+            this._updateFooterButtons();
+        },
+        
+        onBackStep: function () {
+            this.oWizard.previousStep();
+            this._updateFooterButtons();
+        },
+        
+        onConfirmPair: function () {
+            this.fnPair(); // triggers wizard completion logic
+        },
+        
+        onActivate: function (oEvent) {
+            const oWizard = this.byId("wizard");
+            const sCurrentStepId = oEvent.getParameter("id").split('-').pop();
+        
+            // Step 2 validation: ensure Step 1 has at least one barcode
+            if (sCurrentStepId === "Step2") {
+                const oList = this.byId("barcodeList1");
+                const oModel = oList.getModel();
+                const aBarcodes = oModel && oModel.getData().barcodes;
+        
+                if (!aBarcodes || aBarcodes.length === 0) {
+                    MessageBox.information("Please enter a barcode first before proceeding.");
+                    oWizard.discardProgress(oWizard.getSteps()[1]); // Discard progress to Step 2
+                    oWizard.goToStep(oWizard.getSteps()[1], true);  // Revert to Step 1
+                    return;
+                }
+            }
+        
+            // Update footer buttons based on current step
+            this._updateFooterButtons();
+        },
+        
+        _updateFooterButtons: function () {
+            const oWizard = this.byId("wizard");
+            const aSteps = oWizard.getSteps();
+            const oCurrentStep = oWizard.getCurrentStep();
+            const iCurrentIndex = aSteps.indexOf(oCurrentStep);
+        
+            this.byId("backBtn").setVisible(iCurrentIndex > 0);
+            this.byId("nextBtn").setVisible(iCurrentIndex < aSteps.length - 1);
+            this.byId("finishBtn").setVisible(iCurrentIndex === aSteps.length - 1);
+        },
+       
+        
   
     });
 });
