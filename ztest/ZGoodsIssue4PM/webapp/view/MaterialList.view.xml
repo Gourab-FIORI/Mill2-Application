@@ -1,0 +1,50 @@
+<mvc:View controllerName="webapp.ZGoodsIssue4PM.controller.MaterialList" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="{i18n>titlematpage}" showNavButton="true" navButtonPress="onBack">
+		<ObjectHeader id="idCostc"   title="{app>/CostCenter/Kostl}" visible="{= ${app>/CostCenter/Kostl} ? true : false }">
+			<ObjectAttribute text="{app>/CostCenter/Ktext}"/>
+		</ObjectHeader>
+		<ObjectHeader id="idIO"   title="{app>/InternalOrder/Aufnr}"  visible="{= ${app>/InternalOrder/Aufnr} ? true : false }">
+			<ObjectAttribute text="{app>/InternalOrder/Ktext}"/>
+		</ObjectHeader>
+		<content>
+			<Table id="itemTable" items="{/data}" mode="MultiSelect" growing="true" growingThreshold="6" growingScrollToLoad="false" 
+					updateFinished="setFocus">
+				<columns>
+					<Column hAlign="Left"><Text text="{i18n>material}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>description}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>plant}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>storloc}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>storbin}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>stock}"/></Column>
+					<Column ><Text text="{i18n>quant}"/></Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells >
+							<Text text="{Matnr}"/>
+							<Text text="{Maktx}"/>
+							<Text text="{Werks}"/>
+							<Text text="{Lgort}"/>
+							<Text text="{Lgpbe}"/>
+							<Text text="{Labst}"/>
+							<Input id="issueQuantity" value="{path: 'Wamng'}" description="{Meins}" liveChange="onChangeQuant"
+								 editable="true" type="Number" textAlign="End" valueStateText="Invalid Quanity"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<footer>
+			<Bar>
+				<contentLeft>
+					<Button text="Add" icon="sap-icon://add" type="Accept" press="onAdd"/>
+					<Button text="Delete" icon="sap-icon://sys-minus"  type="Reject" press="onDelete"/>
+				</contentLeft>
+				<contentRight>
+					<Button id="idSubmit" type="Emphasized" text="Submit" press="onSubmit"/>
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>

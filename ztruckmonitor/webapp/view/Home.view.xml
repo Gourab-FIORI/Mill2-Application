@@ -1,0 +1,128 @@
+<mvc:View controllerName="com.ami.ztruckmonitor.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f = "sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <NavContainer navigationFinished="onNavigationFinished" id="navCon" class="navContainerControl sapUiSmallMarginBottom">
+        <Page id="page" title="{i18n>title}" navButtonPress="navBack">
+            <!-- <headerContent>
+                <Select id="languageSelect" change="onLanguageChange">
+                    <core:Item key="en" text="English"/>
+                    <core:Item key="fr" text="Français"/>
+                </Select>
+            </headerContent> -->
+            <content>
+                <ObjectHeader id="oh1" responsive="true" backgroundDesign="Translucent">
+                    <attributes>
+                        <ObjectAttribute title="Freight Order" />
+                    </attributes>
+                    <headerContainer>
+                        <HeaderContainer backgroundDesign="Transparent" id="headerContainer" showDividers="false">
+                            <VBox id="vbox1">
+                                <HBox>
+                                    <!-- <ndc:BarcodeScannerButton id="sampleBarcodeScannerButtonDD" scanSuccess="onScanSuccessDD" scanFail="onScanError" inputLiveUpdate="onScanLiveupdateDD" disableBarcodeInputDialog="true" preferFrontCamera="true"/> -->
+                                    <Input id="barcodeInputDD" liveChange="onInputChange" submit="onValidate"/>
+                                    <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+                                    <Button text="{i18n>Button1}" press="onValidate" type="Emphasized"/>
+                                </HBox>
+                            </VBox>
+                        </HeaderContainer>
+                    </headerContainer>
+                </ObjectHeader>
+                <VBox >
+                    <Table id="idFOtable" items="{GateList>/}">
+                        <!-- Gate Column -->
+                        <columns>
+                            <Column hAlign="Center">
+                                <Text text="{i18n>gateColumn}"  textAlign="Center"/>
+                            </Column>
+                            <Column hAlign="Center">
+                                <Text text="{i18n>actionColumn}" textAlign="Center" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem class="customColumnListItem">
+                                <!-- Gate List -->
+                                <cells>
+                                    	<ObjectAttribute text="{GateList>Zzgate}"    />
+
+                                    <!-- Button column -->
+                                    <Button  text="{= ${GateList>IsGateLoadingBegin} ? ${i18n>resumeButton} : ${i18n>startButton} }" type="Emphasized" press=".onButtonPress" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+
+                </VBox>
+
+
+
+            </content>
+        </Page>
+         <Page id="Details" title="{i18n>Table_Title}" navButtonPress="navBack" showNavButton="true">
+            <!-- <headerContent>
+                <Select change="onLanguageChange">
+                    <core:Item key="en" text="English" />
+                    <core:Item key="fr" text="Français" />
+                </Select>
+            </headerContent> -->
+            <content>
+                <!-- Table -->
+                <Table id="pickTable" inset="false" width="100%" growing="true" items="{
+			path: 'ItemList>/',
+			sorter: {
+				path: 'Zzparkinglot'
+			}
+		}" growingScrollToLoad="true">
+
+                    <!-- Header -->
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="{i18n>Table_Title}- {ItemList>/0/Zzgate}" />
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <!-- Gate Column -->
+                        <columns>
+                            <Column hAlign="Center">
+                                <Text text="{i18n>ItemColumn}"  textAlign="Center"/>
+                            </Column>
+                             <Column hAlign="Center">
+                                <Text text="{i18n>parkColumn}" textAlign="Center" />
+                            </Column>
+                            <Column hAlign="Center" width="10rem">
+                                <Text text="{i18n>actionColumn}" />
+                            </Column>
+                            <Column hAlign="Center">
+                                <Text text="{i18n>LStatusColumn}" textAlign="Center" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem>
+                                <!-- Gate List -->
+                                <cells>
+                                    	<ObjectAttribute text="{ItemList>Arktx}" />
+                                        <Text text="{ItemList>Zzparkinglot}" textAlign="Center"  />
+                                        
+
+
+                                    <!-- Button column -->
+                                    <Button id="idCancel"  text="{= ${ItemList>IsLoaded} ? ${i18n>CancelButton} : ${i18n>EndButton} }" type="Emphasized" press=".onFinal" />
+                                    <!-- <Button id="idEnd"  text="{= ${ItemList>IsLoaded} ? ${i18n>EndButton} : ${i18n>CancelButton} }" type="Emphasized" press=".onEnd" /> -->
+                                    <!-- <HBox>
+                                    <Button id="idCancel"  text="{i18n>CancelButton}" type="Emphasized" press=".onFinal" />
+                                    <Button id="idEnd"  text="{i18n>EndButton}" type="Emphasized" press=".onEnd" />
+                                    </HBox> -->
+                                    <!-- <Text text="{ItemList>IsLoaded}" textAlign="Center"  /> -->
+                                    
+                                    <core:Icon id="idStatus" src="{=${ItemList>IsLoaded} ? 'sap-icon://sys-enter-2' : 'sap-icon://sys-cancel-2'}"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                </Table>
+            </content>
+        </Page>
+    </NavContainer>
+</mvc:View>

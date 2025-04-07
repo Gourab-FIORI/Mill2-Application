@@ -1,0 +1,41 @@
+specVersion: "3.1"
+metadata:
+  name: ordina.zmmphysicalinvn
+type: application
+framework:
+  name: SAPUI5
+  version: 1.84.25
+  libraries:
+    - name: sap.ui.core
+    - name: sap.f
+    - name: sap.m
+    - name: sap.ui.comp
+    - name: sap.ui.generic.app
+    - name: sap.ui.table
+    - name: sap.ushell
+    - name: sap.suite.ui.generic.template
+    - name: themelib_sap_bluecrystal
+    - name: themelib_sap_fiori_3
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        backend:
+          - path: /sap
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: '010'
+            destination: LHDCLNT010
+            authenticationType: PrincipalPropagation
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        component: ordina.zmmphysicalinvn
+        ui5Theme: sap_fiori_3

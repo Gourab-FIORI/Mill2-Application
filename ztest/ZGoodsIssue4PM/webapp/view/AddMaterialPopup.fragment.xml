@@ -1,0 +1,19 @@
+<core:FragmentDefinition 
+	xmlns:core="sap.ui.core" 
+	xmlns="sap.m" 
+	xmlns:f="sap.ui.layout.form">
+	<Dialog title="{i18n>addmaterial}" contentWidth="50%" contentHeight="50%">
+		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4">
+			<f:content>
+				<Label text="{i18n>material}"/>
+				<Input id="idMaterial"/>
+			</f:content>
+		</f:SimpleForm>
+		<beginButton>
+			<Button text="Add" type="Emphasized" press="onAddMaterial"/>
+		</beginButton>		
+		<endButton>
+			<Button text="Cancel"  press="onCloseDialog"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

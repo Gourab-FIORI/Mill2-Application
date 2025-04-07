@@ -1,0 +1,106 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<ViewSettingsDialog confirm="onConfirm" cancel="onClose">
+		<sortItems>
+			<ViewSettingsItem selected="true" key="Lifex" text="Reference Id"/>
+			<ViewSettingsItem key="Direction" text="Direction"/>
+			<ViewSettingsItem key="Dpreg" text="Planned CI Date"/>
+			<ViewSettingsItem key="Upreg" text="Planned CI Time"/>
+			<ViewSettingsItem key="Status" text="Status"/>
+			<ViewSettingsItem key="Tdlnr" text="Forwarding Agent"/>
+			<ViewSettingsItem key="Vstel" text="Rec/Ship Point"/>
+			<ViewSettingsItem key="Matnr" text="Material"/>
+			<ViewSettingsItem key="Dareg" text="Actual CI Date"/>
+			<ViewSettingsItem key="Uareg" text="Actual CI Time"/>
+			<ViewSettingsItem key="ZdaregO" text="Actual CO Date"/>
+			<ViewSettingsItem key="ZuaregO" text="Actual CO Time"/>
+			<ViewSettingsItem key="Scacd" text="SCAC"/>
+			<ViewSettingsItem key="Signi" text="Truck Number"/>
+			<ViewSettingsItem key="Text2" text="Trailer Number"/>
+			<ViewSettingsItem key="Driver" text="Driver"/>
+			<ViewSettingsItem key="Text1" text="Seal"/>
+			<ViewSettingsItem key="BrgewI" text="Incoming Weight"/>
+			<ViewSettingsItem key="BrgewO" text="Outgoing Weight"/>
+			<ViewSettingsItem key="Ntgew" text="Net Weight"/>
+			<ViewSettingsItem key="TndrTrkid" text="Actual Carrier"/>
+			<ViewSettingsItem key="Add01" text="Means Of Transport"/>
+			<ViewSettingsItem key="Tknum" text="Shipment"/>
+			<ViewSettingsItem key="Shtyp" text="Shipment Type"/>
+			<ViewSettingsItem key="Dtabf" text="Actual CO Date"/>
+			<ViewSettingsItem key="Uzabf" text="Actual CO Time"/>
+		</sortItems>
+		<!--<groupItems>-->
+		<!--	<ViewSettingsItem selected="true" key="Lifex" text="Reference Id"/>-->
+		<!--	<ViewSettingsItem key="Direction" text="Direction"/>-->
+		<!--	<ViewSettingsItem key="Dpreg" text="Planned CI Date"/>-->
+		<!--	<ViewSettingsItem key="Upreg" text="Planned CI Time"/>-->
+		<!--	<ViewSettingsItem key="Status" text="Status"/>-->
+		<!--	<ViewSettingsItem key="Tdlnr" text="Forwarding Agent"/>-->
+		<!--	<ViewSettingsItem key="Vstel" text="Rec/Ship Point"/>-->
+		<!--	<ViewSettingsItem key="Matnr" text="Material"/>-->
+		<!--	<ViewSettingsItem key="Dareg" text="Actual CI Date"/>-->
+		<!--	<ViewSettingsItem key="Uareg" text="Actual CI Time"/>-->
+		<!--	<ViewSettingsItem key="ZdaregO" text="Actual CO Date"/>-->
+		<!--	<ViewSettingsItem key="ZuaregO" text="Actual CO Time"/>-->
+		<!--	<ViewSettingsItem key="Scacd" text="SCAC"/>-->
+		<!--	<ViewSettingsItem key="Signi" text="Truck Number"/>-->
+		<!--	<ViewSettingsItem key="Text2" text="Trailer Number"/>-->
+		<!--	<ViewSettingsItem key="Driver" text="Driver"/>-->
+		<!--	<ViewSettingsItem key="Text1" text="Seal"/>-->
+		<!--	<ViewSettingsItem key="BrgewI" text="Incoming Weight"/>-->
+		<!--	<ViewSettingsItem key="BrgewO" text="Outgoing Weight"/>-->
+		<!--	<ViewSettingsItem key="Ntgew" text="Net Weight"/>-->
+		<!--	<ViewSettingsItem key="TndrTrkid" text="Actual Carrier"/>-->
+		<!--	<ViewSettingsItem key="Add01" text="Means Of Transport"/>-->
+		<!--	<ViewSettingsItem key="Tknum" text="Shipment"/>-->
+		<!--	<ViewSettingsItem key="Shtyp" text="Shipment Type"/>-->
+		<!--	<ViewSettingsItem key="Dtabf" text="Actual CO Date"/>-->
+		<!--	<ViewSettingsItem key="Uzabf" text="Actual CO Time"/>-->
+		<!--</groupItems>-->
+		<filterItems>
+			<ViewSettingsFilterItem key="Lifex" text="Reference Id" multiSelect="false">
+				<items>
+					<ViewSettingsItem key="Lifex" text="Reference Id"/>
+				</items>
+			</ViewSettingsFilterItem>
+			<ViewSettingsItem key="Direction" text="Direction"/>
+			<ViewSettingsItem key="Dpreg" text="Planned CI Date"/>
+			<ViewSettingsItem key="Upreg" text="Planned CI Time"/>
+			<ViewSettingsItem key="Status" text="Status"/>
+			<ViewSettingsItem key="Tdlnr" text="Forwarding Agent"/>
+			<ViewSettingsItem key="Vstel" text="Rec/Ship Point"/>
+			<ViewSettingsItem key="Matnr" text="Material"/>
+			<ViewSettingsItem key="Dareg" text="Actual CI Date"/>
+			<ViewSettingsItem key="Uareg" text="Actual CI Time"/>
+			<ViewSettingsItem key="ZdaregO" text="Actual CO Date"/>
+			<ViewSettingsItem key="ZuaregO" text="Actual CO Time"/>
+			<ViewSettingsItem key="Scacd" text="SCAC"/>
+			<ViewSettingsItem key="Signi" text="Truck Number"/>
+			<ViewSettingsItem key="Text2" text="Trailer Number"/>
+			<ViewSettingsItem key="Driver" text="Driver"/>
+			<ViewSettingsItem key="Text1" text="Seal"/>
+			<ViewSettingsItem key="BrgewI" text="Incoming Weight"/>
+			<ViewSettingsItem key="BrgewO" text="Outgoing Weight"/>
+			<ViewSettingsItem key="Ntgew" text="Net Weight"/>
+			<ViewSettingsItem key="TndrTrkid" text="Actual Carrier"/>
+			<ViewSettingsItem key="Add01" text="Means Of Transport"/>
+			<ViewSettingsItem key="Tknum" text="Shipment"/>
+			<ViewSettingsItem key="Shtyp" text="Shipment Type"/>
+			<ViewSettingsItem key="Dtabf" text="Actual CO Date"/>
+			<ViewSettingsItem key="Uzabf" text="Actual CO Time"/>
+		</filterItems>
+		<customTabs>
+			<ViewSettingsCustomTab id="app-settings" icon="sap-icon://action-settings" title="Settings" tooltip="Column Settings">
+				<content>
+					<Panel height="338px">
+						<List mode="MultiSelect" selectionChange="onSelectionChange">
+							<StandardListItem title="Reference id" selected="true"/>
+							<StandardListItem title="Direction" selected="true"/>
+							<StandardListItem title="status"/>
+							<StandardListItem title="Forwarding Agent"/>
+						</List>
+					</Panel>
+				</content>
+			</ViewSettingsCustomTab>
+		</customTabs>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

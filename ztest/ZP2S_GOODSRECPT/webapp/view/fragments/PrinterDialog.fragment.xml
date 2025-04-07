@@ -1,0 +1,41 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog title="Printer Details" type="Message">
+		<content>
+			<VBox >
+				<f:Form >
+					<f:layout>
+						<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4"
+							emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1"/>
+					</f:layout>
+					<f:formContainers>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement label="Printer">
+									<f:fields>
+										<Select id="printer" selectedKey="-1" change="enableSubmit" items="{oPrinterModel>/}" showSecondaryValues= "true">
+											<items>
+												<core:ListItem text="-Select-" key="-1"/>
+												<core:ListItem text="{oPrinterModel>Zname}" key="{oPrinterModel>Zprinter}" additionalText="{oPrinterModel>Zprinter}"/>
+											</items>
+										</Select>
+									</f:fields>
+								</f:FormElement>
+								<f:FormElement label="Number of Labels">
+									<f:fields>
+										<Input id="nosLabels" value="" liveChange="enableSubmit"/>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+					</f:formContainers>
+				</f:Form>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button id="printSubmit" text="Print" type="Emphasized" enabled="false" press="_onPrintSubmit"/>
+		</beginButton>
+		<endButton>
+			<Button id="cancel" text="Cancel" press="closePrintersDialog"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

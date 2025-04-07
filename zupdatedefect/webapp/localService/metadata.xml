@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZMM_DEFECTRECORD_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Check_Bar" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BAR_NBR"/>
+                </Key>
+                <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="BAR/NBR" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Type" Type="Edm.String" sap:unicode="false" sap:label="Def.Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Sec" Type="Edm.String" sap:unicode="false" sap:label="Pos Sec" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Jaw" Type="Edm.String" sap:unicode="false" sap:label="Pos Jaw" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Len" Type="Edm.String" sap:unicode="false" sap:label="Pos Len" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Rep" Type="Edm.String" sap:unicode="false" sap:label="Pos Rep" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Mit" Type="Edm.String" sap:unicode="false" sap:label="Pos Mit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Desc" Type="Edm.String" sap:unicode="false" sap:label="Desc" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="barDefects" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BAR_NBR"/>
+                </Key>
+                <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="BAR/NBR" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Type" Type="Edm.String" sap:unicode="false" sap:label="Def.Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Sec" Type="Edm.String" sap:unicode="false" sap:label="Pos Sec" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Jaw" Type="Edm.String" sap:unicode="false" sap:label="Pos Jaw" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Len" Type="Edm.String" sap:unicode="false" sap:label="Pos Len" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Rep" Type="Edm.String" sap:unicode="false" sap:label="Pos Rep" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Mit" Type="Edm.String" sap:unicode="false" sap:label="Pos Mit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Desc" Type="Edm.String" sap:unicode="false" sap:label="Desc" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="recordDefect" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BAR_NBR"/>
+                </Key>
+                <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="BAR/NBR" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Type" Type="Edm.String" sap:unicode="false" sap:label="Def.Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Sec" Type="Edm.String" sap:unicode="false" sap:label="Pos Sec" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Jaw" Type="Edm.String" sap:unicode="false" sap:label="Pos Jaw" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Len" Type="Edm.String" sap:unicode="false" sap:label="Pos Len" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Rep" Type="Edm.String" sap:unicode="false" sap:label="Pos Rep" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pos_Mit" Type="Edm.String" sap:unicode="false" sap:label="Pos Mit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Desc" Type="Edm.String" sap:unicode="false" sap:label="Desc" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZshDefectSec" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Value"/>
+                </Key>
+                <Property Name="Value" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lower Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZshDefectJaw" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Value"/>
+                </Key>
+                <Property Name="Value" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lower Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PositionJaw" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Position on Jaw" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZshDefectType" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Value"/>
+                </Key>
+                <Property Name="Value" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lower Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZshDefectLength" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Value"/>
+                </Key>
+                <Property Name="Value" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lower Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="Short Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZshDefectSecRep" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Value"/>
+                </Key>
+                <Property Name="Value" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Lower Value" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="PositionRepair" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Position repair" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZMM_DEFECTRECORD_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="Check_BarSet" EntityType="ZMM_DEFECTRECORD_SRV.Check_Bar" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="barDefectsSet" EntityType="ZMM_DEFECTRECORD_SRV.barDefects" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="recordDefectSet" EntityType="ZMM_DEFECTRECORD_SRV.recordDefect" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ZshDefectSecSet" EntityType="ZMM_DEFECTRECORD_SRV.ZshDefectSec" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZshDefectJawSet" EntityType="ZMM_DEFECTRECORD_SRV.ZshDefectJaw" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZshDefectTypeSet" EntityType="ZMM_DEFECTRECORD_SRV.ZshDefectType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZshDefectLengthSet" EntityType="ZMM_DEFECTRECORD_SRV.ZshDefectLength" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZshDefectSecRepSet" EntityType="ZMM_DEFECTRECORD_SRV.ZshDefectSecRep" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZMM_DEFECTRECORD_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZMM_DEFECTRECORD_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

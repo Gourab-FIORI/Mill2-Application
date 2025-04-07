@@ -1,0 +1,47 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<TableSelectDialog noDataText="No Batch Found" title="Select Batch" search="handleBatchSearch" confirm="handleBatchClose"
+		items="{batchModel>/results/}" growingThreshold="1500">
+		<columns>
+			<Column>
+				<header>
+					<Text text="Batch"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true">
+				<header>
+					<Text text="Weight"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+				<header>
+					<Text text="UOM"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="false" id="ColApoAlloy">
+				<header>
+					<Text text="ApoAlloy"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+				<header>
+					<Text text="Material"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+				<header>
+					<Text text="Description"/>
+				</header>
+			</Column>
+		</columns>
+		<ColumnListItem>
+			<cells>
+				<ObjectIdentifier title="{batchModel>Charg}"/>
+				<Text text="{batchModel>Weight}"/>
+				<Text text="{batchModel>Uom}"/>
+				<Text text="{batchModel>ApoAlloy}"/>
+				<Text text="{batchModel>Matnr}"/>
+				<Text text="{batchModel>Description}"/>
+			</cells>
+		</ColumnListItem>
+	</TableSelectDialog>
+</core:FragmentDefinition>

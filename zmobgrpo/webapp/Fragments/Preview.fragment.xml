@@ -1,0 +1,38 @@
+<core:FragmentDefinition
+    xmlns="sap.m" xmlns:l="sap.ui.layout"
+    xmlns:u="sap.ui.unified"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core">
+    <Dialog contentWidth="50%" contentHeight="70%">
+        <customHeader>
+            <OverflowToolbar class="FragmentToolBar">
+                <ToolbarSpacer />
+                <Label text="Barcode Details"></Label>
+                <ToolbarSpacer />
+            </OverflowToolbar>
+        </customHeader>
+        <content>
+        <Table id="previewList" items="{path: '/'}" mode="Delete" delete="onDeleteBarcode">
+        	<columns>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+			</Column>
+		</columns>		
+		<items>
+			<ColumnListItem vAlign="Middle">
+				<cells>
+						<Text
+						text="{Diameter} x {Grade} x {Weight} x {SupplierBatch} x {HeatNumber} x {Bin}"/>
+                        
+					</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+        </content>
+        <endButton>
+            <Button text="Close" press="onClosePreview" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

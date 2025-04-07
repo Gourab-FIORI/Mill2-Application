@@ -1,0 +1,78 @@
+<mvc:View controllerName="com.ami.zbartransfer.controller.Main"
+     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"  xmlns:ndc="sap.ndc" xmlns="sap.m" xmlns:core="sap.ui.core">
+     <App id="app">
+        <Page id="page" title="{i18n>title}" floatingFooter="true"
+		class="sapUiResponsivePadding--header sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter">
+         <!-- <headerContent>
+            <Select id="languageSelect" change="onLanguageChange">
+                <core:Item key="en" text="English"/>
+                <core:Item key="fr" text="Français"/>
+            </Select>
+        </headerContent> -->
+            <content>
+                <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="true" finishButtonText="Finish">
+                    <WizardStep id="printerStep" title="{i18n>WizardStep1}" activate="onActivate" validated="false" >
+                        <VBox id="vbox" class="sapUiSmallMargin sapUiResponsivePadding--content">
+                        <Label text="{i18n>Label1}" class="sapUiResponsiveContentPadding" required="true" labelFor="warehouse"></Label>
+                            <ComboBox class="sapUiResponsiveContentPadding" id="warehouse" required="true" change="onWarehouseChange" placeholder="{i18n>placeholder1}" width="auto" showSecondaryValues="true" busyIndicatorDelay="100" items="{ path: '/warehouseNoSet',length : 1500}">
+					<core:ListItem key="{lgnum}" text="{lgnum}" additionalText="{lnumt}"/>
+                            </ComboBox>
+                            <Label text="{i18n>Label2}" class="sapUiResponsiveContentPadding" required="true" labelFor="sttyp"></Label>
+                             <ComboBox id="sttyp" required="true" class="sapUiResponsiveContentPadding" change="onStorageTypeChange" placeholder="{i18n>placeholder2}" width="auto" showSecondaryValues="true" items="{ path: 'storageType>/results',length : 1500}">
+					<core:ListItem key="{storageType>lgtyp}" text="{storageType>lgtyp}" additionalText="{storageType>ltypt}"/>
+                            </ComboBox>
+                            <Label text="{i18n>Label3}" class="sapUiResponsiveContentPadding" required="true" labelFor="stbin"></Label>
+                             <ComboBox id="stbin" class="sapUiResponsiveContentPadding" required="true" change="onComboBoxChange" placeholder="{i18n>placeholder3}" width="auto" items="{ path: 'storageBin>/results',length : 1500, sorter: { path: 'lgpla'}}">
+					<core:ListItem key="{storageBin>lgpla}" text="{storageBin>lgpla}"/>
+                            </ComboBox>
+                        </VBox>
+                    </WizardStep>
+                    <WizardStep id="barcodeStep" title="{i18n>WizardStep2}" activate="onActivate" validated="false">
+                    
+                        <VBox id="vbox2">
+                        <HBox 
+                        >
+            <ndc:BarcodeScannerButton
+			id="sampleBarcodeScannerButton"
+			scanSuccess="onScanSuccess"
+			scanFail="onScanError"
+			inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
+                            <Input id="barcodeInput" type="Number" maxLength="10" liveChange="onInputChange" submit="onScanBarcode" placeholder="{i18n>placeholder4}"/>
+                             <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+                               <Button text="{i18n>Button1}" press="onClearll"/>
+                            </HBox>
+                           <VBox >
+                            <List id="barcodeList" items="{/barcodes}" width="auto" class="sapUiResponsivePadding">
+                                <CustomListItem>
+                                    <HBox>
+                                        <!-- <Text text="{barcode}" width="auto"/> -->
+                                        <Button text="{barcode}  " width="auto" icon="sap-icon://decline" iconFirst="false" press="onDeleteBarcode"/>
+                                    </HBox>
+                                </CustomListItem>
+                            </List></VBox>
+                           
+                          
+                        </VBox>
+                        	
+                    </WizardStep>
+                    <!-- <WizardStep id="PrintStep" title="Print Labels">
+                        <VBox id="vbox3">
+                          <Button text="Print Plant Label" press="onPrintPlantLabel" enabled="true"/>
+                <Button text="Print Customer Label" press="onPrintCustomerLabel" enabled="true"/>
+                        </VBox>
+                    </WizardStep> -->
+                </Wizard>
+              
+            </content>
+            <footer>
+			<OverflowToolbar>
+				<!-- <Button text="Exit"/> -->
+                	<ToolbarSpacer/>
+				<Button text="{i18n>Button2}" press="onValidate" enabled="true" type="Emphasized"/>
+                <!-- <Button text="{i18n>C_label}" press="onPrintCustomerLabel" enabled="true" type="Emphasized"/> -->
+                <ToolbarSpacer/>
+			</OverflowToolbar>
+		</footer>
+        </Page>
+    </App>
+</mvc:View>

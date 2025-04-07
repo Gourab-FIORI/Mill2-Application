@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="SAP__measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="SAP__capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="SAP__aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="SAP__validation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="SAP__UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_HTML5',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.HTML5.v1" Alias="SAP__HTML5"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PDF',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.PDF.v1" Alias="SAP__PDF"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_SESSION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Session.v1" Alias="SAP__session"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_HIERARCHY',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Hierarchy.v1" Alias="SAP__hierarchy"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="com.sap.gateway.srvd.zui_schedulingrundetlreport.v0001" Alias="SAP__self">
+            <Annotation Term="SAP__core.SchemaVersion" String="1.0.0"/>
+            <EntityType Name="ZI_SCHEDULINGRUNDETAILEDREPORTType">
+                <Key>
+                    <PropertyRef Name="RunId"/>
+                    <PropertyRef Name="RequestLineId"/>
+                    <PropertyRef Name="DependentLineId"/>
+                </Key>
+                <Property Name="RunId" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="RequestLineId" Type="Edm.String" Nullable="false" MaxLength="6"/>
+                <Property Name="DependentLineId" Type="Edm.String" Nullable="false" MaxLength="6"/>
+                <Property Name="CreationDate" Type="Edm.Date"/>
+                <Property Name="CreationTime" Type="Edm.TimeOfDay" Nullable="false"/>
+                <Property Name="Creator" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="CreatorName" Type="Edm.String" Nullable="false" MaxLength="80"/>
+                <Property Name="BatchMode" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="SimulationMode" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="Document" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="DocumentItem" Type="Edm.String" Nullable="false" MaxLength="6"/>
+                <Property Name="DocumentScheduleLine" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="Customer" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="CustomerName" Type="Edm.String" Nullable="false" MaxLength="220"/>
+                <Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="18"/>
+                <Property Name="MaterialName" Type="Edm.String" Nullable="false" MaxLength="40"/>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="PlantName" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="Division" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="DivisionName" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="RequestedDate" Type="Edm.Date"/>
+                <Property Name="RequestedQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3"/>
+                <Property Name="QuantityUnit" Type="Edm.String" Nullable="false" MaxLength="3"/>
+                <Property Name="LineType" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="LineTypeDesc" Type="Edm.String" Nullable="false" MaxLength="60"/>
+                <Property Name="OldDate" Type="Edm.Date"/>
+                <Property Name="OldQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3"/>
+                <Property Name="NewDate" Type="Edm.Date"/>
+                <Property Name="NewQuantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3"/>
+                <Property Name="LineChangeType" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="LineChangeTypeText" Type="Edm.String" Nullable="false" MaxLength="60"/>
+            </EntityType>
+            <EntityContainer Name="Container">
+                <EntitySet Name="ZI_SCHEDULINGRUNDETAILEDREPORT" EntityType="com.sap.gateway.srvd.zui_schedulingrundetlreport.v0001.ZI_SCHEDULINGRUNDETAILEDREPORTType"/>
+            </EntityContainer>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/RequestLineId">
+                <Annotation Term="SAP__common.IsDigitSequence"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Line Id"/>
+                <Annotation Term="SAP__common.QuickInfo" String="SD - Scheduling run: Line Id"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/DependentLineId">
+                <Annotation Term="SAP__common.IsDigitSequence"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Line Id"/>
+                <Annotation Term="SAP__common.QuickInfo" String="SD - Scheduling run: Line Id"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/CreationDate">
+                <Annotation Term="SAP__common.Label" String="Creation Date"/>
+                <Annotation Term="SAP__common.Heading" String="Created On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Record Created On"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/Creator">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/p_user_addr/0001;ps='srvd-zui_schedulingrundetlreport-0001';va='com.sap.gateway.srvd.zui_schedulingrundetlreport.v0001.et-zi_schedulingrundetailedreport.creator'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="Created By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name of Person Responsible for Creating the Object"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/BatchMode">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Background Selection"/>
+                <Annotation Term="SAP__common.Heading" String="Batch"/>
+                <Annotation Term="SAP__common.QuickInfo" String="ABAP System Field: Background Processing Active"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/Document">
+                <Annotation Term="SAP__common.Label" String="Document"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/i_salesdocumentstdvh/0001;ps='srvd-zui_schedulingrundetlreport-0001';va='com.sap.gateway.srvd.zui_schedulingrundetlreport.v0001.et-zi_schedulingrundetailedreport.document'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Heading" String="Document"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Sales and Distribution Document Number"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/DocumentItem">
+                <Annotation Term="SAP__common.Label" String="Document Item"/>
+                <Annotation Term="SAP__common.IsDigitSequence"/>
+                <Annotation Term="SAP__common.Heading" String="Item"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Item number of the SD document"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/DocumentScheduleLine">
+                <Annotation Term="SAP__common.IsDigitSequence"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Schedule Line Number"/>
+                <Annotation Term="SAP__common.Heading" String="SLNo"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/Customer">
+                <Annotation Term="SAP__common.Label" String="Customer"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/i_customer_vh/0001;ps='srvd-zui_schedulingrundetlreport-0001';va='com.sap.gateway.srvd.zui_schedulingrundetlreport.v0001.et-zi_schedulingrundetailedreport.customer'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Heading" String="Sold-to"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Sold-to Party"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/CustomerName">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Customer Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Customer Full Name"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/Material">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/i_materialvh/0001;ps='srvd-zui_schedulingrundetlreport-0001';va='com.sap.gateway.srvd.zui_schedulingrundetlreport.v0001.et-zi_schedulingrundetailedreport.material'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="Material"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Material Number"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/Plant">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/i_plantstdvh/0001;ps='srvd-zui_schedulingrundetlreport-0001';va='com.sap.gateway.srvd.zui_schedulingrundetlreport.v0001.et-zi_schedulingrundetailedreport.plant'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="Plant"/>
+                <Annotation Term="SAP__common.Heading" String="Plnt"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/Division">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Division"/>
+                <Annotation Term="SAP__common.Heading" String="Dv"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/RequestedQuantity">
+                <Annotation Term="SAP__measures.Unit" Path="QuantityUnit"/>
+                <Annotation Term="SAP__common.Label" String="Order Quantity"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Order Quantity in Sales Units"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/QuantityUnit">
+                <Annotation Term="SAP__common.IsUnit"/>
+                <Annotation Term="SAP__common.Label" String="Sales Unit"/>
+                <Annotation Term="SAP__common.Heading" String="SU"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/LineType">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Line Type"/>
+                <Annotation Term="SAP__common.QuickInfo" String="SD - Scheduling run: Line Type (value)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/OldQuantity">
+                <Annotation Term="SAP__measures.Unit" Path="QuantityUnit"/>
+                <Annotation Term="SAP__common.Label" String="Old Quantity"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/NewQuantity">
+                <Annotation Term="SAP__measures.Unit" Path="QuantityUnit"/>
+                <Annotation Term="SAP__common.Label" String="New Quantity"/>
+                <Annotation Term="SAP__common.QuickInfo" String="New quantity"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/LineChangeType">
+                <Annotation Term="SAP__common.Label" String="Line Change Type"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/zb_domainschedrunlinetypevh/0001;ps='srvd-zui_schedulingrundetlreport-0001';va='com.sap.gateway.srvd.zui_schedulingrundetlreport.v0001.et-zi_schedulingrundetailedreport.linechangetype'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Heading" String="Line change"/>
+                <Annotation Term="SAP__common.QuickInfo" String="SD - Scheduling run: Line change type (value)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/RunId">
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/zb_schedulingrunrunid_vh/0001;ps='srvd-zui_schedulingrundetlreport-0001';va='com.sap.gateway.srvd.zui_schedulingrundetlreport.v0001.et-zi_schedulingrundetailedreport.runid'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="Run Id"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Run identifier"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType">
+                <Annotation Term="SAP__common.Label" String="Interface for SD - Scheduling run: Detailed report"/>
+                <Annotation Term="SAP__UI.Facets">
+                    <Collection>
+                        <Record Type="SAP__UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Scheduling run: Detailed report"/>
+                            <PropertyValue Property="Target" AnnotationPath="@SAP__UI.Identification"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="Scheduling run: Detailed report"/>
+                        <PropertyValue Property="TypeNamePlural" String="Scheduling run: Detailed report"/>
+                        <PropertyValue Property="Title">
+                            <Record Type="SAP__UI.DataField">
+                                <PropertyValue Property="Label" String="Scheduling run: Detailed report"/>
+                                <PropertyValue Property="Value" Path="Document"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__UI.Identification">
+                    <Collection>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Creation Time"/>
+                            <PropertyValue Property="Value" Path="CreationTime"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Request Line Id"/>
+                            <PropertyValue Property="Value" Path="RequestLineId"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Dependent Line ID"/>
+                            <PropertyValue Property="Value" Path="DependentLineId"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Creation Date"/>
+                            <PropertyValue Property="Value" Path="CreationDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Creator Name"/>
+                            <PropertyValue Property="Value" Path="CreatorName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Batch Mode"/>
+                            <PropertyValue Property="Value" Path="BatchMode"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Simulation Mode"/>
+                            <PropertyValue Property="Value" Path="SimulationMode"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Document"/>
+                            <PropertyValue Property="Value" Path="Document"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Document Item"/>
+                            <PropertyValue Property="Value" Path="DocumentItem"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Document Schedule line"/>
+                            <PropertyValue Property="Value" Path="DocumentScheduleLine"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Customer"/>
+                            <PropertyValue Property="Value" Path="Customer"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Customer Name"/>
+                            <PropertyValue Property="Value" Path="CustomerName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Material"/>
+                            <PropertyValue Property="Value" Path="Material"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Material Description"/>
+                            <PropertyValue Property="Value" Path="MaterialName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Plant"/>
+                            <PropertyValue Property="Value" Path="Plant"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Plant Name"/>
+                            <PropertyValue Property="Value" Path="PlantName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Division"/>
+                            <PropertyValue Property="Value" Path="Division"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Division Name"/>
+                            <PropertyValue Property="Value" Path="DivisionName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Requested Date"/>
+                            <PropertyValue Property="Value" Path="RequestedDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Requested Quantity"/>
+                            <PropertyValue Property="Value" Path="RequestedQuantity"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Quantity Unit"/>
+                            <PropertyValue Property="Value" Path="QuantityUnit"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Line type"/>
+                            <PropertyValue Property="Value" Path="LineType"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Line type description"/>
+                            <PropertyValue Property="Value" Path="LineTypeDesc"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Old Date"/>
+                            <PropertyValue Property="Value" Path="OldQuantity"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Old Date"/>
+                            <PropertyValue Property="Value" Path="OldDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="New Date"/>
+                            <PropertyValue Property="Value" Path="NewDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="New Quantity"/>
+                            <PropertyValue Property="Value" Path="NewQuantity"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Line change type description"/>
+                            <PropertyValue Property="Value" Path="LineChangeTypeText"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__UI.LineItem">
+                    <Collection>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Creation Time"/>
+                            <PropertyValue Property="Value" Path="CreationTime"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Request Line Id"/>
+                            <PropertyValue Property="Value" Path="RequestLineId"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Dependent Line ID"/>
+                            <PropertyValue Property="Value" Path="DependentLineId"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Creation Date"/>
+                            <PropertyValue Property="Value" Path="CreationDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Creator Name"/>
+                            <PropertyValue Property="Value" Path="CreatorName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Batch Mode"/>
+                            <PropertyValue Property="Value" Path="BatchMode"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Simulation Mode"/>
+                            <PropertyValue Property="Value" Path="SimulationMode"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Document"/>
+                            <PropertyValue Property="Value" Path="Document"/>
+                            <Annotation Term="SAP__UI.Importance" EnumMember="SAP__UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Document Item"/>
+                            <PropertyValue Property="Value" Path="DocumentItem"/>
+                            <Annotation Term="SAP__UI.Importance" EnumMember="SAP__UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Document Schedule line"/>
+                            <PropertyValue Property="Value" Path="DocumentScheduleLine"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Customer"/>
+                            <PropertyValue Property="Value" Path="Customer"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Customer Name"/>
+                            <PropertyValue Property="Value" Path="CustomerName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Material"/>
+                            <PropertyValue Property="Value" Path="Material"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Material Description"/>
+                            <PropertyValue Property="Value" Path="MaterialName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Plant"/>
+                            <PropertyValue Property="Value" Path="Plant"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Plant Name"/>
+                            <PropertyValue Property="Value" Path="PlantName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Division"/>
+                            <PropertyValue Property="Value" Path="Division"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Division Name"/>
+                            <PropertyValue Property="Value" Path="DivisionName"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Requested Date"/>
+                            <PropertyValue Property="Value" Path="RequestedDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Requested Quantity"/>
+                            <PropertyValue Property="Value" Path="RequestedQuantity"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Quantity Unit"/>
+                            <PropertyValue Property="Value" Path="QuantityUnit"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Line type"/>
+                            <PropertyValue Property="Value" Path="LineType"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Line type description"/>
+                            <PropertyValue Property="Value" Path="LineTypeDesc"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Old Date"/>
+                            <PropertyValue Property="Value" Path="OldDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Old Quantity"/>
+                            <PropertyValue Property="Value" Path="OldQuantity"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="New Date"/>
+                            <PropertyValue Property="Value" Path="NewDate"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="New Quantity"/>
+                            <PropertyValue Property="Value" Path="NewQuantity"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Label" String="Line change type description"/>
+                            <PropertyValue Property="Value" Path="LineChangeTypeText"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__UI.PresentationVariant">
+                    <Record>
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="SAP__common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="Document"/>
+                                    <PropertyValue Property="Descending" Bool="true"/>
+                                </Record>
+                                <Record Type="SAP__common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="DocumentItem"/>
+                                    <PropertyValue Property="Descending" Bool="true"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Visualizations">
+                            <Collection>
+                                <AnnotationPath>@SAP__UI.LineItem</AnnotationPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>RunId</PropertyPath>
+                        <PropertyPath>CreationDate</PropertyPath>
+                        <PropertyPath>Creator</PropertyPath>
+                        <PropertyPath>Document</PropertyPath>
+                        <PropertyPath>DocumentItem</PropertyPath>
+                        <PropertyPath>Customer</PropertyPath>
+                        <PropertyPath>Material</PropertyPath>
+                        <PropertyPath>Plant</PropertyPath>
+                        <PropertyPath>LineChangeType</PropertyPath>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZI_SCHEDULINGRUNDETAILEDREPORT">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="RequestedQuantity"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="OldQuantity"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="NewQuantity"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container">
+                <Annotation Term="SAP__CodeList.UnitsOfMeasure">
+                    <Record>
+                        <PropertyValue Property="Url" String="../../../../default/iwbep/common/0001/$metadata"/>
+                        <PropertyValue Property="CollectionPath" String="UnitsOfMeasure"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__aggregation.ApplySupported">
+                    <Record>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Rollup" EnumMember="SAP__aggregation.RollupType/None"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+                <Annotation Term="SAP__capabilities.FilterFunctions">
+                    <Collection>
+                        <String>eq</String>
+                        <String>ne</String>
+                        <String>gt</String>
+                        <String>ge</String>
+                        <String>lt</String>
+                        <String>le</String>
+                        <String>and</String>
+                        <String>or</String>
+                        <String>contains</String>
+                        <String>startswith</String>
+                        <String>endswith</String>
+                        <String>any</String>
+                        <String>all</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SupportedFormats">
+                    <Collection>
+                        <String>application/json</String>
+                        <String>application/pdf</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__PDF.Features">
+                    <Record>
+                        <PropertyValue Property="DocumentDescriptionReference" String="../../../../default/iwbep/common/0001/$metadata"/>
+                        <PropertyValue Property="DocumentDescriptionCollection" String="MyDocumentDescriptions"/>
+                        <PropertyValue Property="ArchiveFormat" Bool="true"/>
+                        <PropertyValue Property="Border" Bool="true"/>
+                        <PropertyValue Property="CoverPage" Bool="true"/>
+                        <PropertyValue Property="FitToPage" Bool="true"/>
+                        <PropertyValue Property="FontName" Bool="true"/>
+                        <PropertyValue Property="FontSize" Bool="true"/>
+                        <PropertyValue Property="Margin" Bool="true"/>
+                        <PropertyValue Property="Padding" Bool="true"/>
+                        <PropertyValue Property="Signature" Bool="true"/>
+                        <PropertyValue Property="HeaderFooter" Bool="true"/>
+                        <PropertyValue Property="ResultSizeDefault" Int="20000"/>
+                        <PropertyValue Property="ResultSizeMaximum" Int="20000"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.KeyAsSegmentSupported"/>
+                <Annotation Term="SAP__capabilities.AsynchronousRequestsSupported"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/CreationTime">
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Time"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Entry time"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/SimulationMode">
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Simulation run"/>
+                <Annotation Term="SAP__common.Heading" String="SR"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator for 'simulation run'"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/PlantName">
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Plant Name"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/DivisionName">
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Division Description"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/LineTypeDesc">
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Line Type"/>
+                <Annotation Term="SAP__common.QuickInfo" String="SD - Scheduling run: Line Type (description)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/CreatorName">
+                <Annotation Term="SAP__common.Label" String="Full Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Full Name of Person"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/MaterialName">
+                <Annotation Term="SAP__common.Label" String="Material Description"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/RequestedDate">
+                <Annotation Term="SAP__common.Label" String="Old Date"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/OldDate">
+                <Annotation Term="SAP__common.Label" String="Old Date"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/NewDate">
+                <Annotation Term="SAP__common.Label" String="New Date"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZI_SCHEDULINGRUNDETAILEDREPORTType/LineChangeTypeText">
+                <Annotation Term="SAP__common.Label" String="Line change"/>
+                <Annotation Term="SAP__common.QuickInfo" String="SD - Scheduling run: Line change type (description)"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

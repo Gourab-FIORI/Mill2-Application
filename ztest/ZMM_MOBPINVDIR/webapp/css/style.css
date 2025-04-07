@@ -1,0 +1,22 @@
+/* Enter your custom styles here */
+.sapMWizardStepTitle {
+    display: none !important;
+}
+
+.compVHAdvancedSearchLink {
+    display: none !important;
+}
+
+.custSmallPaddingBeginEnd {
+	padding-left:1rem !important;
+	padding-right:1rem !important;
+}
+
+.custTinyPaddingTopBottom {
+	padding-top:0.2rem !important;
+	padding-bottom:0.2rem !important;
+}
+
+.custNoPadding {
+	padding: 0 !important;
+}

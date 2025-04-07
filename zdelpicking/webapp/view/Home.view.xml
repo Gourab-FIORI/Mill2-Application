@@ -1,0 +1,222 @@
+<mvc:View xmlns:form="sap.ui.layout.form" controllerName="com.ami.zdelpicking.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:f = "sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:ndc="sap.ndc"
+    xmlns:core="sap.ui.core">
+    <NavContainer navigationFinished="onNavigationFinished" id="navCon" class="navContainerControl sapUiSmallMarginBottom">
+        <Page id="page" title="{i18n>title}" navButtonPress="navBack">
+            <!-- <headerContent>
+                <Select id="languageSelect" change="onLanguageChange">
+                    <core:Item key="en" text="English"/>
+                    <core:Item key="fr" text="Français"/>
+                </Select>
+            </headerContent> -->
+            <content>
+                <ObjectHeader id="oh1" responsive="true" backgroundDesign="Translucent">
+                    <attributes>
+                        <ObjectAttribute title="Delivery Number" />
+                    </attributes>
+                    <headerContainer>
+                        <HeaderContainer backgroundDesign="Transparent" id="headerContainer" showDividers="false">
+                            <VBox id="vbox1">
+                                <HBox>
+                                    <!-- <ndc:BarcodeScannerButton id="sampleBarcodeScannerButtonDD" scanSuccess="onScanSuccessDD" scanFail="onScanError" inputLiveUpdate="onScanLiveupdateDD" disableBarcodeInputDialog="true" preferFrontCamera="true"/> -->
+                                    <Input id="barcodeInputDD" liveChange="onInputChange" submit="onScanBarcodeDD"/>
+                                    <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+                                    <Button text="{i18n>Button1}" press="onClearDD"/>
+                                </HBox>
+                            </VBox>
+                        </HeaderContainer>
+                    </headerContainer>
+                </ObjectHeader>
+                <VBox >
+                    <Table id="simpleFormId" inset="false" items="{deliveryModel>/}" >
+                        <headerToolbar>
+                            <Toolbar>
+                                <Title text="{i18n>tableTitle}" />
+                            </Toolbar>
+                        </headerToolbar>
+                        <columns>
+                            <!-- Item -->
+                            <Column>
+                                <header>
+                                    <Label text="{i18n>labelItem}" />
+                                </header>
+                            </Column>
+                            <!-- Material -->
+                            <Column>
+                                <header>
+                                    <Label text="{i18n>labelMaterial}" />
+                                </header>
+                            </Column>
+                            <!-- Item Description -->
+                            <Column>
+                                <header>
+                                    <Label text="{i18n>labelItemDescription}" />
+                                </header>
+                            </Column>
+                            <!-- Action Buttons -->
+                            <Column>
+                                <header>
+                                    <Label text="{i18n>labelActions}" />
+                                </header>
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem press="onDetailsPress"   type="Navigation" navigated="true">
+                                <!-- Item -->
+                                <cells>
+                                    <Text text="{deliveryModel>Posnr}" />
+                                    <!-- Material -->
+                                    <Text text="{deliveryModel>Matnr}" />
+                                    <!-- Item Description -->
+                                    <Text text="{deliveryModel>Arktx}" />
+                                    <!-- Action Buttons -->
+                                    <HBox>
+                                        <Button text="{i18n>buttonPick}" type="Emphasized" press="onPickPress" />
+                                        <!-- <Button text="{i18n>buttonDetails}" type="Accept" press="onDetailsPress" /> -->
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+
+                </VBox>
+
+
+
+            </content>
+        </Page>
+        <Page id="Pick" title="{i18n>Pick_Title}" navButtonPress="navBack" showNavButton="true">
+            <!-- <headerContent>
+                <Select change="onLanguageChange">
+                    <core:Item key="en" text="English" />
+                    <core:Item key="fr" text="Français" />
+                </Select>
+            </headerContent> -->
+            <content>
+                <f:SimpleForm id="simpleForm" editable="true" layout="ResponsiveGridLayout" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanL="0" emptySpanM="0" columnsL="2" columnsM="1" singleContainerFullSize="false">
+
+                    <!-- Posnr -->
+                    <Label text="{i18n>Item_No}" />
+                    <Text text="{pickingModel>/Posnr}" />
+
+                    <!-- Matnr -->
+                    <Label text="{i18n>Material}" />
+                    <Text text="{pickingModel>/Matnr}" />
+
+                    <!-- Lfimg -->
+                    <Label text="{i18n>Delivery_Qty}" />
+                    <Text text="{pickingModel>/Lfimg} {pickingModel>/Meins}" />
+
+                    <!-- Meins
+                    <Label text="{i18n>Base_Unit}" />
+                    <Text text="{pickingModel>/Meins}" /> -->
+
+                    <!-- Arktx -->
+                    <Label text="{i18n>Item_Descr}" />
+                    <Text text="{pickingModel>/Arktx}" />
+
+                    <!-- Pickqty -->
+                    <Label text="{i18n>Pick_Qty}" />
+                    <Text text="{pickingModel>/Pickqty} {pickingModel>/Meins}" />
+
+                    <!-- Batch (Editable Field) -->
+                    <Label text="{i18n>Batch}" />
+                    <Input value="{pickingModel>/Batch}" submit="onAdd" />
+
+                </f:SimpleForm>
+            </content>
+            <footer>
+                <OverflowToolbar>
+                    <ToolbarSpacer />
+                    <Button text="{i18n>Add_Button}" type="Emphasized" press="onAdd" />
+                    <Button text="{i18n>Return_Button}" press="navBack"/>
+                    <Button text="{i18n>Force_Complete_Button}" type="Reject" press=".onFC" />
+                    <ToolbarSpacer />
+                </OverflowToolbar>
+            </footer>
+        </Page>
+
+        <Page id="Details" title="{i18n>Details_Title}" navButtonPress="navBack" showNavButton="true">
+            <!-- <headerContent>
+                <Select change="onLanguageChange">
+                    <core:Item key="en" text="English" />
+                    <core:Item key="fr" text="Français" />
+                </Select>
+            </headerContent> -->
+            <content>
+                <!-- Table -->
+                <Table id="pickTable" inset="false" width="100%" growing="true" items="{
+			path: 'detailsModel>/',
+			sorter: {
+				path: 'Posnr'
+			}
+		}" growingScrollToLoad="true">
+
+                    <!-- Header -->
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="{i18n>Table_Title}" />
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <!-- Columns -->
+                    <columns>
+                        <!-- Item Number -->
+                        <Column>
+                            <Text text="{i18n>Item_No}" />
+                        </Column>
+
+                        <!-- Batch -->
+                        <Column>
+                            <Text text="{i18n>Batch}" />
+                        </Column>
+
+                        <!-- UoM -->
+                        <Column>
+                            <Text text="{i18n>UoM}" />
+                        </Column>
+
+                        <!-- Picked Quantity -->
+                        <Column>
+                            <Text text="{i18n>Pick_Qty}" />
+                        </Column>
+                         <!-- Action -->
+                        <Column>
+                            <Text text="{i18n>Action}" />
+                        </Column>
+                    </columns>
+
+                    <!-- Items -->
+                    <items>
+                        <ColumnListItem busy="{detailsModel>busy}">
+                            <!-- Item No -->
+                            <Text text="{detailsModel>Posnr}" />
+
+                            <!-- Batch -->
+                            <Text text="{detailsModel>Batch}" />
+
+                            <!-- UoM -->
+                            <Text text="{detailsModel>Meins}" />
+
+                            <!-- Picked Quantity -->
+                            <Input value="{detailsModel>Pickqty}" />
+                             <Button text="{i18n>Save_Button}" type="Emphasized" press="onSave" />
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </content>
+            <!-- <footer>
+                <OverflowToolbar>
+                    <ToolbarSpacer />
+                    <Button text="{i18n>Save_Button}" type="Emphasized" />
+                    <Button text="{i18n>Cancel_Button}" type="Attention" />
+                    <ToolbarSpacer />
+                </OverflowToolbar>
+            </footer> -->
+        </Page>
+    </NavContainer>
+</mvc:View>

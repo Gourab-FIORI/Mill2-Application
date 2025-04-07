@@ -1,0 +1,26 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:bar="sap.ndc"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog id="ItemMessages" title="{i18n>ITEM_MESSAGES_DIALOG_TITLE}" stretch="true" verticalScrolling="true">
+		<content>
+			<ScrollContainer vertical="true" height="100%">
+				<List id="ItemMessagesItemsTable" items="{ path: 'splitData>/NewSplitItems', key:'Index', sorter: { path: 'Index' } }" width="95%"
+					class="sapUiTinyMarginBegin">
+					<items>
+						<CustomListItem>
+							<VBox>
+								<HBox>
+									<ObjectStatus icon="{splitData>SplitStatusIcon}" state="{splitData>SplitStatus}" tooltip="{splitData>SplitStatusTooltip}"/>
+									<ObjectNumber number="{splitData>Index}" state="{splitData>SplitStatus}" class="sapUiTinyMarginBeginEnd"/>
+								</HBox>
+								<Text text="{splitData>SplitStatusTooltip}"/>
+							</VBox>
+						</CustomListItem>
+					</items>
+				</List>
+			</ScrollContainer>
+		</content>
+		<endButton>
+			<Button press="handleItemMessagesDialogClose" text="{i18n>BUTTON_CLOSE}"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

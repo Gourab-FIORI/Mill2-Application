@@ -1,0 +1,116 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:bar="sap.ndc"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog id="UnplannedDialog" title="{i18n>UNPLANNED_DIALOG_TITLE}" afterClose="handleDistributionDialogClose" stretch="true"
+		stretchOnPhone="true" verticalScrolling="true">
+		<subHeader>
+			<Bar>
+				<contentLeft>
+					<Button tooltip="Messages" press="handleShowMessagesButton" icon="sap-icon://activity-items"/>
+				</contentLeft>
+				<contentRight>
+					<Button tooltip="Add" press="handleAddSplitButton" icon="sap-icon://add"/>
+					<bar:BarcodeScannerButton id="UnplannedDialogBarcodeScanButton" scanSuccess="handleAddSplitScanSuccess" scanFail="handleAddSplitScanError"
+						inputLiveUpdate="handleAddSplitLiveUpdate" dialogTitle="{i18n>ADD_SPLIT_SCAN_DIALOG_TITLE}"/>
+				</contentRight>
+			</Bar>
+		</subHeader>
+		<content>
+			<ScrollContainer vertical="true" height="100%">
+				<Panel width="100%" expandable="false" backgroundDesign="Solid">
+					<content>
+						<VBox fitContainer="true">
+							<VBox fitContainer="true">
+								<Label id="UnplannedDialogMaterialLabel" text="{i18n>MATERIAL_INPUT} :"/>
+								<Input ariaLabelledBy="UnplannedDialogMaterialLabel" type="Text" value="{splitData>/UnplannedCommon/Material}"
+									change="handleUnplannedMaterialChange" showValueHelp="true" valueHelpRequest="onMaterialValueHelpRequest"/>
+							</VBox>
+							<VBox fitContainer="true">
+								<Label id="UnplannedDialogPlantLabel" text="{i18n>PLANT_INPUT} :"/>
+								<Input editable="false" ariaLabelledBy="UnplannedDialogPlantLabel" type="Text" value="{splitData>/UnplannedCommon/Plant}" textAlign="Right"
+									showValueHelp="true" valueHelpRequest="onPlantValueHelpRequest" change="handlePlantChange"/>
+							</VBox>
+							<VBox fitContainer="true">
+								<Label id="UnplannedDialogQuantityLabel" text="{i18n>QUANTITY_INPUT} :"/>
+								<HBox fitContainer="true">
+									<Input ariaLabelledBy="UnplannedDialogQuantityLabel" editable="false" type="Number" value="{splitData>/UnplannedCommon/Quantity}"
+										textAlign="Right"/>
+									<Input ariaLabelledBy="UnplannedDialogQuantityLabel" editable="false" type="Text" value="{splitData>/UnplannedCommon/Unit}"
+										class="sapUiTinyMarginBegin" width="2.5rem" textAlign="Center"/>
+								</HBox>
+							</VBox>
+						</VBox>
+					</content>
+				</Panel>
+				<List id="UnplannedDialogItemsTable" inset="false" items="{ path: 'splitData>/NewSplitItems', key:'Index', sorter: { path: 'Index' } }"
+					width="95%" class="sapUiTinyMarginBegin">
+					<items>
+						<CustomListItem>
+							<HBox fitContainer="true" alignItems="End" backgroundDesign="Solid">
+								<ObjectStatus icon="{splitData>SplitStatusIcon}" state="{splitData>SplitStatus}" tooltip="{splitData>SplitStatusTooltip}"/>
+							</HBox>
+							<HBox>
+								<VBox  width="50%" class="sapUiTinyMarginEnd">
+									<Label id="UnplannedDialogColumnQuantityLabel" text="{i18n>QUANTITY_INPUT} :"/>
+									<HBox>
+										<Input editable="{splitData>Editable}" type="Number" textAlign="Right" value="{splitData>Quantity}"
+											ariaLabelledBy="UnplannedDialogColumnQuantityLabel" change="handleUnplannedQuantityChange" data:splitIdx="{splitData>Index}"/>
+										<Input editable="false" width="2.5rem" textAlign="Center" type="Text" maxLength="3" value="{splitData>Unit}" class="sapUiTinyMarginBeginEnd"
+											ariaLabelledBy="UnplannedDialogColumnQuantityLabel"/>
+									</HBox>
+								</VBox>
+								<VBox class="sapUiTinyMarginBegin" width="50%">
+									<Label id="UnplannedDialogColumnStorageLocationLabel" text="{i18n>STORAGE_LOCATION_INPUT} :"/>
+									<Input editable="{splitData>Editable}" type="Text" maxLength="4" textAlign="Right" value="{splitData>StorageLocation}"
+										change="handleStorageLocationChange" ariaLabelledBy="UnplannedDialogColumnStorageLocationLabel" showValueHelp="true"
+										valueHelpRequest="onStorageLocationValueHelpRequest" data:splitIdx="{splitData>Index}"/>
+								</VBox>
+								<VBox visible ="false">
+								<Label id="UnplannedDialogColumnStockTypeLabel" text="{i18n>STOCK_TYPE_INPUT} :" visible="false"/>
+								<Select items="{ path: '/F_Mmim_Stocktype_Vh2', templateShareable:true, sorter: { path: 'InventoryStockType' } }"
+									ariaLabelledBy="UnplannedDialogColumnStockTypeLabel" change="handleStockTypeChange" forceSelection="false"
+									selectedKey="{splitData>StockType}" data:splitIdx="{splitData>Index}" visible="false">
+									<core:Item key="{InventoryStockType}" text="{InventoryStockType} - {InventoryStockTypeName}"/>
+								</Select>
+								</VBox>
+							</HBox>
+							<VBox visible="{splitData>/UnplannedCommon/MaterialBatchManaged}">
+								<Label id="UnplannedDialogColumnBatchLabel" text="{i18n>BATCH_INPUT} :"/>
+								<Input editable="{splitData>Editable}" type="Text" textAlign="Right" value="{splitData>Batch}" change="handleBatchChange"
+									ariaLabelledBy="UnplannedDialogColumnBatchLabel" showValueHelp="true" valueHelpRequest="onBatchValueHelpRequest"
+									data:splitIdx="{splitData>Index}"/>
+								<Label id="UnplannedDialogColumnSupplierBatchLabel" text="{i18n>SUPPLIER_BATCH_INPUT} :"/>
+								<Input editable="{splitData>Editable}" type="Text" textAlign="Right" value="{splitData>SupplierBatch}" change="handleSupplierBatchChange"
+									ariaLabelledBy="UnplannedDialogColumnSupplierBatchLabel" showValueHelp="true" valueHelpRequest="onSupplierBatchValueHelpRequest"
+									data:splitIdx="{splitData>Index}"/>
+							</VBox>
+							<VBox visible="{splitData>WMLEnabled}">
+								<Label id="UnplannedDialogColumnWMLBin" text="{i18n>WMLBIN_INPUT} :" visible="{splitData>WMLEnabled}"/>
+								<Input editable="{splitData>Editable}" type="Text" textAlign="Right" value="{splitData>WMLBin}" change="handleBinChange"
+									ariaLabelledBy="UnplannedDialogColumnWMLBinLabel" showValueHelp="true" valueHelpRequest="onWMLBinValueHelpRequest"
+									data:splitIdx="{splitData>Index}" visible="{splitData>WMLEnabled}"/>
+							</VBox>
+							<VBox visible="{splitData>WMLEnabled}">
+								<Label id="UnplannedDialogColumnSalesOrder" text="{i18n>SALESORDER_INPUT} :" visible="{splitData>SalesOrderVisible}"/>
+								<HBox>
+									<Input editable="{splitData>Editable}" type="Text" textAlign="Right" value="{splitData>SalesOrder}" visible="{splitData>SalesOrderVisible}"
+										ariaLabelledBy="UnplannedDialogColumnSalesOrder" data:splitIdx="{splitData>Index}"/>
+									<Input width="5rem" class="sapUiTinyMarginBegin" editable="{splitData>Editable}" type="Text" textAlign="Right"
+										value="{splitData>SalesOrderItem}" visible="{splitData>SalesOrderVisible}" ariaLabelledBy="UnplannedDialogColumnSalesOrder"
+										data:splitIdx="{splitData>Index}"/>
+								</HBox>
+							</VBox>
+							<Button tooltip="Delete" press="handleDelSplitButton" icon="sap-icon://less" data:splitIdx="{splitData>Index}"
+								visible="{splitData>Editable}"/>
+						</CustomListItem>
+					</items>
+				</List>
+			</ScrollContainer>
+		</content>
+		<beginButton>
+			<Button id="UnplannedDialogOk" press="handleDistributionDialogOk" text="{i18n>BUTTON_SAVE}" type="Emphasized"/>
+		</beginButton>
+		<endButton>
+			<Button id="UnplannedDialogCancel" press="handleDistributionDialogCancel" text="{i18n>BUTTON_CLOSE}"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

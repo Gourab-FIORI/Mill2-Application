@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZMM_BAR_REPAIR_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ZshWorkCenter" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="WorkCenter"/>
+                </Key>
+                <Property Name="WorkCenter" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Work Center" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZshRepairCode" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="WorkCenter"/>
+                    <PropertyRef Name="Repaircode"/>
+                </Key>
+                <Property Name="WorkCenter" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Work Center" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repaircode" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Defect code" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="storageBin" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="lgnum"/>
+                    <PropertyRef Name="lgtyp"/>
+                </Key>
+                <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgtyp" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgpla" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="storageType" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="lgnum"/>
+                    <PropertyRef Name="lgtyp"/>
+                </Key>
+                <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgtyp" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ltypt" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="Storage Type Desc" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="warehouseNo" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="lgnum"/>
+                </Key>
+                <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lnumt" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="Warehouse Number Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZshPlant" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Werks"/>
+                </Key>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name1" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Desc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="checkBar" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BAR_NBR"/>
+                </Key>
+                <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="BAR/NBR" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgnum" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Repaircode" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Defect code" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="WorkCenter" Type="Edm.String" MaxLength="8" sap:unicode="false" sap:label="Work Center" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="function" Type="Edm.String" sap:unicode="false" sap:label="Function" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgtyp" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgpla" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZMM_BAR_REPAIR_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZshWorkCenterSet" EntityType="ZMM_BAR_REPAIR_SRV.ZshWorkCenter" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZshRepairCodeSet" EntityType="ZMM_BAR_REPAIR_SRV.ZshRepairCode" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="storageBinSet" EntityType="ZMM_BAR_REPAIR_SRV.storageBin" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="storageTypeSet" EntityType="ZMM_BAR_REPAIR_SRV.storageType" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="warehouseNoSet" EntityType="ZMM_BAR_REPAIR_SRV.warehouseNo" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ZshPlantSet" EntityType="ZMM_BAR_REPAIR_SRV.ZshPlant" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="checkBarSet" EntityType="ZMM_BAR_REPAIR_SRV.checkBar" sap:label="Check Bar No" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZMM_BAR_REPAIR_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZMM_BAR_REPAIR_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_HTML5',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.HTML5.v1" Alias="HTML5"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../../sap/zmm_progissue_srv/$metadata">
+        <edmx:Include Namespace="ZMM_PROGISSUE_SRV" Alias="SAP"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="zmm_progissue_anno_mdl.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotations Target="ZMM_PROGISSUE_SRV.C_ProdStorageLocationVHType/Plant">
+                <Annotation Term="UI.HiddenFilter"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.C_StorageLocationVHType">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="StorageLocation"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Plant"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Material"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.F_Mmim_I_Material_VhType/MaterialType">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.F_Mmim_I_Material_VhType/MaterialGroup">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.F_Mmim_I_Material_VhType/MaterialBaseUnit">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.F_Mmim_I_Material_VhType/MaterialGrossWeight">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.F_Mmim_I_Material_VhType/MaterialNetWeight">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.F_Mmim_I_Material_VhType/MaterialWeightUnit">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.F_Mmim_I_Material_VhType/MaterialManufacturerNumber">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.F_Mmim_I_Material_VhType/MaterialManufacturerPartNumber">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.MMIMBatchesVHType/AuthorizationGroup">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_FMMIMMat_VhType/MaterialType">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_FMMIMMat_VhType/MaterialGroup">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_FMMIMMat_VhType/MaterialBaseUnit">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_FMMIMMat_VhType/MaterialGrossWeight">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_FMMIMMat_VhType/MaterialNetWeight">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_FMMIMMat_VhType/MaterialWeightUnit">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_FMMIMMat_VhType/MaterialManufacturerNumber">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_FMMIMMat_VhType/MaterialManufacturerPartNumber">
+                <Annotation Term="UI.HiddenFilter"/>
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_PROORDC_LSTType/EntrySerial">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_PROORDC_LSTType/Reservation">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_PROORDC_LSTType/MaterialName">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_PROORDC_LSTType/MaterialBatchManaged">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_PROORDC_LSTType/StorageLocationWMLEnabled">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_PROORDC_LSTType/PlantName">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_PROORDC_LSTType/StorageLocationName">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_PROORDC_LSTType/ID">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="ZMM_PROGISSUE_SRV.ZC_PROORDC_LSTType">
+                <Annotation Term="UI.HeaderInfo">
+                    <Record>
+                        <PropertyValue Property="TypeName" String="Production Order - Component"/>
+                        <PropertyValue Property="TypeNamePlural" String="Production Order - Components"/>
+                        <PropertyValue Property="Title">
+                            <Record Type="UI.DataField">
+                                <PropertyValue Property="Value" String="">
+                                    <Annotation Term="Core.Messages">
+                                        <Collection>
+                                            <Record>
+                                                <PropertyValue Property="code" String="SADL_GW_EXP_VOCAN-001"/>
+                                                <PropertyValue Property="message" String="Property 'Production Order - Component List' of annotation 'UI.HEADERINFO.TITLE' in proj./view 'ZC_PROORDC_LST' not found"/>
+                                                <PropertyValue Property="severity" String="error"/>
+                                            </Record>
+                                        </Collection>
+                                    </Annotation>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ProductionOrder"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="ReservationItem"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Material"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="RequiredQuantity"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="OpenedQuantity"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Plant"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="StorageLocation"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Batch"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant">
+                    <Record>
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="ProductionOrder"/>
+                                    <PropertyValue Property="Descending" Bool="false"/>
+                                </Record>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="ReservationItem"/>
+                                    <PropertyValue Property="Descending" Bool="false"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="RequestAtLeast">
+                            <Collection>
+                                <PropertyPath>BaseUnit</PropertyPath>
+                                <PropertyPath>StorageLocationWMLEnabled</PropertyPath>
+                                <PropertyPath>StorageLocationName</PropertyPath>
+                                <PropertyPath>PlantName</PropertyPath>
+                                <PropertyPath>MaterialName</PropertyPath>
+                                <PropertyPath>StorageLocation</PropertyPath>
+                                <PropertyPath>Plant</PropertyPath>
+                                <PropertyPath>MaterialBatchManaged</PropertyPath>
+                                <PropertyPath>Material</PropertyPath>
+                                <PropertyPath>ReservationItem</PropertyPath>
+                                <PropertyPath>ProductionOrder</PropertyPath>
+                                <PropertyPath>EntrySerial</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>ProductionOrder</PropertyPath>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

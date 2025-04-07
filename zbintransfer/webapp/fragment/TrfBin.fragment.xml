@@ -1,0 +1,15 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <SelectDialog title="{i18n>TrfBin}"
+        search=".onValueHelpSearchB" liveChange=".onValueHelpSearchB" 
+        confirm=".onValueHelpClose" 
+        cancel=".onValueHelpClose"
+		items="{
+			path: 'binModel>/'}">
+		<items>
+			 <StandardListItem
+                title="{binModel>Bin}" 
+                description="{binModel>Bukrs}" />
+		</items>
+	
+    </SelectDialog>
+</core:FragmentDefinition>

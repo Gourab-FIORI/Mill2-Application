@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Dialog title="Comments" type="Message">
+		<content>
+			<TextArea id="commentTextA" placeholder="Enter Comments" value="{commentsModel>/Comment}" rows="7" cols="60"/>
+		</content>
+		<beginButton>
+			<Button id="commentSubBtn" text="Ok" type="Emphasized" press="onCommentSubmit"/>
+		</beginButton>
+		<endButton>
+			<Button id="cancel" text="Cancel" press="closeCommentDialog"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

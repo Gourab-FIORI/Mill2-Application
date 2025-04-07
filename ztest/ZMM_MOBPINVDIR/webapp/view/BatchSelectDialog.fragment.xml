@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<SelectDialog id="BatchSelectDialog" noDataText="{i18n>listLabelNoItems}"
+		title="{i18n>titleBatchSelectDialog}" 
+		items="{Functional>/MultiBatch}"  contentWidth="100%" contentHeight="100%">
+		<ObjectListItem id="BatchSelectDialogListItem" title="{Functional>Batch}"
+			number="{path:'Functional>AlternativeUnitQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+			numberUnit="{Functional>AlternativeUnitSAP}" type="Inactive" class="custTinyPaddingTopBottom custSmallPaddingBeginEnd">
+			<ObjectAttribute id="BatchSelectDialogListItemSupplierBatch" text="{Functional>SupplierBatch}"/>
+			<ObjectAttribute id="BatchSelectDialogListItemHeatNumber" text="{Functional>HeatNumber}"/>
+			<ObjectAttribute id="BatchSelectDialogListItemMaterial" text="{Functional>MaterialName} ({Functional>Material})"/>
+		</ObjectListItem>
+	</SelectDialog>
+</core:FragmentDefinition>

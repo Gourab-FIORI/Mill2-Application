@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<HBox>
+	<Button id="idButtonSplit" press="handleSplitButton" text="{i18n>BUTTON_SPLIT}" enabled="true"/><!-- visible="{= ${StorageLocation} ? true : false }"/> -->
+	<Button id="idButtonSplitUnplanned" class="sapUiTinyMarginBegin" press="handleUnplannedButton" text="{i18n>BUTTON_UNPLANNED}" enabled="true"/>
+	</HBox>
+</core:FragmentDefinition>

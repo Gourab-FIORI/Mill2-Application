@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZMM_BAR_INFO_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="checkBar" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BAR_NBR"/>
+                </Key>
+                <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="BAR/NBR" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="wmmmstock" Relationship="ZMM_BAR_INFO_SRV.wmmmstock" FromRole="FromRole_wmmmstock" ToRole="ToRole_wmmmstock"/>
+                <NavigationProperty Name="batchchara" Relationship="ZMM_BAR_INFO_SRV.batchchara" FromRole="FromRole_batchchara" ToRole="ToRole_batchchara"/>
+            </EntityType>
+            <EntityType Name="mmStock" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BAR_NBR"/>
+                </Key>
+                <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Charg" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Batch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Matnr" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Werks" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lgort" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Stor. Loc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Kalab" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Unrestricted" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Kains" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Quality Insp." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Kaspe" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Blocked" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Sobkz" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Special Stock" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vbeln" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Sales document" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Posnr" Type="Edm.String" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lgtyp" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lgpla" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="batchChar" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BAR_NBR"/>
+                </Key>
+                <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Bar Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="CharDesc" Type="Edm.String" MaxLength="30" sap:unicode="false" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Value" Type="Edm.String" sap:unicode="false" sap:label="Equal To" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Unit" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Base Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="batchchara" sap:content-version="1">
+                <End Type="ZMM_BAR_INFO_SRV.checkBar" Multiplicity="1" Role="FromRole_batchchara"/>
+                <End Type="ZMM_BAR_INFO_SRV.batchChar" Multiplicity="*" Role="ToRole_batchchara"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_batchchara">
+                        <PropertyRef Name="BAR_NBR"/>
+                    </Principal>
+                    <Dependent Role="ToRole_batchchara">
+                        <PropertyRef Name="BAR_NBR"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="wmmmstock" sap:content-version="1">
+                <End Type="ZMM_BAR_INFO_SRV.checkBar" Multiplicity="1" Role="FromRole_wmmmstock"/>
+                <End Type="ZMM_BAR_INFO_SRV.mmStock" Multiplicity="*" Role="ToRole_wmmmstock"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_wmmmstock">
+                        <PropertyRef Name="BAR_NBR"/>
+                    </Principal>
+                    <Dependent Role="ToRole_wmmmstock">
+                        <PropertyRef Name="BAR_NBR"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZMM_BAR_INFO_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="checkBarSet" EntityType="ZMM_BAR_INFO_SRV.checkBar" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="mmStockSet" EntityType="ZMM_BAR_INFO_SRV.mmStock" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="batchCharSet" EntityType="ZMM_BAR_INFO_SRV.batchChar" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="batchcharaSet" Association="ZMM_BAR_INFO_SRV.batchchara" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="checkBarSet" Role="FromRole_batchchara"/>
+                    <End EntitySet="batchCharSet" Role="ToRole_batchchara"/>
+                </AssociationSet>
+                <AssociationSet Name="wmmmstock_AssocSet" Association="ZMM_BAR_INFO_SRV.wmmmstock" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="checkBarSet" Role="FromRole_wmmmstock"/>
+                    <End EntitySet="mmStockSet" Role="ToRole_wmmmstock"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZMM_BAR_INFO_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZMM_BAR_INFO_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

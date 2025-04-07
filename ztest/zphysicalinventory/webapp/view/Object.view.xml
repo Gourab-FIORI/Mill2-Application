@@ -1,0 +1,91 @@
+<mvc:View controllerName="ordina.zmmphysicalinvn.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic"
+	xmlns:core="sap.ui.core" xmlns:ndc="sap.ndc" xmlns:ob="sap.uxap" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="{i18n>itemTitle}" showNavButton="true" navButtonPress="back">
+		<ObjectHeader id="idInvDoc" responsive="true" title="{app>/PhyinvHeadSet/Physinventory}">
+			<ObjectAttribute id="idPlant" title="{i18n>plant}" text="{app>/PhyinvHeadSet/Plant}"/>
+			<ObjectAttribute title="{i18n>sloc}" text="{app>/PhyinvHeadSet/StgeLoc}"/>
+			<ObjectAttribute id="idFiscalYear" title="{i18n>fyear}" text="{app>/PhyinvHeadSet/Fiscalyear}"/>
+			<ObjectAttribute title="{i18n>docdate}"
+				text="{ path: 'app>/PhyinvHeadSet/DocDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'short' } }"/>
+			<ObjectAttribute title="{i18n>cstat}" text="{app>/PhyinvHeadSet/CountStatus}"/>
+			<ObjectAttribute title="{i18n>astat}" text="{app>/PhyinvHeadSet/AdjustStatus}"/>			    
+		</ObjectHeader>
+		<content>
+			<Table id="idTable" items="{path: '/PhyinvItemsSet'}" inset="false" mode="MultiSelect" growing="true" growingThreshold="25">
+				<headerToolbar>
+					<OverflowToolbar id="idTableToolbar">
+						<ToolbarSpacer id="idToolbarSpacer"/>
+						<!--
+						<ndc:BarcodeScannerButton
+						id="idBarcodeScanButton"
+						scanSuccess="onScanSuccess"
+						scanFail="onScanError"
+						inputLiveUpdate="onScanLiveupdate"
+						dialogTitle="Barcode Scanner Button Sample"/>
+						-->
+						<Button id="btnStoLoc" text="{i18n>AssignStoBin}" press="handleAssignStoBin" visible="false" />
+					    <!-- <Button id="btnNexrt" text="{i18n>NextButton}" press="handleNext" /> -->
+					</OverflowToolbar>					
+				</headerToolbar>	
+				<columns>
+					<Column width="5rem"><Text text="{i18n>item}"/></Column>
+					<Column hAlign="Center"><Text text="{i18n>Status}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>material}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>desc}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" visible="false"><Text text="{i18n>strgbin}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>batch}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="10rem">
+							<Text text="{i18n>SupplierBatch}" />							
+					</Column>					
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>zeroc}"/></Column>
+					<Column hAlign="Center"><Text text="{i18n>quant}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>StockType}"/></Column>
+					<Column hAlign="Left" visible="{ path: 'country>/Country',
+						                             formatter: '.formatter.EditObject'															
+					 								}">
+						<Text text="{i18n>strgbin}" />							
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier title="{Item}" text="{ItemId}"/>
+							<HBox>
+								<ObjectStatus text="{i18n>Counted}" icon="sap-icon://message-success" state="Success" visible="{Counted}"/>
+								<ObjectStatus text="{i18n>NotCounted}" icon="sap-icon://message-warning" state="Warning" visible="{= ${Counted} ? false : true }"/>
+							</HBox>
+							<Text text="{Material}"/>
+							<Text text="{Description}"/>
+							<Text text="{StgeBin}"/>
+							<Text text="{Batch}"/>
+							<Text id="idSupplierBatch_inputCel" text="{SupplierBatch}" width="8rem"/>							
+							<CheckBox selected="{path:'ZeroCount', type: 'sap.ui.model.type.Boolean'}" select="onCheckBox" displayOnly="{Counted}"/>
+							<Input id="idQuant" value="{Quantity}" editable="{= ${Counted} ? false : true }" description="{BaseUom}" liveChange="onLiveChange"/>
+							<Text text="{StockTypeText} ({StockType})" />
+							<Text text="{StgeBin}" />
+							<!--<Input value="{StgeBin}" enabled="false"  showValueHelp="false" valueHelpOnly="false" 
+							       valueHelpRequest=".handleValueHelpBin"/> -->
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<footer>
+			<Bar>
+				<contentRight>
+					<Input id="BatchSearchInput" editable="true" change="handleBatchSearchChange" type="Text" maxLength="15" width="9.5rem" class="sapUiSmallMarginBegin"/>
+					<ndc:BarcodeScannerButton
+						id="idBarcodeScanButton"
+						scanSuccess="onScanSuccess"
+						scanFail="onScanError"
+						inputLiveUpdate="onScanLiveupdate"
+						dialogTitle="{i18n>batch}"
+					/>
+					<Button id="btnNexrt" text="{i18n>NextButton}" press="handleNext" />
+					<ToolbarSpacer id="idToolbarSpacer1"/>
+					<Button id="save" icon="sap-icon://save" text="Save" press="onSubmit"/>
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>

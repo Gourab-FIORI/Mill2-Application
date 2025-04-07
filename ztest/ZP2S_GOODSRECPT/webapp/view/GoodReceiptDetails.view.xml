@@ -1,0 +1,272 @@
+<mvc:View controllerName="GoodReceipt.controller.GoodReceiptDetails" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" class="sapUiSizeCompact"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<App>
+		<pages>
+			<Page id="goodPage">
+				<content>
+					<f:Form editable="true" visible="true" id="mainForm" class="sapUiNoContentPadding">
+						<f:layout>
+							<f:ResponsiveGridLayout labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" adjustLabelSpan="true" emptySpanXL="0"
+								emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="5" columnsL="5" columnsM="5" singleContainerFullSize="false"/>
+						</f:layout>
+						<f:formContainers >
+							<f:FormContainer id="fc1">
+								<f:formElements>
+									<f:FormElement label="Reference ID" id="lblRefId">
+										<f:fields>
+											<Input id="inputRefId" showValueHelp="false" valueHelpRequest="handleRefIdHelp"/>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+							<f:FormContainer id="fc4" class="adjustWidth">
+								<f:formElements>
+									<f:FormElement label="Date" class="paddingTopclass" id="lblDate">
+										<f:fields>
+											<DateRangeSelection id="datePicker1" dateValue="{path:'/dateValueDRS1'}" displayFormat="{path:'/dateFormatDRS1'}"/>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+							<f:FormContainer>
+								<f:formElements>
+									<f:FormElement label="Plant" class="paddingTopclass" id="lblLocation">
+										<f:fields>
+											<Input id="inputPlant" value="{goodModel>/EPlant}" showValueHelp="true" valueHelpRequest="_handleValueHelpPlant" showSuggestion="true"
+												suggest="handleSuggest" suggestionItems="{oPlantModel>/}" suggestionItemSelected="handlesuggestSelect" change="onPlantChange">
+												<suggestionItems>
+													<core:Item text="{oPlantModel>Plant}" key="{oPlantModel>Name1}"/>
+												</suggestionItems>
+											</Input>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+						</f:formContainers>
+						<f:FormContainer>
+							<f:formElements >
+								<f:FormElement label="Description" class="paddingTopclass" id="lblDesc">
+									<f:fields>
+										<Text id="txtLoc" width="200px"></Text>
+									</f:fields>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+					</f:Form>
+					<f:Form editable="true" visible="true" class="sapUiNoContentPadding">
+						<f:layout>
+							<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="4" adjustLabelSpan="true" emptySpanXL="0" emptySpanL="0"
+								emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+						</f:layout>
+						<f:formContainers>
+							<f:FormContainer>
+								<f:formElements>
+									<f:FormElement id="fE1">
+										<f:fields>
+											<Button type="Emphasized" text="Goods Receipt" id="btnListTruck" press="onGoodReceipt">
+												<layoutData>
+													<l:GridData span="L4 M4 S4"/>
+												</layoutData>
+											</Button>
+											<Button type="Emphasized" text="Clear List" id="btnClearList" press="onClearList">
+												<layoutData>
+													<l:GridData span="L2 M2 S4"/>
+												</layoutData>
+											</Button>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+						</f:formContainers>
+					</f:Form>
+					<ScrollContainer horizontal="true" id="sc1" focusable="true" visible="false">
+						<Panel id="pnlGoodsHeader" expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar height="2rem">
+									<Title text="Good Receipt-Header:"/>
+									<ToolbarSpacer/>
+									<Button id="printBtn" icon="sap-icon://print" tooltip="Print" press="onPrintJsBtn" visible="false"/>
+									<Button id="settingBtn1" icon="sap-icon://provision" tooltip="Settings" press="handleOpenDialog"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<Table id="idGoodReceiptHeaderTable" inset="false" mode="SingleSelectLeft" selectionChange="onTableRowSelection">
+									<columns>
+										<Column demandPopin="true" hAlign="Center" width="100px" vAlign="Middle" minScreenWidth="Tablet" id="ColRefId_0">
+											<Text text="Reference Id"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" minScreenWidth="Tablet" width="100px" id="ColInDelivery_1">
+											<Text text="Inbound Delivery#"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" minScreenWidth="Tablet" width="90px" id="ColShipment_2">
+											<Text text="Shipment#"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColStatus_3">
+											<Text text="Status"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColActDateTime_4">
+											<Text text="Actual CI DateTime"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColInWeight_5">
+											<Text text="Incoming weight" id="txtInWt"/>
+										</Column >
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColOutWeight_6">
+											<Text text="Outgoing weight" id="txtOutWt"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColNetWeight_7">
+											<Text text="Net weight" id="txtNetWt"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColReceivingPt_8">
+											<Text text="Receiving point"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColForwardAgent_9">
+											<Text text="Forwarding Agent"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="90px" minScreenWidth="Tablet" id="ColActCarrier_10">
+											<Text text="Actual Carrier"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="90px" minScreenWidth="Tablet" id="ColMatnr_11">
+											<Text text="Material"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColTruckNo_12">
+											<Text text="Truck No."/>
+										</Column>
+										<Column hAlign="Center" width="100px" vAlign="Middle" minScreenWidth="Tablet" id="ColTrailerNo_13">
+											<Text text="Trailer No."/>
+										</Column>
+									</columns>
+								</Table>
+							</content>
+						</Panel>
+					</ScrollContainer>
+					<ScrollContainer horizontal="true" id="sc2" focusable="true" visible="false">
+						<Panel id="panelGoods" expandable="true" expanded="true" width="auto" class="sapUiResponsiveMargin">
+							<headerToolbar>
+								<Toolbar height="3rem">
+									<Title text="Good Receipt-details:"/>
+									<ToolbarSpacer/>
+									<Button id="settingBtn" icon="sap-icon://provision" tooltip="Detail Settings" press="handleOpenDialog"/>
+								</Toolbar>
+							</headerToolbar>
+							<content>
+								<l:Grid defaultSpan="L2 M6 S12" class="sapUiSmallMarginTop">
+									<l:content>
+										<Label text="Reference ID:" id="lblRefId1"/>
+										<Text id="textRefId" text="" textAlign="Right"/>
+										<Label text="Goods Supplier:" id="lblGs"/>
+										<Text id="txtGs" text=""/>
+										<Label text="Incoming Weight:" id="lblInWeight"/>
+										<Text id="inputIW" text=""/>
+									</l:content>
+								</l:Grid>
+								<l:Grid defaultSpan="L2 M6 S12" class="sapUiSmallMarginTop">
+									<l:content>
+										<Label text="Inbound Delivery#:" id="lblInDel"/>
+										<Text id="txtIndelivery"/>
+										<Label text="Plant/Receiving Point:" id="lblPlant"/>
+										<Text id="txtPlant"/>
+										<Label text="Outgoing Weight:" id="lblOutWeight"/>
+										<Text id="inputOW" text=""/>
+									</l:content>
+								</l:Grid>
+								<l:Grid defaultSpan="L2 M6 S12" class="sapUiSmallMarginTop">
+									<l:content>
+										<Label text="Shipment #:" id="lblShip"/>
+										<Text id="txtShip"/>
+										<Label text="Paper Work:" id="lblPw" required="true"/>
+										<HBox>
+											<RadioButton id="rbYes" text="Y"></RadioButton>
+											<RadioButton id="rbNo" text="N"/>
+										</HBox>
+										<Label text="Dunnage Weight:" id="lblDunnWeight" />
+										<Input id="inputDW" value="" change="onChangeDW" type="Number"/>
+									</l:content>
+								</l:Grid>
+								<l:Grid defaultSpan="L2 M6 S12" class="sapUiSmallMarginTop">
+									<l:content>
+										<Label text="Carrier:" id="lblCarrier"/>
+										<Text id="textCarrier"/>
+										<Label text="Receipt Date:" id="lblRDate"/>
+										<Text id="txtTdate" text=""/>
+										<Label text="Net Weight:" id="lblNetWeight"/>
+										<Text id="inputNW" text=""/>
+									</l:content>
+								</l:Grid>
+								<l:Grid defaultSpan="L2 M6 S12" class="sapUiSmallMarginTop">
+									<l:content>
+										<Label text="Comments:" id="lblComment" class="boldLabel"/>
+										<Button id="commentBtn" icon="sap-icon://comment" tooltip="Comments" press="handleCommentsOpenDialog"/>
+									</l:content>
+								</l:Grid>
+								<Table id="idGoodReceiptTable" inset="false" selectionChange="onSelectDetail">
+									<columns>
+										<Column demandPopin="true" hAlign="Center" width="100px" vAlign="Middle" minScreenWidth="Tablet" id="Colshipment_0">
+											<Text text="Material Description"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColEId_1">
+											<Text text="Quality Good"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColFullReject">
+											<Text text="FR"/>
+											<!--<CheckBox text="FR" select="_onFullrejSelectAll"/>-->
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColStop_2">
+											<Text text="Batch #"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColShipto_3">
+											<Text text="Qty(Pcs)"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColName_4">
+											<Text text="Skid Weight" id="txtSkidWt"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColSCAC_5">
+											<Text text="Band Weight" id="txtBandWt"/>
+										</Column >
+										<Column hAlign="Center" vAlign="Middle" width="110px" minScreenWidth="Tablet" id="ColFA_6">
+											<Text text="Ship Weight" id="txtShipWt"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColType_7">
+											<Text text="Storage Bin"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColMeansofTrans_8">
+											<Text text="Mix Stock"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColContId_9">
+											<Text text="Item #"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColTrailer_10">
+											<Text text="Material #"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColShippt_11">
+											<Text text="Inventory Weight"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="ColDelivery_12">
+											<Text text="Storage Location"/>
+										</Column>
+										<Column hAlign="Center" vAlign="Middle" width="100px" minScreenWidth="Tablet" id="Col_13">
+											<Text text="Moisture"/>
+										</Column>
+									</columns>
+								</Table>
+							</content>
+						</Panel>
+					</ScrollContainer>
+				</content>
+				<footer>
+					<Bar id="master_footer">
+						<contentRight>
+							<Button type="Emphasized" text="Save" id="btnSave" press="onSave" visible="false"/>
+							<!--Begin of changes for sri print CR -->
+							<!-- <Button type="Emphasized" id="btnPrint" text="Print Label" press="onPrint" visible="false"/> -->
+							<Button type="Emphasized" id="btnPrint" text="Print Label" press="onPrintSave" visible="false"/>
+							<!--End of changes for sri print CR -->
+							<Button type="Emphasized" id="btnNCR" text="NCR" press="onNCR" visible="false"/>
+							<Button type="Emphasized" id="btnMoisture" text="Moisture Results" press="onMoisture" visible="false"/>
+						</contentRight>
+					</Bar>
+				</footer>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

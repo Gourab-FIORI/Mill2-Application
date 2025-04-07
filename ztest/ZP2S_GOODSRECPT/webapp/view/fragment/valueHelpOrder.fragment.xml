@@ -1,0 +1,82 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<TableSelectDialog noDataText="No Order Found" title="Select Order" search="handleBatchSearch" confirm="handleOrderClose"
+		items="{orderModel>/results/}">
+		<ColumnListItem>
+			<cells>
+				<ObjectIdentifier title="{orderModel>Order}"/>
+				<Text text="{orderModel>Posnr}"/>
+				<Text text="{orderModel>Shipto}"/>
+				<Text text="{orderModel>Ordqty}"/>
+				<Text text="{orderModel>Orduom}"/>
+				<Text text="{orderModel>Weight}"/>
+				<Text text="{orderModel>Weightuom}"/>
+				<Text text="{orderModel>Text}"/>
+				<Text text="{orderModel>Shtyp}">
+					<customData>
+						<core:CustomData key="{orderModel>Custpo}" value="{orderModel>Custpo}"/>
+						<core:CustomData key="{orderModel>Custmat}" value="{orderModel>Custmat}"/>
+					</customData>
+				</Text>
+				<Text text="{orderModel>Name1}"/>
+				<Text text="{orderModel>Shippt}"/>
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="100px">
+				<header>
+					<Text text="Order"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" width="100px">
+				<header>
+					<Text text="Order Item No."/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="100px">
+				<header>
+					<Text text="Shipto"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="150px">
+				<header>
+					<Text text="Order Quantity"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="100px">
+				<header>
+					<Text text="Order UOM"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="150px" visible="false">
+				<header>
+					<Text text="Weight"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="100px" visible="false">
+				<header>
+					<Text text="UOM"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="150px">
+				<header>
+					<Text text="Customer PO"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="false">
+				<header>
+					<Text text="shipType"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="false">
+				<header>
+					<Text text="Name1"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="false">
+				<header>
+					<Text text="shipPoint"/>
+				</header>
+			</Column>
+		</columns>
+	</TableSelectDialog>
+</core:FragmentDefinition>

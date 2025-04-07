@@ -1,0 +1,83 @@
+{
+    "resources": [
+        {
+            "name": "ext/controller/ListReportExt-dbg.controller.js",
+            "isDebug": true
+        },
+        {
+            "name": "i18n/i18n.properties",
+            "raw": "i18n/i18n.properties"
+        },
+        {
+            "name": "manifest.json"
+        },
+        {
+            "name": "ext/util/formatter.js"
+        },
+        {
+            "name": "ext/controller/ListReportExt.controller.js"
+        },
+        {
+            "name": "localService/mockserver.js"
+        },
+        {
+            "name": "Component.js"
+        },
+        {
+            "name": "manifest-bundle.zip"
+        },
+        {
+            "name": "Component-preload.js",
+            "merged": true
+        },
+        {
+            "name": "localService/mockserver-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "i18n/ListReport/ZC_MOBSTOCK_LST/i18n.properties",
+            "raw": "i18n/i18n.properties"
+        },
+        {
+            "name": "ext/util/formatter-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "Component-dbg.js",
+            "isDebug": true
+        },
+        {
+            "name": "../../sap-ui-version.json"
+        },
+        {
+            "name": "neo-app.json"
+        },
+        {
+            "name": "di.code-validation.core_issues.json"
+        },
+        {
+            "name": "ext/view/TransferColumn.fragment.xml"
+        },
+        {
+            "name": "ext/view/TransferCell.fragment.xml"
+        },
+        {
+            "name": "ext/fragment/TransferDialog.fragment.xml"
+        },
+        {
+            "name": "ext/fragment/CustomFilterControl.fragment.xml"
+        },
+        {
+            "name": "localService/metadata.xml"
+        },
+        {
+            "name": "localService/ZMM_MOBSTOCK_LST_ANNO_MDL.xml"
+        },
+        {
+            "name": "annotations/annotations.xml"
+        },
+        {
+            "name": "extended_runnable_file.html"
+        }
+    ]
+}

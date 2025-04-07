@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: webapp.zgoodsissue
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: LHDCLNT010
+          url: http://s4dev.lce.arcelormittal.com:44300/
+        app:
+          name: ZGOODSISSUE
+          description: Enhanced Goods issue receipt
+          package: ZMM_AMWS
+          transport: LHDK915056
+        exclude:
+          - /test/

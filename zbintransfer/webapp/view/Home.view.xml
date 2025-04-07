@@ -1,0 +1,142 @@
+<mvc:View controllerName="com.ami.zbintransfer.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Page title="{i18n>appTitle}">
+        <content>
+            <Wizard id="wizard" finishButtonText="{i18n>transfer}" complete="onTransfer">
+                <WizardStep id="sourceStep" title="{i18n>sourceStepTitle}">
+                    <VBox>
+                        <Label text="{i18n>Plant}" />
+                        <Text id="idWerks" text="{wizardModel>/Werks}"/>
+
+                        <Label text="{i18n>Storage Location}" />
+                        <Text id="idLgort" text="{wizardModel>/Lgort}"/>
+                        <Label text="{i18n>sourceBin}" />
+                        <Input id="sourceBin" value="{wizardModel>/Bin}" liveChange="onInputPreventChange" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpRequested">
+                            <customData>
+                                <core:CustomData key="fragmentName" value="Bin" />
+                            </customData>
+                        </Input>
+
+                        <Label text="{i18n>sourceBinGroup}" />
+                        <Input id="sourceBinGroup" value="{wizardModel>/BinGroup}"  liveChange="onInputPreventChange" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpRequested">
+                            <customData>
+                                <core:CustomData key="fragmentName" value="BinGroup" />
+                            </customData>
+                        </Input>
+                    </VBox>
+                </WizardStep>
+
+                <WizardStep id="itemSelectionStep" title="{i18n>itemSelectionStepTitle}" activate="onStep2Press">
+                  <VBox>
+                  <ScrollContainer 	height="100%"
+		width="100%"
+		vertical="true"
+		focusable="true">
+                       <Table id="itemTable" class="sapUiSizeCompact" popinLayout="GridSmall"
+       mode="MultiSelect" 
+       items="{wizardModel>/NPDOMLIGHT}" 
+       growing="true" growingThreshold="20"
+       growingScrollToLoad="false" 
+       selectionChange="onItemSelectionChange" 
+      >
+    <infoToolbar>
+        <OverflowToolbar>
+            <Label text="Select Stocks to Transfer"/>
+            <ToolbarSpacer />
+            <Button text="{i18n>Check_All}" icon="sap-icon://complete" type="Default" press="onCheckAllPress"/>
+            <Button text="{i18n>UnCheck_All}" icon="sap-icon://clear-all" type="Default" press="onUncheckAllPress"/>
+            <!-- <Button text="Refresh" icon="sap-icon://refresh" type="Emphasized" press="onStep2Press"/> -->
+            <!-- <Button text="Start Over" icon="sap-icon://refresh" type="Emphasized" press="resetWizard"/> -->
+        </OverflowToolbar>
+    </infoToolbar>
+    <columns>
+        <Column visible="true">
+            <Label text="{i18n>materialCode}" />
+        </Column>
+        <Column demandPopin="true" minScreenWidth="Tablet">
+            <Label text="{i18n>materialDescription}" />
+        </Column>
+        <Column demandPopin="false" minScreenWidth="Tablet">
+            <Label text="{i18n>quantity}" />
+        </Column>
+        <Column demandPopin="false" minScreenWidth="Tablet">
+            <Label text="{i18n>uom}" />
+        </Column>
+        <Column demandPopin="false" minScreenWidth="Desktop">
+            <Label text="{i18n>batch}" />
+        </Column>
+        <Column demandPopin="true" minScreenWidth="Desktop">
+            <Label text="{i18n>supplierBatch}" />
+        </Column>
+        <Column demandPopin="true" minScreenWidth="Desktop">
+            <Label text="{i18n>heatNumber}" />
+        </Column>
+        <Column demandPopin="false" minScreenWidth="Desktop">
+            <Label text="{i18n>vendor}" />
+        </Column>
+        <Column demandPopin="false" minScreenWidth="Tablet">
+            <Label text="{i18n>salesOrder}" />
+        </Column>
+        <Column demandPopin="false" minScreenWidth="Tablet">
+            <Label text="{i18n>salesOrderItem}" />
+        </Column>
+    </columns>
+    <items>
+        <ColumnListItem>
+            <cells>
+                <Text text="{wizardModel>Matnr}" />
+                <Text text="{wizardModel>Maktx}" />
+                <Text text="{wizardModel>Menge}" />
+                <Text text="{wizardModel>Meins}" />
+                <Text text="{wizardModel>Charg}" />
+                <Text text="{wizardModel>Licha}" />
+                <Text text="{wizardModel>Heat}" />
+                <Text text="{wizardModel>Lifnr}" />
+                <Text text="{wizardModel>Vbeln}" />
+                <Text text="{wizardModel>Posnr}" />
+            </cells>
+        </ColumnListItem>
+    </items>
+</Table>
+
+                        </ScrollContainer>
+                   </VBox>
+                   
+                </WizardStep>
+
+                <WizardStep id="destinationStep" title="{i18n>destinationStepTitle}">
+                    <VBox>
+                        <Label text="{i18n>destinationBin}" />
+                        <Input id="destinationBin" value="{wizardModel>/TrfBin}"   liveChange="onInputPreventChange" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpRequested">
+                            <customData>
+                                <core:CustomData key="fragmentName" value="TrfBin" />
+                            </customData>
+                        </Input>
+
+                        <Label text="{i18n>destinationBinGroup}" />
+                        <Input id="destinationBinGroup" value="{wizardModel>/TrfBinGroup}"   liveChange="onInputPreventChange" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpRequested">
+                            <customData>
+                                <core:CustomData key="fragmentName" value="TrfBinGroup" />
+                            </customData>
+                        </Input>
+                    </VBox>
+                </WizardStep>
+
+                <!-- <WizardStep id="confirmationStep" title="{i18n>confirmationStepTitle}">
+                    <VBox>
+                        <Button text="{i18n>transfer}" press="onTransfer" />
+                    </VBox>
+                </WizardStep> -->
+            </Wizard>
+        </content>
+        <footer>
+        <Bar>
+            <contentMiddle>
+                <Button text="{i18n>startOver}" icon="sap-icon://refresh" type="Emphasized" press="resetWizard"/>
+            </contentMiddle>
+        </Bar>
+    </footer>
+    </Page>
+</mvc:View>

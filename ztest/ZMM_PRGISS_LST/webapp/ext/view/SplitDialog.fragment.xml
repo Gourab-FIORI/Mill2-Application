@@ -1,0 +1,123 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:bar="sap.ndc"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog id="SplitDialog" title="{i18n>SPLIT_DIALOG_TITLE}" afterClose="handleDistributionDialogClose" stretch="true" stretchOnPhone="true"
+		verticalScrolling="true">
+		<subHeader>
+			<Bar>
+				<contentLeft>
+					<Button tooltip="Messages" press="handleShowMessagesButton" icon="sap-icon://activity-items"/>
+				</contentLeft>
+				<contentRight>
+					<Button tooltip="Add" press="handleAddSplitButton" icon="sap-icon://add" visible="{= !${Batch} ? true : false }"/>
+					<bar:BarcodeScannerButton id="SplitDialogBarcodeScanButton" scanSuccess="handleAddSplitScanSuccess" scanFail="handleAddSplitScanError"
+						inputLiveUpdate="handleAddSplitLiveUpdate" dialogTitle="{i18n>ADD_SPLIT_SCAN_DIALOG_TITLE}" visible="{= !${Batch} ? true : false }"/>
+				</contentRight>
+			</Bar>
+		</subHeader>
+		<content>
+			<ScrollContainer vertical="true" height="100%">
+				<Panel width="100%" expandable="false" backgroundDesign="Solid">
+					<content>
+						<VBox fitContainer="true">
+							<VBox fitContainer="true">
+								<Label id="SplitDialogMaterialLabel" text="{i18n>MATERIAL_INPUT} :"/>
+								<Input editable="false" ariaLabelledBy="SplitDialogMaterialLabel" type="Text" value="{MaterialName} ({Material})" width="15rem"/>
+							</VBox>
+							<VBox fitContainer="true">
+								<Label id="SplitDialogPlantLabel" text="{i18n>PLANT_INPUT} :"/>
+								<Input editable="false" ariaLabelledBy="SplitDialogPlantLabel" type="Text" value="{PlantName} ({Plant})" textAlign="Right" width="15rem"/>
+							</VBox>
+							<VBox fitContainer="true" visible="{= !${Batch} ? false : true }">
+								<Label id="SplitDialogBatchLabel" text="{i18n>BATCH_INPUT} :"/>
+								<Input editable="false" ariaLabelledBy="SplitDialogBatchLabel" type="Text" value="{Batch}" textAlign="Right" width="15rem"/>
+							</VBox>
+							<VBox fitContainer="true">
+								<Label id="SplitDialogQuantityLabel" text="{i18n>QUANTITY_INPUT} :"/>
+								<HBox fitContainer="true">
+									<Input ariaLabelledBy="SplitDialogQuantityLabel" editable="false" type="Number" value="{splitData>/NewSplitCommon/Quantity}"
+										textAlign="Right" width="5rem"/>
+									<Input ariaLabelledBy="SplitDialogQuantityLabel" editable="false" type="Text" value="{BaseUnit}" class="sapUiTinyMarginBegin" width="2.5rem"
+										textAlign="Center"/>
+								</HBox>
+							</VBox>
+						</VBox>
+					</content>
+				</Panel>
+				<List id="SplitDialogItemsTable" items="{ path: 'splitData>/NewSplitItems', key:'Index', sorter: { path: 'Index' } }" width="95%"
+					class="sapUiTinyMarginBegin">
+					<items>
+						<CustomListItem>
+							<HBox fitContainer="true" alignItems="End" backgroundDesign="Solid">
+								<ObjectStatus icon="{splitData>SplitStatusIcon}" state="{splitData>SplitStatus}" tooltip="{splitData>SplitStatusTooltip}"/>
+							</HBox>
+							<HBox>
+								<VBox width="50%" class="sapUiTinyMarginEnd">
+									<Label id="SplitDialogColumnQuantityLabel" text="{i18n>QUANTITY_INPUT} :"/>
+									<HBox>
+										<Input editable="{splitData>Editable}" type="Number" textAlign="Right" value="{splitData>Quantity}"
+											ariaLabelledBy="SplitDialogColumnQuantityLabel" data:splitIdx="{splitData>Index}" change="handleSplitQuantityChange"/>
+										<Input editable="false" textAlign="Center" type="Text" maxLength="3" value="{splitData>Unit}" class="sapUiTinyMarginBeginEnd"
+											ariaLabelledBy="SplitDialogColumnQuantityLabel" width="2.5rem"/>
+									</HBox>
+								</VBox>
+								<VBox width="50%">
+									<Label id="SplitDialogColumnStorageLocationLabel" text="{i18n>STORAGE_LOCATION_INPUT} :"/>
+									<Input editable="{= !${splitData>/NewSplitCommon/Batch} ? ${splitData>Editable} : false }" type="Text" maxLength="4" textAlign="Right" value="{splitData>StorageLocation}"
+										change="handleStorageLocationChange" ariaLabelledBy="SplitDialogsColumnStorageLocationLabel" showValueHelp="true"
+										valueHelpRequest="onStorageLocationValueHelpRequest" data:splitIdx="{splitData>Index}"/>
+								</VBox>
+								<VBox visible="false">
+								<Label id="SplitDialogColumnStockTypeLabel" text="{i18n>STOCK_TYPE_INPUT} :" visible="false"/>
+								<Select items="{ path: '/F_Mmim_Stocktype_Vh2', templateShareable:true, sorter: { path: 'InventoryStockType' } }"
+									ariaLabelledBy="SplitDialogColumnStockTypeLabel" change="handleStockTypeChange" forceSelection="false" selectedKey="{splitData>StockType}"
+									data:splitIdx="{splitData>Index}" visible="false">
+									<core:Item key="{InventoryStockType}" text="{InventoryStockType} - {InventoryStockTypeName}"/>
+								</Select>
+								</VBox>
+							</HBox>
+							<VBox visible="{MaterialBatchManaged}">
+								<Label id="SplitDialogColumnBatchLabel" text="{i18n>BATCH_INPUT} :"/>
+								<Input editable="{= !${splitData>/NewSplitCommon/Batch} ? ${splitData>Editable} : false }" type="Text" textAlign="Right" value="{splitData>Batch}" change="handleBatchChange"
+									ariaLabelledBy="SplitDialogColumnBatchLabel" showValueHelp="true" valueHelpRequest="onBatchValueHelpRequest"
+									data:splitIdx="{splitData>Index}"/>
+								<Label id="SplitDialogColumnSupplierBatchLabel" text="{i18n>SUPPLIER_BATCH_INPUT} :"/>
+								<Input editable="{= !${splitData>/NewSplitCommon/Batch} ? ${splitData>Editable} : false }" type="Text" textAlign="Right" value="{splitData>SupplierBatch}" change="handleSupplierBatchChange"
+									ariaLabelledBy="SplitDialogColumnSupplierBatchLabel" showValueHelp="true" valueHelpRequest="onSupplierBatchValueHelpRequest"
+									data:splitIdx="{splitData>Index}"/>
+								
+								<Label id="SplitDialogColumnStrandLabel" text="{i18n>STRAND_INPUT} :" visible="{splitData>FieldsActive}"/>
+								<Input editable="{= !${splitData>/NewSplitCommon/Batch} ? ${splitData>Editable} : false }" type="Number" textAlign="Right" liveChange="onLiveChangeCheck" value="{splitData>Strand}" visible="{splitData>FieldsActive}"/>
+								<Label id="SplitDialogColumnRoadLabel" text="{i18n>ROAD_INPUT} :" visible="{splitData>FieldsActive}"/>
+								<Input editable="{= !${splitData>/NewSplitCommon/Batch} ? ${splitData>Editable} : false }" type="Number" textAlign="Right" liveChange="onLiveChangeCheck" value="{splitData>Road}" visible="{splitData>FieldsActive}"/>
+							</VBox>
+							<VBox visible="{splitData>WMLEnabled}">
+								<Label id="SplitDialogColumnWMLBin" text="{i18n>WMLBIN_INPUT} :" visible="{splitData>WMLEnabled}"/>
+								<Input editable="{= !${splitData>/NewSplitCommon/Batch} ? ${splitData>Editable} : false }" type="Text" textAlign="Right" value="{splitData>WMLBin}" change="handleBinChange"
+									ariaLabelledBy="SplitDialogColumnWMLBinLabel" showValueHelp="true" valueHelpRequest="onWMLBinValueHelpRequest"
+									data:splitIdx="{splitData>Index}" visible="{splitData>WMLEnabled}"/>
+							</VBox>
+							<VBox visible="{splitData>WMLEnabled}">
+								<Label id="SplitDialogColumnSalesOrder" text="{i18n>SALESORDER_INPUT} :" visible="{splitData>SalesOrderVisible}"/>
+								<HBox>
+									<Input editable="{= !${splitData>/NewSplitCommon/Batch} ? ${splitData>Editable} : false }" type="Text" textAlign="Right" value="{splitData>SalesOrder}" visible="{splitData>SalesOrderVisible}"
+										ariaLabelledBy="SplitDialogColumnSalesOrder" data:splitIdx="{splitData>Index}"/>
+									<Input width="5rem" class="sapUiTinyMarginBegin" editable="{= !${splitData>/NewSplitCommon/Batch} ? ${splitData>Editable} : false }" type="Text" textAlign="Right"
+										value="{splitData>SalesOrderItem}" visible="{splitData>SalesOrderVisible}" ariaLabelledBy="SplitDialogColumnSalesOrder"
+										data:splitIdx="{splitData>Index}"/>
+								</HBox>
+							</VBox>
+							<Button tooltip="Delete" press="handleDelSplitButton" icon="sap-icon://less" data:splitIdx="{splitData>Index}"
+								visible="{= !${splitData>/NewSplitCommon/Batch} ? ${splitData>Editable} : false }"/>
+						</CustomListItem>
+					</items>
+				</List>
+			</ScrollContainer>
+		</content>
+		<beginButton>
+			<Button id="SplitDialogOk" press="handleDistributionDialogOk" text="{i18n>BUTTON_SAVE}" type="Emphasized"/>
+		</beginButton>
+		<endButton>
+			<Button id="SplitDialogCancel" press="handleDistributionDialogCancel" text="{i18n>BUTTON_CLOSE}"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

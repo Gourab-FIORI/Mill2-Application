@@ -1,0 +1,70 @@
+{
+	"Item": [{
+		"Item": "ITEM1",
+		"Quant": "Yes",
+		"Quant1": "No"
+	}, {
+		"Item": "ITEM2"
+		
+	}, {
+		"Item": "ITEM3"
+		}],
+		"productDetails": [{
+		"description": "Product 1 description",
+		"plant": "Product 1 plant",
+		"rawMaterials": [{
+			"itemName": "Item 1",
+			"itemNo": "Item 1",
+			"quantity": "10",
+			"units": "nos."
+		}, {
+			"itemName": "Item 2",
+			"itemNo": "Item 2",
+			"quantity": "1",
+			"units": "Kg"
+		}, {
+			"itemName": "Item 3",
+			"itemNo": "Item 3",
+			"quantity": "0.5",
+			"units": "Kg"
+		}]
+	}, {
+		"description": "Product 2 description",
+		"plant": "Product 2 plant",
+		"rawMaterials": [{
+			"itemName": "Item 1",
+			"itemNo": "Item 1",
+			"quantity": "20",
+			"units": "nos."
+		}, {
+			"itemName": "Item 2",
+			"itemNo": "Item 2",
+			"quantity": "10",
+			"units": "Kg"
+		}, {
+			"itemName": "Item 3",
+			"itemNo": "Item 3",
+			"quantity": "4",
+			"units": "Kg"
+		}]
+	}, {
+		"description": "Product 3 description",
+		"plant": "Product 3 plant",
+		"rawMaterials": [{
+			"itemName": "Item 1",
+			"itemNo": "Item",
+			"quantity": "2",
+			"units": "nos."
+		}, {
+			"itemName": "Item 2",
+			"itemNo": "Item 2",
+			"quantity": "100",
+			"units": "Kg"
+		}, {
+			"itemName": "Item 3",
+			"itemNo": "Item 3",
+			"quantity": "40",
+			"units": "Kg"
+		}]
+	}]
+}

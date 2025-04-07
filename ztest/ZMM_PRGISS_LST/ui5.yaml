@@ -1,0 +1,31 @@
+specVersion: "3.1"
+metadata:
+  name: zmm.zmm_progissue_lst
+type: application
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        backend:
+          - path: /sap
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            destination: LHDCLNT010
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        component: ZMM.zmm_progissue_lst
+        ui5Theme: sap_fiori_3

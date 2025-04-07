@@ -1,0 +1,30 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout">
+	<SelectDialog
+		noDataText="Storage Bin not found"
+		title="Select the Storage Bin"
+		search=".handleSearchBin"
+		confirm=".handleCloseBin"
+		cancel=".handleCloseBin"
+		items="{ path : 'bindatavh>/data' }">
+		<CustomListItem class="sapUiTinyMarginBegin">
+			<content>
+				<FlexBox alignItems="Start">
+					<items>
+						<VBox class="sapUiSmallMargin">
+							<ObjectIdentifier id="idStorageBin" title="{bindatavh>Bin}"
+								text="Storage Location {bindatavh>StorageLocation}" ariaLabelledBy="idStorageBin">
+							</ObjectIdentifier>
+							<Label id="idStorageBinLabel" displayOnly="true" wrapping="true" text=""/>
+							<layoutData>
+								<FlexItemData growFactor="1"/>
+							</layoutData>
+						</VBox>
+					</items>
+				</FlexBox>
+			</content>
+		</CustomListItem>
+	</SelectDialog>
+</core:FragmentDefinition>

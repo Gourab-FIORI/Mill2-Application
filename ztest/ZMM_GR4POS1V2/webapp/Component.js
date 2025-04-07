@@ -1,0 +1,1 @@
+jQuery.sap.declare("s2p.mm.im.goodsreceipt.purchaseorder.GR4POS1Extension.Component");sap.ui.component.load({name:"s2p.mm.im.goodsreceipt.purchaseorder",url:"/sap/bc/ui5_ui5/sap/GR4POS1"});this.s2p.mm.im.goodsreceipt.purchaseorder.Component.extend("s2p.mm.im.goodsreceipt.purchaseorder.GR4POS1Extension.Component",{metadata:{manifest:"json"}});

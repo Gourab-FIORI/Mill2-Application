@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Button id="idButtonTrasferCell" press="handleTransferCellButton" text="{i18n>BUTTON_TRANSFER}" enabled="true" visible="{= ${StorageLocation} ? true : false }"/>
+	<!-- Button id="idButtonTrasferCell" press="handleTransferCellButton" text="{i18n>BUTTON_TRANSFER}" enabled="true" visible="{ parts: [
+      {path: 'StorageLocation'},
+      {path: 'InventoryStockType'}
+    ], formatter: 'ZMM.zmm_mobstock_lst.ext.util.formatter.formatBtnTransferVisible' }"/ -->
+</core:FragmentDefinition>

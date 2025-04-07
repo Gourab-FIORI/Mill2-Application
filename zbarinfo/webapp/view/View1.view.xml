@@ -1,0 +1,132 @@
+<mvc:View controllerName="com.ami.zbarinformation.zbarinfo.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" xmlns:ndc="sap.ndc" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form" displayBlock="true">
+     <App id="app">
+    <Page id="page" title="{i18n>title}" floatingFooter="true"
+		class="sapUiResponsivePadding--header sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter">
+         <!-- <headerContent>
+            <Select id="languageSelect" change="onLanguageChange">
+                <core:Item key="en" text="English"/>
+                <core:Item key="fr" text="Français"/>
+            </Select>
+        </headerContent> -->
+        <content>
+        <Wizard id="wizard" finishButtonText="{i18n>Start_over}" complete="wizardCompletedHandler" >
+        <WizardStep id="barcodeStep" title="{i18n>WizardStep1}" activate="onActivate" validated="false">
+                        <VBox id="vbox1">
+                        <HBox>
+            <ndc:BarcodeScannerButton
+			id="sampleBarcodeScannerButton"
+			scanSuccess="onScanSuccess"
+			scanFail="onScanError"
+			 disableBarcodeInputDialog="true" preferFrontCamera="false"/>
+                            <Input id="barcodeInput" type="Number" maxLength="10" liveChange="onInputChange" submit="onScanBarcode" placeholder="{i18n>placeholder}"/>
+                             <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+                               <Button icon="sap-icon://clear-all" press="onClearAll"/>
+                            </HBox>
+								 </VBox>
+							    </WizardStep>
+							<WizardStep id="barcodeStep1" title="{i18n>WizardStep2}" activate="onActivate" validated="false">
+                            <f:SimpleForm id="SimpleFormInfo"
+			editable="false"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="4"
+			labelSpanL="4"
+			labelSpanM="12"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="0"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="2"
+			columnsL="2"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+			 <Title text="{i18n>Label0}: {stockModel>/results/0/wmmmstock/results/0/BAR_NBR}" />
+
+
+    <Label text="{i18n>Label1}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Charg}" />
+
+    <Label text="{i18n>Label2}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Matnr}" />
+
+    <!-- <Label text="{i18n>Label3}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Werks}" /> -->
+
+    <!-- <Label text="{i18n>Label4}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Lgort}" />
+
+    <Label text="{i18n>Label5}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Kalab}" />
+
+    <Label text="{i18n>Label6}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Kains}" />
+
+    <Label text="{i18n>Label7}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Kaspe}" />
+
+    <Label text="{i18n>Label8}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Sobkz}" /> -->
+
+    <Label text="{i18n>Label9}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Vbeln}" />
+
+    <Label text="{i18n>Label10}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Posnr}" />
+
+    <Label text="{i18n>Label11}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Lgtyp}" />
+
+    <Label text="{i18n>Label12}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/Lgpla}" />
+     <Label text="{i18n>Label16}" />
+    <Text text="{stockModel>/results/0/wmmmstock/results/0/extcut}" />
+
+			</f:content>
+		</f:SimpleForm>
+		</WizardStep>
+                          	
+        <WizardStep id="barcodeStep2" title="{i18n>WizardStep3}" activate="onActivate" validated="true">
+                        <VBox id="vbox2">
+	                       <Table id="table" inset="false"
+		alternateRowColors="true" items="{/results}">
+        <!-- Column List -->
+        <columns>
+            <Column>
+                <!-- <Text/> -->
+            </Column>
+            <Column>
+                <!-- <Text/> -->
+            </Column>
+        </columns>
+        
+        <!-- Bind the data to rows -->
+        <items>
+            <ColumnListItem>
+                <cells>
+                    <Text text="{CharDesc}" />
+                    <Text text="{Value} {Unit}" />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+                        </VBox>
+                        </WizardStep>
+						<!-- <WizardStep id="barcodeStep3" title="{i18n>WizardStep4}" activate="onActivate" validated="false">
+						 </WizardStep> -->
+						 </Wizard>
+        </content>
+		<!-- <footer>
+<OverflowToolbar>
+<ToolbarSpacer/>
+<Button text="{i18n>Display Info}" press="onPPressDisplay" enabled="true" type="Emphasized"/>
+<Button text="{i18n>Exit}" press="onPressExit" enabled="true" type="Emphasized"/>
+<ToolbarSpacer/>
+</OverflowToolbar>
+</footer> -->
+    </Page>
+     </App>
+</mvc:View>

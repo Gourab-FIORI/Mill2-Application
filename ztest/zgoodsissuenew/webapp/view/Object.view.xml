@@ -1,0 +1,42 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="webapp.zgoodsissue.controller.Object"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="{i18n>objecttitle}" showNavButton="true" navButtonPress="onBack">
+		<ObjectHeader id="idPO" responsive="true" title="{app>/GIheadSet/Ebeln}">
+		</ObjectHeader>
+		<content>
+			<Table id="idTable" items="{path:'/GIitemSet'}" inset="false" mode="MultiSelect">
+				<columns>
+					<Column><Text text="{i18n>itemno}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>material}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>desc}" /></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>plant}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>strgloc}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>strgbin}"/></Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left"><Text text="{i18n>batch}"/></Column>
+					<Column hAlign="Center"><Text text="{i18n>quant}" /></Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier title="{Ebelp}" text="{ItemId}"/>
+							<Text text="{Ematn}"/>
+							<Text text="{Txz01}"/>
+							<Text text="{Werks}"/>
+							<Input id="idStrgLoc" value="{Lgort}" editable="true" liveChange="onChangeStorloc"/>
+							<Text text="{Lgpbe}"/>
+							<Input id="idBatch" value="{Batch}" editable="{Xchpf}" liveChange="onChangeBatch"/>
+							<Input id="idQuant" value="{Obmng}" editable="true" description="{Meins}" liveChange="onChangeQuant"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<footer>
+			<Bar>
+				<contentRight>
+					<Button id="save" icon="sap-icon://save" text="Save" press="onSubmit"/>
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>

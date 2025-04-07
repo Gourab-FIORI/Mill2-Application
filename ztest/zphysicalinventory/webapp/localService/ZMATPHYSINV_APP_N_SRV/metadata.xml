@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZMATPHYSINV_APP_N_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="CheckCountry" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Country" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Country" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="PhyinvHead" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Physinventory"/>
+                </Key>
+                <Property Name="Physinventory" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Phys. Inv. Doc." sap:filterable="false"/>
+                <Property Name="Fiscalyear" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Fiscal Year" sap:filterable="false"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:filterable="false"/>
+                <Property Name="StgeLoc" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Stor. Loc." sap:filterable="false"/>
+                <Property Name="DocDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Document Date" sap:filterable="false"/>
+                <Property Name="CountStatus" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Count Status" sap:filterable="false"/>
+                <Property Name="AdjustStatus" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Adjust. Status" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="PhyinvItems" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Physinventory"/>
+                    <PropertyRef Name="Fiscalyear"/>
+                    <PropertyRef Name="Item"/>
+                </Key>
+                <Property Name="Country" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Country/Reg." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Physinventory" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Phys. Inv. Doc." sap:filterable="false"/>
+                <Property Name="SupplierBatch" Type="Edm.String" Nullable="false" MaxLength="15" sap:unicode="false" sap:label="Supplier Batch"/>
+                <Property Name="Fiscalyear" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Fiscal Year" sap:filterable="false"/>
+                <Property Name="Item" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Item" sap:filterable="false"/>
+                <Property Name="Material" Type="Edm.String" MaxLength="18" sap:unicode="false" sap:label="Material" sap:filterable="false"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="Description" sap:filterable="false"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:filterable="false"/>
+                <Property Name="StgeLoc" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Stor. Loc." sap:filterable="false"/>
+                <Property Name="StgeBin" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:filterable="false"/>
+                <Property Name="Batch" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Batch" sap:filterable="false"/>
+                <Property Name="ZeroCount" Type="Edm.Boolean" sap:unicode="false" sap:label="Zero Count" sap:filterable="false"/>
+                <Property Name="Quantity" Type="Edm.String" sap:unicode="false" sap:label="Quantity" sap:filterable="false"/>
+                <Property Name="BaseUom" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Base Unit" sap:filterable="false"/>
+                <Property Name="StockType" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Stock Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StockTypeText" Type="Edm.String" sap:unicode="false" sap:label="Stock Type Text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Counted" Type="Edm.Boolean" sap:unicode="false" sap:label="Counted" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="CountedBy" Type="Edm.String" MaxLength="12" sap:unicode="false" sap:label="Counted By" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="CountedOn" Type="Edm.DateTime" Precision="0" sap:unicode="false" sap:label="Counted On" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="SupplierBatch" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SupplierBatchId"/>
+                </Key>
+                <Property Name="SupplierBatchId" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Batch" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Next" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Material" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Multiple" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZMATPHYSINV_APP_N_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="CheckCountrySet" EntityType="ZMATPHYSINV_APP_N_SRV.CheckCountry" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="PhyinvHeadSet" EntityType="ZMATPHYSINV_APP_N_SRV.PhyinvHead" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="PhyinvItemsSet" EntityType="ZMATPHYSINV_APP_N_SRV.PhyinvItems" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="SupplierBatchSet" EntityType="ZMATPHYSINV_APP_N_SRV.SupplierBatch" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="https://S4DEV.LCE.ARCELORMITTAL.COM:44300/sap/opu/odata/sap/ZMATPHYSINV_APP_N_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://S4DEV.LCE.ARCELORMITTAL.COM:44300/sap/opu/odata/sap/ZMATPHYSINV_APP_N_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

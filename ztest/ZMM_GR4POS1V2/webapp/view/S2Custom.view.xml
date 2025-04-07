@@ -1,0 +1,693 @@
+<!--
+
+    Copyright (C) 2009-2021 SAP SE or an SAP affiliate company. All rights reserved.
+
+-->
+<mvc:View controllerName="s2p.mm.im.goodsreceipt.purchaseorder.controller.S1" navButtonPress="onNavButtonPress" showNavButton="true"
+	xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:ob="sap.uxap" xmlns="sap.m" xmlns:chart="sap.suite.ui.microchart"
+	xmlns:t="sap.ui.core.Element" xmlns:smartForm="sap.ui.comp.smartform" xmlns:smartField="sap.ui.comp.smartfield">
+	<semantic:FullscreenPage busy="{objectView>/busy}" busyIndicatorDelay="{objectView>/delay}" id="page"
+		navButtonPress="handleNavButtonPressNew" showNavButton="true" title="{i18n>DETAILSCREEN_TITLE2}">
+		<semantic:content>
+			<ob:ObjectPageLayout id="ObjectPageLayout" alwaysShowContentHeader="true" upperCaseAnchorBar="false">
+				<ob:headerTitle>
+					<ob:ObjectPageHeader id="idMaterial" objectTitle="{oItem>/MaterialText}" objectSubtitle="{oItem>/Material}" visible="true"></ob:ObjectPageHeader>
+				</ob:headerTitle>
+				<ob:headerContent>
+					<l:VerticalLayout id="idVerticalLayout">
+						<ObjectAttribute id="idMaterialNameObjectAttribute" text="{oItem>/MaterialName}" title="{i18n>TABLE_COLUMN_MATERIALNAME_TEXT}"
+							visible="{= ${oItem>/MaterialText} !== ${oItem>/MaterialName} &amp;&amp; ${oItem>/PurchaseOrderItemText} !=='' &amp;&amp; ${oFrontend>/SourceOfGR} !== 'NOREF'}"/>
+						<!--<HBox visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}" renderType="Bare">-->
+						<HBox id="idHBoxProgress" visible="{oItem>/ChartVisible}" renderType="Bare" wrap="Wrap">
+							<Label id="idLabelProgress" wrapping="true" text="{oItem>/LABEL_STACKED_BAR}" class="sapUiSmallMarginTopBottom" vAlign="Middle"/>
+							<chart:StackedBarMicroChart size="L" id="idStockChart" precision="0" class="sapUiSmallMargin" height="19px">
+								<chart:bars>
+									<chart:StackedBarMicroChartBar id="idGRQuantityChartBar" displayValue="{= ${oItem>/GRQuantity}}"
+										value="{= ${oItem>/GRQuantity_number}}" valueColor="sapUiChartPaletteSemanticGood"
+										tooltip="{i18n>OPEN_ORDERED_QUANTITY_TOOLTIP}"/>
+									<chart:StackedBarMicroChartBar id="idOpenQuantityChartBar" displayValue="{= ${oItem>/OpenQuantity}}" value="{= ${oItem>/OpenQuantity_number}}"
+										valueColor="sapUiChartPaletteSemanticNeutral"/>
+								</chart:bars>
+							</chart:StackedBarMicroChart>
+						</HBox>
+					</l:VerticalLayout>
+				</ob:headerContent>
+				<ob:sections >
+					<ob:ObjectPageSection id="idOPSection1" title="{i18n>LABEL_QUANTITY}" titleUppercase="false" visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSection1" title="">
+								<ob:blocks>
+									<f:Form class="isReadonly" editable="true" id="FormDisplayQuant">
+										<f:layout>
+											<f:ResponsiveGridLayout id="idResponsiveGridLayout" columnsL="2" columnsM="1" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+												labelSpanL="3" labelSpanM="3" labelSpanS="2"/>
+										</f:layout>
+										<f:formContainers>
+											<f:FormContainer id="idDeliveredFormContainer">
+												<f:formElements >
+													<f:FormElement id="idLabelDeliveredUnitOfEntry" label="{i18n>LABEL_DELIVERED_UNIT_OF_ENTRY}">
+														<f:fields>
+															<Input change="handleInputChange" enabled="{oItem>/ItemEnabled}" id="idDeliveredQuantityInput" showValueStateMessage="true"
+																textAlign="Right"
+																value="{path:'oItem>/DeliveredQuantity_input', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1, emptyString:''}}"
+																valueState="{oItem>/DeliveredQuantity_valueState}" valueStateText="{oItem>/DeliveredQuantity_valueStateText}"
+																ariaLabelledBy="idLabelDeliveredUnitOfEntry" class="sapUiTinyMarginBeginEnd" width="95%" >
+																<layoutData>
+																	<l:GridData id="idGridDataDeliveredEntry" span="L6 M6 S6"/>
+																</layoutData>
+															</Input>
+															<Input editable="true" enabled="{oItem>/ItemEnabled}" id="idDeliveredUnitInput" showValueHelp="true" type="Text"
+																value="{oItem>/DeliveredUnit_input}" valueHelpOnly="true" valueHelpRequest="handleAUoMHelp" ariaLabelledBy="idLabelDeliveredUnitOfEntry">
+																<layoutData>
+																	<l:GridData id="idGridDataDeliveredUnitEntry" span="L3 M3 S4"/>
+																</layoutData>
+															</Input>
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+												<f:formElements>
+													<f:FormElement id="idOpenQuantityLabel" label="{i18n>LABEL_OPEN}">
+														<f:fields>
+															<Input ariaLabelledBy="idOpenQuantityLabel" editable="false" enabled="{oItem>/ItemEnabled}" id="idOpenQuantity" textAlign="Right"
+																value="{path:'oItem>/OpenQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+																class="sapUiTinyMarginBeginEnd" width="95%">
+																<layoutData>
+																	<l:GridData id="idGridDataOpenQuantity" span="L6 M6 S6"/>
+																</layoutData>
+															</Input>
+															<Input ariaLabelledBy="idOpenQuantityLabel" editable="false" enabled="{oItem>/ItemEnabled}" id="idOpenQuantityUnit" value="{oItem>/Unit}">
+																<layoutData>
+																	<l:GridData id="idGridDataOpenQuantityUnit" span="L3 M3 S4"/>
+																</layoutData>
+															</Input>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idNonVltdGRBlockedStockQtyLabel" label="{i18n>TABLE_COLUMN_OPEN_GRBLOCK_QUANT_TEXT}"
+														visible="{oFrontend>/ColumnNonVltdGRBlockedStockQty}">
+														<f:fields>
+															<Input ariaLabelledBy="idNonVltdGRBlockedStockQtyLabel" editable="false" enabled="{oItem>/ItemEnabled}" id="idNonVltdGRBlockedStockQty"
+																textAlign="Right"
+																value="{path:'oItem>/NonVltdGRBlockedStockQty', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+																class="sapUiTinyMarginBeginEnd" width="95%">
+																<layoutData>
+																	<l:GridData id="idGridDataGRBlkedStkQty" span="L6 M6 S6"/>
+																</layoutData>
+															</Input>
+															<Input ariaLabelledBy="idNonVltdGRBlockedStockQtyLabel" editable="false" enabled="{oItem>/ItemEnabled}" id="idNonVltdGRBlockedStockQtyUnit"
+																value="{oItem>/Unit}">
+																<layoutData>
+																	<l:GridData id="idGridDataGRBlkedStkQtyUnit" span="L3 M3 S4"/>
+																</layoutData>
+															</Input>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idOrderedLabel" label="{i18n>LABEL_ORDERED}">
+														<f:fields>
+															<Input ariaLabelledBy="idOrderedLabel" editable="false" enabled="{oItem>/ItemEnabled}" id="idOrderedQuantityInput" textAlign="Right"
+																value="{path:'oItem>/OrderedQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+																class="sapUiTinyMarginBeginEnd" width="95%">
+																<layoutData>
+																	<l:GridData id="idGridDataOrderStkQty" span="L6 M6 S6"/>
+																</layoutData>
+															</Input>
+															<Input ariaLabelledBy="idOrderedLabel" editable="false" enabled="{oItem>/ItemEnabled}" id="idOrderedQuantityUnit"
+																value="{oItem>/OrderedQuantityUnit}">
+																<layoutData>
+																	<l:GridData id="idGridDataOrderStkQtyUnit" span="L3 M3 S4"/>
+																</layoutData>
+															</Input>
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+											<f:FormContainer id="idFormContainerDeliveryCompleted">
+												<f:formElements>
+													<f:FormElement id="idDeliveryCompletedFormLabel" label="{i18n>LABEL_DELIVERED_COMPLETED}">
+														<f:fields>
+															<CheckBox enabled="{oItem>/SelectEnabled}" id="idSelectDeliveryCompleted" select="handleSelectDeliveryCompleted"
+																selected="{oItem>/DeliveryCompleted}"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idIsReturnsItemFormLabel" label="{i18n>TABLE_COLUMN_RETURN_ITEM_TEXT}" visible="{oFrontend>/ColumnIsReturnsItemVisible}">
+														<f:fields>
+															<CheckBox enabled="false" id="idIsReturnsItem" selected="{oItem>/IsReturnsItem}"/>
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+										</f:formContainers>
+									</f:Form>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+
+				<ob:sections>
+					<ob:ObjectPageSection id="idOPSectionComponents" title="{parts:[{path:'i18n>LABEL_COMPONENTS'}, {path:'oItem>/ComponentItemsNumber'}], formatter: '.concatenateNumberOfComponents'}" titleUppercase="false" visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF' &amp;&amp; ${oItem>/ItemComponentVisible}}">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSectionComponents" title="">
+								<ob:blocks>
+									<Table id="idComponentsTable" items="{path:'oItem>/SubItems'}" growing="true" ariaLabelledBy="idOPSectionComponents">
+										<columns>
+											<Column id="idComponentMaterialColumn" minScreenWidth="Phone" hAlign="Begin">
+												<Text id="idComponentMaterialColumnText" text="{i18n>TABLE_COMP_COLUMN_MATERIAL_TEXT}"/>
+											</Column>
+											<Column id="idComponentPlantColumn" minScreenWidth="Phone" hAlign="Begin">
+												<Text id="idComponentPlantColumnText" text="{i18n>TABLE_COMP_COLUMN_PLANT_TEXT}"/>
+											</Column>
+											<Column id="idComponentMovementTypeColumn" demandPopin="true" minScreenWidth="Desktop" hAlign="Begin">
+												<Text id="idComponentMovementTypeColumnText" text="{i18n>TABLE_COMP_COLUMN_MOVEMENTTYPE_TEXT}"/>
+											</Column>
+											<Column id="idComponentBatchColumn" demandPopin="true" minScreenWidth="Desktop" visible="{oItem>/ComponentBatchColumnVisible}" hAlign="Begin">
+												<Text id="idComponentBatchColumnText" text="{i18n>TABLE_COMP_COLUMN_BATCH_TEXT}"/>
+											</Column>
+											<Column id="idComponentPlannedQuantityColumn" demandPopin="true" minScreenWidth="Desktop" width="12rem" hAlign="End">
+												<Text id="idComponentPlannedQuantityColumnText" text="{i18n>TABLE_COMP_COLUMN_PLANNED_QUANTITY_TEXT}"/>
+											</Column>
+											<Column id="idComponentQuantityUnitColumn" demandPopin="true"  minScreenWidth="Desktop" width="15rem" hAlign="End">
+												<Text id="idComponentQuantityColumnText" text="{i18n>TABLE_COMP_COLUMN_QUANT_TEXT}"/>
+											</Column>
+											<Column id="idComponentConsiderColumn" demandPopin="true" minScreenWidth="Phone" hAlign="Center">
+												<Text id="idComponentConsiderColumnText" text="{i18n>TABLE_COMP_COLUMN_CONSIDER_TEXT}"/>
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem id="idTableItems" vAlign="Middle">
+												<cells>
+													<ObjectIdentifier id="idComponentMaterialNameCell" text="{path:'oItem>Material'}"
+														tooltip="{oItem>MaterialName}" title="{oItem>MaterialName}"
+														titleActive="{= ${oItem>MaterialDisplayActive} === true &amp;&amp; ${oItem>Material} !== '' }"
+														ariaLabelledBy="idComponentMaterialColumnText" titlePress="handleDisplayComponentMaterialLinkPress">
+														<customData>
+															<core:CustomData id="idMaterialCustomData" key="Material" value="{oItem>Material}"/>
+														</customData>
+													</ObjectIdentifier>
+													<Text id="idComponentPlantCell" text="{oItem>PlantName}"></Text>
+													<Text id="idComponentMovementTypeCell" text="{= ${oItem>MovementType} === '543' ? ${i18n>COMPONENT_GOODS_ISSUE_TEXT} + ' (543)' : ${i18n>COMPONENT_GOODS_RECEIPT_TEXT} + ' (545)'}"></Text>
+													<Input id="idComponentBatchCell" valueHelpOnly="true" editable="true" value="{oItem>Batch}" valueState="{oItem>Batch_valueState}"
+														visible="{oItem>BatchManagedMaterial}" showValueHelp="true" valueHelpRequest="handleComponentBatchHelp" required="true"/>
+													<ObjectNumber emphasized="false" id="idComponentPlannedQuantityCell"
+														number="{path:'oItem>OpenQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+														unit="{oItem>UnitOfMeasure}" visible="true"/>
+													<HBox id="idComponentQuantityUnitLayout" wrap="Wrap" width="13rem"  alignContent="End" justifyContent="End">
+														<Input id="idComponentQuantityInputCell" change="handleComponentQuantityInputChange" enabled="true" showValueStateMessage="true" textAlign="Right"
+															editable="true" valueState="{oItem>QuantityInEntryUnit_valueState}" valueStateText="{oItem>QuantityInEntryUnit_valueStateText}"
+															value="{path:'oItem>QuantityInEntryUnit', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1, emptyString:''}}"
+															width="7rem" ariaLabelledBy="idComponentQuantityUnitColumn" visible="true"/>
+														<Input id="idComponentUnitInputCell" editable="true" enabled="true"  showValueHelp="true"
+															required="true" textAlign="Right" type="Text" value="{oItem>EntryUnit}" valueHelpOnly="true"
+															valueHelpRequest="handleComponentAUoMHelp" valueState="{oItem>EntryUnit_valueState}"
+															width="5rem" ariaLabelledBy="idComponentQuantityUnitColumn"
+															class="sapUiTinyMarginBegin" visible="true"/>
+													</HBox>
+													<CheckBox id="idComponentConsideredCell"  enabled="true" select="handleComponentConsiderSelect" selected="{oItem>ComponentConsidered}"
+														visible="true" ariaLabelledBy="idComponentConsiderColumnText"/>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+
+				<ob:sections >
+					<ob:ObjectPageSection id="idOPSection2" title="{i18n>LABEL_MATERIAL}" titleUppercase="false" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSection2" title="">
+								<ob:blocks>
+									<f:Form class="isReadonly" editable="true" id="FormDisplayMaterial">
+										<f:layout>
+											<f:ResponsiveGridLayout id="idResponsiveGridLayout9" columnsL="2" columnsM="1" emptySpanL="0" emptySpanM="0" emptySpanS="0" labelSpanL="3"
+												labelSpanM="3"/>
+										</f:layout>
+										<f:formContainers>
+											<f:FormContainer id="idMaterialTab">
+												<f:formElements >
+													<f:FormElement id="idMaterialInput_form">
+														<f:label>
+															<Label id="idMaterialInput_label" text="{i18n>LABEL_MATERIAL}" required="true"></Label>
+														</f:label>
+														<f:fields>
+															<Input editable="true" enabled="{oFrontend>ItemEnabled}" required="true" id="idMaterialInput" showValueHelp="true" textAlign="Left"
+																type="Text" value="{oItem>/Material_Name}" valueHelpOnly="false" valueHelpRequest="handleMaterialValueHelp"
+																valueState="{oItem>/Material_Input_valueState}" valueStateText="{oItem>/Material_Input_valueStateText}" showSuggestion="true"
+																suggest="handleMaterialSuggest" suggestionItemSelected="handleSuggestionMaterialSelected" ariaLabelledBy="idMaterialInput_labely"
+																suggestionItems="{oDataHelp>/MaterialHelps}" change="handleMaterialChangeEvent">
+																<!--value="{parts:[{path:'oItem>/Material_Name'}, {path:'oItem>/Material_Input'}], formatter: '.formatter.concatenateNameIdFormatterK'}"-->
+																<suggestionItems>
+																	<core:ListItem id="idSuggestMaterialItem" additionalText="{oDataHelp>Material}" text="{oDataHelp>MaterialName}"/>
+																</suggestionItems>
+															</Input>
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+												<f:formElements>
+													<f:FormElement id="idQuantityUOMLabel">
+														<f:label>
+															<Label id="idQuantityUOM_label" text="{i18n>LABEL_QUANTITY_UOM}" required="true"></Label>
+														</f:label>
+														<f:fields>
+															<Input change="handleInputChange" ariaLabelledBy="idQuantityUOMLabel" enabled="{oItem>/ItemEnabled}" id="idQuantity" textAlign="Right"
+																value="{path:'oItem>/DeliveredQuantity_input', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+																editable="{oItem>/DeliveredQuantityEditable}" required="true" valueState="{oItem>/DeliveredQuantity_valueState}"
+																valueStateText="{oItem>/DeliveredQuantity_valueStateText}"/>
+															<Input editable="{oItem>/DeliveredUnitEditable}" enabled="{oItem>/ItemEnabled}" id="idUOM" showValueHelp="true" type="Text"
+																value="{oItem>/DeliveredUnit_input}" required="true" valueState="{oItem>/DeliveredUnit_input_valueState}" textAlign="Right"
+																valueStateText="{oItem>/DeliveredUnit_input_valueStateText}" valueHelpOnly="true" valueHelpRequest="handleAUoMHelp"
+																ariaLabelledBy="idQuantityUOMLabel">
+																<layoutData>
+																	<l:GridData id="idGridDataUOM" span="L2 M3 S4"/>
+																</layoutData>
+															</Input>
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+											<f:FormContainer id="idFormContainerDummy">
+												<f:formElements >
+													<f:FormElement id="idDummyElement" visible="false">
+														<f:fields>
+															<CheckBox id="idDummyCheckBox"/>
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+										</f:formContainers>
+									</f:Form>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+				<ob:sections>
+					<ob:ObjectPageSection id="idLocationLabel" title="{i18n>LABEL_LOCATION_STOCKTYPE}" titleUppercase="false"
+						visible="{= ${oItem>/StockTypeVisible} === true || ${oItem>/StorageLocationVisible} === true }">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSection3" title="">
+								<ob:blocks>
+									<f:Form class="isReadonly" editable="true" id="FormDisplayLocation"
+										visible="{= ${oItem>/StockTypeVisible} === true || ${oItem>/StorageLocationVisible} === true }">
+										<f:layout>
+											<f:ResponsiveGridLayout id="idStorageLocationHorizontalLayout" columnsL="2" columnsM="1" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+												labelSpanL="3" labelSpanM="3"/>
+										</f:layout>
+										<f:formContainers>
+											<f:FormContainer id="idFormContainerPlant">
+												<f:formElements>
+													<f:FormElement id="idPlantLabel">
+														<f:label>
+															<Label id="idPlantlInput_label" text="{i18n>TABLE_COLUMN_PLANT_TEXT}" required="true"></Label>
+														</f:label>
+														<f:fields>
+															<Input ariaLabelledBy="idPlantLabel" editable="{oItem>/Plant_input_editable}" enabled="{oItem>/ItemEnabled}" required="true"
+																id="idPlantInput" type="Text" value="{oItem>/Plant_input}" visible="true" showValueHelp="true" valueHelpOnly="true"
+																valueHelpRequest="handlePlantHelp" valueStateText="{oItem>/Plant_input_valueStateText}" valueState="{oItem>/Plant_input_valueState}"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idStorageLocationLabel" visible="{oItem>/StorageLocationVisible}">
+														<f:label>
+															<Label id="idStorageLocation_label" text="{i18n>TABLE_COLUMN_STOR_LOC_TEXT}" required="true"></Label>
+														</f:label>
+														<f:fields>
+															<Input ariaLabelledBy="idStorageLocationLabel" required="true" editable="{oItem>/StorageLocationEditable}" enabled="{oItem>/ItemEnabled}"
+																id="idStorageLocationInput" showValueHelp="true" showValueStateMessage="true" type="Text" value="{oItem>/StorageLocation_input}"
+																valueHelpOnly="true" valueHelpRequest="handleStorageLocationHelp" valueState="{oItem>/StorageLocation_valueState}"
+																valueStateText="{oItem>/StorageLocation_valueStateText}" visible="{oItem>/StorageLocationVisible}"/>
+															<!--required="oItem>/StorageLocationMandatory"/>-->
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idStorageBinLabel" label="{i18n>WAREHOUSESTORAGEBIN}" visible="{= ${oItem>/WarehouseStorageBin} !== '' }">
+														<f:fields>
+															<Input ariaLabelledBy="idStorageBinLabel" editable="false" enabled="true" id="idStorageBinInput" type="Text"
+																value="{oItem>/WarehouseStorageBin}"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idBatchLabel" label="{i18n>LABEL_BATCH}" visible="{oItem>/BatchVisible}">
+														<f:fields>
+															<Input change="handleInputBatchChangeEvent" visible="{oItem>/BatchVisible}" ariaLabelledBy="idBatchLabel" editable="{oItem>/BatchEditable}"  required="{oItem>/BatchMandatory}"
+																enabled="{oItem>/ItemEnabled}" id="idBatchInput" type="Text" value="{oItem>/Batch}" valueState="{oItem>/Batch_valueState}"
+																valueHelpRequest="handleBatchHelp" showValueHelp="{= ${oItem>/StorageLocation_valueStateText} === ''}"/>
+														</f:fields>
+													</f:FormElement>
+													<!--Begin of Supplier Batch-->													
+													<f:FormElement id="idSuppBatchLabel" label="{i18n>LABEL_SUPP_BATCH}">
+														<f:fields>
+															<Input ariaLabelledBy="idSuppBatchLabel" visible="{oItem>/BatchVisible}" editable="{oItem>/BatchEditable}"
+																id="idSuppBatchInput" value="{oItem>/SupplierBatch}"/>
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+											<f:FormContainer id="idFormContainerStockType">
+												<f:formElements>
+													<f:FormElement id="idStockTypeLabel" label="{i18n>TABLE_COLUMN_STOCK_T_TEXT}">
+														<f:fields>
+															<Select ariaLabelledBy="idStockTypeLabel"
+																enabled="{= ${oItem>/ItemEnabled} === true &amp;&amp; ${oItem>/StockTypeEnabled} === true &amp;&amp; ${oItem>/StockTypeNOREFEnabled} === true }"
+																id="idStockTypeSelect" items="{path: 'oItem>/StockType_input', templateShareable: false}" change="handleStockTypeChange" selectedKey="{oItem>/StockType_selectedKey}"
+																visible="{oItem>/StockTypeVisible}">
+																<core:Item id="idStockTypeItem" key="{oItem>key}" text="{oItem>text}">
+																	<core:customData>
+																		<core:CustomData id="idStoTypBatCon" key="ControlOfBatchTableField" value="{oItem>ControlOfBatchTableField}"/>
+																		<core:CustomData id="idStoTypReaCon" key="ControlOfReasonCodeTableField" value="{oItem>ControlOfReasonCodeTableField}"/>
+																		<core:CustomData id="idStoTypExpCon" key="ControlOfExpirationDate" value="{oItem>ControlOfExpirationDate}"/>
+																		<core:CustomData id="idStoTypManuCon" key="ControlOfManufactureDate" value="{oItem>ControlOfManufactureDate}"/>
+																	</core:customData>
+																</core:Item>
+															</Select>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idInventorySpecialStockLabel" label="{i18n>LABEL_SPECIALSTOCK}"
+														visible="{= ${oItem>/SpecialStockSelection_Visible} !== true}">
+														<f:fields>
+															<Input ariaLabelledBy="idInventorySpecialStockLabel" editable="false" enabled="{oItem>/ItemEnabled}" id="idInventorySpecialStockInput"
+																type="Text"
+																value="{parts:[{path:'oItem>/InventorySpecialStockTypeName'}, {path:'oItem>/InventorySpecialStockType'}], formatter: '.formatter.concatenateNameIdFormatter'}"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idInventorySpecialStockSelectionLabel" label="{i18n>LABEL_SPECIALSTOCK}"
+														visible="{= ${oItem>/SpecialStockSelection_Visible} === true}">
+														<f:fields>
+															<Select ariaLabelledBy="idInventorySpecialStockSelectionLabel" enabled="true" id="idInventorySpecialStockSelection"
+																items="{oItem>/SpecialStock_input}" change="handleSpecialStockChange" selectedKey="{oItem>/SpecialStock_selectedKey}"
+																visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}" valueState="{oItem>/SpecialStock_input_State}"
+																valueStateText="{oItem>/SpecialStock_input_StateText}">
+																<core:Item id="idSpecialStockItem" key="{oItem>key}" text="{oItem>text}">
+																	<core:customData></core:customData>
+																</core:Item>
+															</Select>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idVendorNameSpecialStockInputLabel" visible="true">
+														<f:label>
+															<Label id="idVendor_label" text="{i18n>SUPPLIER_SEARCH_FIELD_LABEL}" required="{oItem>/Lifnr_inputMandatory}"></Label>
+														</f:label>
+														<f:fields>
+															<Input ariaLabelledBy="idVendorNameSpecialStockInputLabel" editable="{= ${oItem>/SpecialStockSelection_Visible} === true}" enabled="{oItem>/ItemEnabled}"
+																id="idVendorNameSpecialStockInputText" type="Text"
+																value="{parts:[{path:'oItem>/Lifname'}, {path:'oItem>/Lifnr'}], formatter: '.formatter.concatenateNameIdFormatterK'}"
+																showValueHelp="true" valueHelpRequest="handleLifnrValueHelp" valueState="{oItem>/Lifnr_State}" valueStateText="{oItem>/Lifnr_StateText}"
+																valueHelpOnly="true" required="{oItem>/Lifnr_inputMandatory}" visible="true"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idSalesOrderSpecialStockLabel" label="{i18n>LABEL_SALESORDERS}"
+														visible="{= ${oItem>/InventorySpecialStockType} === 'E' &amp;&amp; ${oItem>/SpecialStockSelection_Visible} !== true }">
+														<f:fields>
+															<Text id="idSalesOrderSpecialStockText"
+																text="{parts:[{path:'oItem>/SalesOrder'}, {path:'oItem>/SalesOrderItem'}], formatter: '.soformatter'}"
+																visible="{= ${oItem>/InventorySpecialStockType} === 'E'}"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idSalesOrderSpecialStockInputLabel"
+														visible="{= ${oItem>/InventorySpecialStockType} === 'E' &amp;&amp; ${oItem>/SpecialStockSelection_Visible} === true }">
+														<f:label>
+															<Label id="idalesOrder_label" text="{i18n>LABEL_SALESORDERS}" required="{oItem>/SalesOrder_inputMandatory}"></Label>
+														</f:label>
+														<f:fields>
+															<Input ariaLabelledBy="idSalesOrderSpecialStockInputLabel" editable="true" enabled="{oItem>/ItemEnabled}"
+																id="idSalesOrderDocumentSpecialStockInputText" type="Text" value="{oItem>/SalesOrder}" required="{oItem>/SalesOrder_inputMandatory}"
+																visible="{= ${oItem>/InventorySpecialStockType} === 'E' &amp;&amp; ${oItem>/SpecialStockSelection_Visible} === true }" showValueHelp="true"
+																valueHelpRequest="handleSalesOrderValueHelp" valueStateText="{oItem>/SalesOrder_valueStateText}" valueHelpOnly="true"/>
+															<!--valueState="{oItem>/SalesOrder_valueState}"-->
+															<Input ariaLabelledBy="idSalesOrderSpecialStockInputLabel" editable="false" enabled="{oItem>/ItemEnabled}"
+																required="{oItem>/SalesOrder_inputMandatory}" id="idSalesOrderDocumentItemSpecialStockInputText" type="Text" value="{oItem>/SalesOrderItem}"
+																visible="{= ${oItem>/InventorySpecialStockType} === 'E' &amp;&amp; ${oItem>/SpecialStockSelection_Visible} === true }">
+																<layoutData>
+																	<l:GridData id="idGridDataSalesOrder" span="L2 M3 S4"/>
+																</layoutData>
+															</Input>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idProjectNameSpecialStockLabel" visible="{= ${oItem>/InventorySpecialStockType} === 'Q'}">
+														<f:label>
+															<Label id="idProject_label" text="{i18n>LABEL_WBS_ELEMENT}" required="{oItem>/Project_inputMandatory}"></Label>
+														</f:label>
+														<f:fields>
+															<Input ariaLabelledBy="idProjectNameSpecialStockLabel" editable="{= ${oItem>/SpecialStockSelection_Visible} === true }"
+																enabled="{oItem>/ItemEnabled}" id="idProjectNameSpecialStockText" type="Text"
+																value="{parts:[{path:'oItem>/ProjectDescription'}, {path:'oItem>/Project'}], formatter: '.formatter.concatenateNameIdFormatterK'}"
+																showValueHelp="true" valueHelpRequest="handleWBSValueHelp" valueStateText="{oItem>/Project_valueStateText}" valueHelpOnly="true"
+																required="oItem>/Project_inputMandatory" visible="{= ${oItem>/InventorySpecialStockType} === 'Q'}"></Input>
+															<!--valueState="{oItem>/Project_valueState}" -->
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+										</f:formContainers>
+									</f:Form>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+				<ob:sections>
+					<ob:ObjectPageSection id="idProductioDateandShelfLifeDate" title="{i18n>LABEL_PRODUCTIONDATE_SHELFLIFEDATE}" titleUppercase="false"
+						visible="{oItem>/ShelfLifeExpirationDateVisible}">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSection4" title="">
+								<ob:blocks>
+									<f:Form class="isReadonly" editable="true" id="idFormShelfLife" visible="{oItem>/ShelfLifeExpirationDateVisible}">
+										<f:layout>
+											<f:ResponsiveGridLayout id="idRespGridLayout" columnsL="2" columnsM="1" emptySpanL="0" emptySpanM="0" labelSpanL="3" labelSpanM="3"/>
+										</f:layout>
+										<f:formContainers>
+											<f:FormContainer id="idFormConManDate">
+												<f:formElements>
+													<f:FormElement id="idManufactureDateBlock" label="{i18n>LABEL_PRODUCTIONDATE}" visible="{oItem>/ManufactureDateVisible}">
+														<f:fields>
+															<DatePicker visible="{oItem>/ManufactureDateVisible}" change="handleManufactureDateChange" enabled="{oItem>/ManufactureDateEnabled}"
+																id="idManufactureDate" value="{oItem>/ManufactureDate}" required="{oItem>/ManufactureDateMandatory}" valueFormat="dd.MM.YYYY"
+																ariaLabelledBy="idManufactureDateLabel" valueState="{oItem>/ManufactureDate_valueState}"
+																valueStateText="{oItem>/ManufactureDate_valueStateText}"/>
+															<!--valueState="{oItem>/ManufactureDate_valueState}"-->
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+											<f:FormContainer id="idFormConSLED">
+												<f:formElements>
+													<f:FormElement id="idShelfLifeExpirationDateBlock" label="{i18n>LABEL_SHELFLIFEDATE}" visible="{oItem>/ShelfLifeExpirationDateVisible}">
+														<f:fields>
+															<!--<Text id="idShelfLifeExpirationDateName" text="{oItem>/ShelfLifeExpirationDate}"/>-->
+															<DatePicker visible="{oItem>/ShelfLifeExpirationDateVisible}" change="handleShelfLifeExpirationDateChange"
+																tooltip="{i18n>SHELFLIFE_VALUE_STATE_TEXT}" enabled="{oItem>/ShelfLifeExpirationDateEnabled}"
+																required="{oItem>/ShelfLifeExpirationDateMandatory}" id="idShelfLifeExpirationDate" value="{oItem>/ShelfLifeExpirationDate}"
+																valueFormat="dd.MM.YYYY" ariaLabelledBy="idShelfLifeExpirationDateLabel" valueState="{oItem>/ShelfLifeExpirationDate_valueState}"
+																valueStateText="{oItem>/ShelfLifeExpirationDate_valueStateText}"/>
+															<!--valueState="{oItem>/ShelfLifeExpirationDate_valueState}"-->
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+										</f:formContainers>
+									</f:Form>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+				<ob:sections>
+					<ob:ObjectPageSection id="AccountAssignmentLabel" title="{i18n>LABEL_ACC_ASS}" visible="{oItem>/AccountAssignmentVisible}"
+						titleUppercase="false">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSection5" title="">
+								<ob:blocks>
+									<l:VerticalLayout id="idAcctAssignmentCategory" width="100%">
+										<HBox id="idHBoxAcctAssign" class="sapUiSmallMarginBottom" >
+											<VBox id="idVBoxAcctAssignNoValuated" width="20%">
+												<Label id="idAcctAssignmentCategoryLabel" displayOnly="true" wrapping="true" text="{i18n>LABEL_ACC_CATEGORY}"/>
+												<Text id="idAcctAssignmentCategoryName"
+													text="{parts:[{path:'oItem>/AcctAssignmentCategoryName'}, {path:'oItem>/AcctAssignmentCategory'}], formatter: '.concatenateNameIdFormatter'}"/>
+											    <Text id="idMultipleAcctAssignmentNoValuated" text="{oItem>/MultipleAcctAssignmentNoValuated}"/>
+											</VBox>
+											<VBox id="idVBoxAcctAssignDistr" width="20%" visible="{oItem>/HasMultipleAccountAssignment}">
+												<Label id="idMultipleAcctAssgmtDistrLabel" displayOnly="true" wrapping="true" text="{i18n>LABEL_ACC_DISTRIBUTION}"/>
+												<Text id="idMultipleAcctAssgmtDistrName" text="{oItem>/MultipleAcctAssgmtDistrName}"/>
+											</VBox>
+											<VBox id="idVBoxAcctAssignInvoice" visible="{oItem>/HasMultipleAccountAssignment}">
+												<Label id="idPartialInvoiceDistributionLabel" displayOnly="true" wrapping="true" text="{i18n>LABEL_ACC_PARTIAL_INV}"/>
+												<Text id="idPartialInvoiceDistributionName" text="{oItem>/PartialInvoiceDistributionName}"/>
+											</VBox>
+										</HBox>
+										<f:SimpleForm id="idSimpleFormAccountAssign" editable="false" layout="ResponsiveGridLayout" >
+											<f:content >
+												<Toolbar id="idAccountAssignToolbar" visible="{oItem>/HasMultipleAccountAssignment}">
+													<ToolbarSpacer id="idAccountAssignToolbarSpacer"/>
+													<SearchField enabled="{oItem>/HasMultipleAccountAssignment}" id="idTableSearchAccounting" search="handleSearchAccounting"
+														selectOnFocus="false" width="18%"/>
+												</Toolbar>
+												<Table id="idAccountAssingmentsTable" items="{oItem>/AccountAssignments}" ariaLabelledBy="idAccountAssignmentCategoryLabel" growing="true"
+													growingThreshold="3" growingScrollToLoad="false" visible="{oItem>/AccountAssignmentChartVisible}">
+													<columns>
+														<Column id="idMultipleAcctAssgmtDistrQty" minScreenWidth="Phone" demandPopin="true" width="7rem" hAlign="End">
+															<Text id="idMultipleAcctAssgmtDistrQtyColumnText" text="{i18n>ORDERED_QUANTITY_TITLE}"/>
+														</Column>
+														<Column id="idMultipleAcctAssgmtDistrPercent" minScreenWidth="Phone" demandPopin="true" width="6rem" hAlign="End">
+															<Text id="idMultipleAcctAssgmtDistrPercentColumnText" text="{i18n>PERCENTAGE_TITLE}"/>
+														</Column>
+														<Column id="idGLAccount" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnGLAccountVisible}">
+															<Text id="idGLAccountColumnText" text="{oData>/#GR4PO_DL_Item/GLAccount/@sap:label}"/>
+														</Column>
+														<Column id="idCostCenter" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnCostCenterVisible}">
+															<Text id="idCostCenterColumnText" text="{oData>/#GR4PO_DL_Item/CostCenter/@sap:label}"/>
+														</Column>
+														<Column id="idAssetNumber" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnAssetNumberVisible}">
+															<Text id="idAssetNumberColumnText" text="{oData>/#GR4PO_DL_Item/AssetNumber/@sap:label}"/>
+														</Column>
+														<Column id="idSubAssetNumber" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnSubAssetNumberVisible}">
+															<Text id="idSubAssetNumberColumnText" text="{oData>/#GR4PO_DL_Item/SubAssetNumber/@sap:label}"/>
+														</Column>
+														<Column id="idFunctionalArea" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnFunctionalAreaVisible}">
+															<Text id="idFunctionalAreaColumnText" text="{oData>/#GR4PO_DL_Item/FunctionalArea/@sap:label}"/>
+														</Column>
+														<Column id="idProfitCenter" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnProfitCenterVisible}">
+															<Text id="idProfitCenterColumnText" text="{oData>/#GR4PO_DL_Item/ProfitCenter/@sap:label}"/>
+														</Column>
+														<Column id="idProject" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnProjectVisible}">
+															<Text id="idProjectColumnText" text="{oData>/#GR4PO_DL_Item/Project/@sap:label}"/>
+														</Column>
+														<Column id="idSalesOrder" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnSalesOrderVisible}">
+															<Text id="idSalesOrderColumnText" text="{oData>/#GR4PO_DL_Item/SalesOrder/@sap:label}"/>
+														</Column>
+														<Column id="idSalesOrderItem" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnSalesOrderVisible}">
+															<Text id="idSalesOrderItemColumnText" text="{oData>/#GR4PO_DL_Item/SalesOrderItem/@sap:label}"/>
+														</Column>
+														<Column id="idOrderID" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnOrderIDVisible}">
+															<Text id="idOrderIDColumnText" text="{oData>/#GR4PO_DL_Item/OrderID/@sap:label}"/>
+														</Column>
+														<Column id="idGoodsRecipient" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnGoodsRecipientVisible}">
+															<Text id="idGoodsRecipientNameColumnText" text="{oData>/#GR4PO_DL_Item/GoodsRecipientName/@sap:label}"/>
+														</Column>
+														<Column id="idUnloadingPoint" minScreenWidth="Phone" demandPopin="true" visible="{oItem>/AccountAssignmentsColumnUnloadingPointVisible}">
+															<Text id="idUnloadingPointNameColumnText" text="{oData>/#GR4PO_DL_Item/UnloadingPointName/@sap:label}"/>
+														</Column>
+													</columns>
+													<items>
+														<ColumnListItem id="idColumnItemAccountAssign" type="Inactive">
+															<cells>
+																<ObjectNumber emphasized="false" id="idMultipleAcctAssgmtDistrQtyCell"
+																	number="{path:'oItem>MultipleAcctAssgmtDistrQty', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+																	unit="{oItem>/Unit}" textAlign="End"/>
+																<ObjectNumber emphasized="false" id="idMultipleAcctAssgmtDistrPercentCell" number="{oItem>MultipleAcctAssgmtDistrPercent}" unit="%"
+																	textAlign="End" class="sapUiTinyMarginBeginEnd"/>
+																<Text id="idGLAccountCell" text="{parts:[{path:'oItem>GLAccountName'}, {path:'oItem>GLAccount'}], formatter: '.concatenateNameIdFormatter'}"/>
+																<Text id="idCostCenterCell"
+																	text="{parts:[{path:'oItem>CostCenterName'}, {path:'oItem>CostCenter'}], formatter: '.concatenateNameIdFormatter'}"/>
+																<Text id="idAssetNumberCell"
+																	text="{parts:[{path:'oItem>AssetNumberName'}, {path:'oItem>AssetNumber'}], formatter: '.concatenateNameIdFormatter'}"/>
+																<Text id="idSubAssetNumberCell" text="{oItem>SubAssetNumber}"/>
+																<Text id="idFunctionalAreaCell" text="{oItem>FunctionalArea}"/>
+																<Text id="idProfitCenterCell"
+																	text="{parts:[{path:'oItem>ProfitCenterName'}, {path:'oItem>ProfitCenter'}], formatter: '.concatenateNameIdFormatter'}"/>
+																<Text id="idProjectCell"
+																	text="{parts:[{path:'oItem>ProjectDescription'}, {path:'oItem>Project'}], formatter: '.concatenateNameIdFormatter'}"/>
+																<Text id="idSalesOrderCell" text="{parts:[{path:'oItem>SalesOrder'}, {path:'oItem>SalesOrderItem'}], formatter: '.soformatter'}"/>
+																<Text id="idSalesOrderItemCell" text="{oItem>SalesOrderItem}"/>
+																<Text id="idOrderIDCell" text="{oItem>OrderID}"/>
+																<Text id="idGoodsRecipientCell" text="{oItem>GoodsRecipientName}"/>
+																<Text id="idUnloadingPointCell" text="{oItem>UnloadingPointName}"/>
+															</cells>
+														</ColumnListItem>
+													</items>
+												</Table>
+											</f:content>
+										</f:SimpleForm>
+									</l:VerticalLayout>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+				<ob:sections>
+					<ob:ObjectPageSection id="DisplayUnloadingInformlabel" title="{i18n>LABEL_UNLOADING_INFO}" titleUppercase="false">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSection6" title="">
+								<ob:blocks>
+									<f:Form class="isReadonly" editable="true" id="FormDisplayUnloadingInform" visible="true">
+										<f:layout>
+											<f:ResponsiveGridLayout id="idResGridLayoutUnloadingInform" columnsL="2" columnsM="1" emptySpanL="0" emptySpanM="0" labelSpanL="3" labelSpanM="3"/>
+										</f:layout>
+										<f:formContainers>
+											<f:FormContainer id="idFormContGroup1">
+												<f:formElements>
+													<f:FormElement id="idUnloadingPointNameLabel" label="{i18n>LABEL_UNLOADING_POINT}">
+														<f:fields>
+															<Input ariaLabelledBy="idUnloadingPointNameLabel" editable="{oItem>/UnloadingPoint_editable}" enabled="true" id="idUnloadingPointName"
+																type="Text" maxLength="25" value="{oItem>/UnloadingPointName}" visible="true" change="handleUnloadingPointChangeEvent"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idDocumentItemTextLabel" label="{i18n>LABEL_DOCUMENT_TEXT}">
+														<f:fields>
+															<TextArea id="idDocumentItemText" maxLength="50" value="{oItem>/DocumentItemText}" change="handleDocumentItemTextEvent"
+																valueLiveUpdate="true"/>
+															<!--<TextArea id="idDocumentItemText" width="14rem" maxLength="50" value="{oItem>/DocumentItemText}" valueLiveUpdate="true"/>-->
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+											<f:FormContainer id="idFormContGroup2">
+												<f:formElements>
+													<f:FormElement id="idGoodsRecipientNamelabel" label="{i18n>LABEL_GOODS_RECIPIENT}">
+														<f:fields>
+															<Input ariaLabelledBy="idGoodsRecipientNamelabel" editable="{oItem>/GoodsRecipientName_editable}" enabled="true" id="idGoodsRecipientName"
+																type="Text" maxLength="12" value="{oItem>/GoodsRecipientName}" change="handleGoodsRecipientNameEvent" visible="true"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement id="idGoodsMovementReasonCodeLabel" label="{i18n>LABEL_REASON_CODE}" visible="{oItem>/GoodsMovementReasonCodeVisible}">
+														<f:fields>
+															<Select items="{oData>/GoodsMovementReasons}" selectedKey="{oItem>/GoodsMovementReasonCode_selectedKey}"
+																id="idGoodsMovementReasonCodeSelect" visible="{oItem>/GoodsMovementReasonCodeVisible}">
+																<core:Item id="idReasonCodeItem" key="{oData>GoodsMovementReasonCode}" text="{oData>GoodsMovementReasonName}"/>
+															</Select>
+															<!--<Select items="{oData>/GoodsMovementReasons}" selectedKey="{oItem>/GoodsMovementReasonCode_selectedKey}"-->
+															<!--	id="idGoodsMovementReasonCodeSelect" visible="{oItem>/GoodsMovementReasonCodeVisible}" width="9rem">-->
+															<!--	<core:Item key="{oData>GoodsMovementReasonCode}" text="{oData>GoodsMovementReasonName}"/>-->
+															<!--</Select>-->
+															<!--<TextArea id="GoodsMovementReasonCodeSelect" width="14rem" maxLengt="50" value="{oItem>/DocumentItemText}" valueLiveUpdate="true"/>-->
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+										</f:formContainers>
+									</f:Form>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+				<ob:sections>
+					<ob:ObjectPageSection id="idExtensionSection" title="{i18n>LABEL_CUSTOM_FIELDS}" visible="{oFrontend>/ExtensionSectionVisible}"
+						titleUppercase="false">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSection7" title="">
+								<ob:blocks>
+									<smartForm:SmartForm id="idExtensionForm" entityType="GR4PO_DL_Item" expanded="true" expandable="true" editable="true">
+										<smartForm:Group id="idSmartFormExtension" label="{i18n>LABEL_CUSTOM_FIELDS}">
+											<!--	<smartForm:GroupElement>-->
+											<!--		<smartField:SmartField value="{oData>GR4PO_DL_Item/YY1_BicycleType_COB}"/>-->
+											<!--	</smartForm:GroupElement>-->
+										</smartForm:Group>
+									</smartForm:SmartForm>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+			</ob:ObjectPageLayout>
+		</semantic:content>
+		<semantic:messagesIndicator>
+			<semantic:MessagesIndicator id="idMessageIndicator" press="onMessagesButtonPress"/>
+		</semantic:messagesIndicator>
+		<semantic:customFooterContent>
+			<Button id="idPostAndNewButton" enabled="{oItem>/ApplyButtonEnabled}" press="handleAppylyAndNewButtonPress"
+				text="{i18n>BUTTON_SUCC_APPLYANDNEW}" type="Emphasized" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}"/>
+			<Button id="idPostButton" enabled="{oItem>/ApplyButtonEnabled}" press="handleNavButtonPress" text="{i18n>BUTTON_SUCC_APPLY}"/>
+			<Button id="idCancelButton" press="handleCancelButtonPress" text="{i18n>BUTTON_PERSON_ABORT}"/>
+		</semantic:customFooterContent>
+		<!--</semantic:DetailPage>-->
+	</semantic:FullscreenPage>
+</mvc:View>

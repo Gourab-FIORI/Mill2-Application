@@ -1,0 +1,33 @@
+{	
+	"NewSplitItems" : [	],
+	"UnplannedCommon" : { "Material" : "", "Plant" : "", "Quantity" : 0, "Unit" : "", "MaterialBatchManaged" : false },
+	"NewSplitCommon" : { "Quantity" : 0, "Unit" : "", "OrderOpenedQuantity" : 0, "MaterialBatchManaged" : false },
+	"SplitTemplate" : { 
+		"SplitStatus" : "Warning",
+		"SplitStatusIcon" : "sap-icon://alert",
+		"SplitStatusText" : "",
+		"SplitStatusTooltip" : "Item is not saved.",
+		"Editable" : true,
+		"ProductionOrder" : "", 
+		"Reservation" : "",
+		"ReservationItem" : "",
+		"StockType" : "01",
+		"SpecialStock" : "",
+		"StorageLocation" : "",
+		"Batch" : "",
+		"SupplierBatch" : "",
+		"Quantity" : "0",
+		"AutoQuantity" : true,
+		"Unit" : "",
+		"Material" : "",
+		"Plant" : "",
+		"SalesOrder" : "",
+		"SalesOrderItem" : "",
+		"SalesOrderVisible" : false,
+		"WMLEnabled" : false,
+		"WMLBin" : "",
+		"IsUnplanned" : false,
+		"Unsaved" : true,
+		"FieldsActive" : false
+	}
+}

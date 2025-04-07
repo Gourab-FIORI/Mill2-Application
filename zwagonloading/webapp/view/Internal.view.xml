@@ -1,0 +1,95 @@
+<mvc:View controllerName="com.ami.zwagonloading.controller.Internal"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" 
+    xmlns:ndc="sap.ndc" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+    <Page id="page1" title="{i18n>title1}"   navButtonPress="onHomePress" showNavButton="true" >
+    <!-- <headerContent>
+        <Select id="languageSelect2" change="onLanguageChange">
+        <core:Item key="en" text="English"/>
+        <core:Item key="fr" text="Français"/>
+        </Select>
+        </headerContent> -->
+        <content>
+        	<Wizard id="wizard1" finishButtonText="Confirm" complete="wizardCompletedHandler">
+<WizardStep id="Step1" title="{i18n>WizardStep1}" activate="onActivate" validated="true">
+<VBox id="vbox2">
+<HBox>
+<ndc:BarcodeScannerButton id="sampleBarcodeScannerButton" scanSuccess="onScanSuccessWG" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
+<Input id="wagonID" maxLength="20" liveChange="onInputChange" submit="onScanWagon" placeholder="{i18n>Enter Wagon ID}"/>
+<Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+<Button text="{i18n>Clear All}" press="onClear"/>
+</HBox></VBox>
+<VBox>
+<Label text="{i18n>Label1}" labelFor="loadingcode" required="false"/>
+ <!-- <ComboBox class="sapUiResponsiveContentPadding" id="loadingcode" required="false" change="onLoadingCodeChange" showSecondaryValues="true" selectionChange="onLoadingCodeChange" width="auto" busyIndicatorDelay="100" items="{ path: 'oLoadingCodeModel>/',length : 1500}">
+					<core:ListItem key="{oLoadingCodeModel>Vegr4}" text="{oLoadingCodeModel>Vegr4}" additionalText="{oLoadingCodeModel>Bezei}"/>
+                            </ComboBox> -->
+<Input id="loadingcode" class="sapUiResponsiveContentPadding"  showValueHelp="true" change="onLoadingCodeChange" valueHelpRequest="onLoadingCodeVH" width="auto"></Input>
+                          
+<!-- <Input id="batchInput" type="Number" maxLength="20" liveChange="onInputChange" submit="onScanBarcode" width="auto"/> -->
+</VBox>
+</WizardStep>
+<WizardStep id="Step2" title="{i18n>WizardStep2}" activate="onActivate" validated="true">
+<VBox id="vbox3">
+<Label text="{i18n>Label2}"/>
+<HBox>
+<ndc:BarcodeScannerButton id="sampleBarcodeScannerButton1" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
+<Input id="barcodeInput" type="Number" maxLength="10" liveChange="onInputChange" submit="onScanBarcode" placeholder="{i18n>placeholder2}"/>
+<Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+<Button text="{i18n>Clear All}" press="onClearAll"/>
+</HBox>
+<VBox>
+<List id="barcodeList" items="{/barcodes}" width="auto" class="sapUiResponsivePadding">
+<CustomListItem>
+<HBox>
+<Button text="{barcode} " width="auto" icon="sap-icon://decline" iconFirst="false" press="onDeleteBarcode"/>
+</HBox>
+</CustomListItem>
+</List>
+</VBox>
+</VBox>
+</WizardStep>
+<WizardStep id="Step3" title="{i18n>WizardStep3}" activate="onActivate" validated="true">
+<f:SimpleForm id="wagondataform" editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false">
+<f:content>
+<Label text="{i18n>Label3}"/>
+<Text text="{oWagonIdModel>/Exidv2}"/>
+
+<Label text="{i18n>Label4}"/>
+<Text text="{oWagonIdModel>/Exidv}"/>
+
+<Label text="{i18n>Label5}"/>
+<Text text="{oWagonIdModel>/Lgnum}"/>
+
+<Label text="{i18n>Label6}"/>
+<Text text="{oWagonIdModel>/BezeiLane}"/>
+
+<Label text="{i18n>Label7}"/>
+<Text text="{oWagonIdModel>/Tarag}"/>
+
+<Label text="{i18n>Label8}"/>
+<Text text="{oWagonIdModel>/Magew}"/>
+
+<Label text="{i18n>Label9}"/>
+<Text text="{oWagonIdModel>/Ntgew}"/>
+
+<Label text="{i18n>Label10}"/>
+<Text text="{oWagonIdModel>/Brgew}"/>
+
+<Label text="{i18n>Label11}" labelFor="loadingstatus" />
+<ComboBox class="sapUiResponsiveContentPadding" id="loadingstatus"  change="onLoadingStatusChange" showSecondaryValues="true" width="auto" busyIndicatorDelay="100" items="{ path: 'oLoadingStatusModel>/',length : 1500}">
+					<core:ListItem key="{oLoadingStatusModel>Vegr1}" text="{oLoadingStatusModel>Vegr1}" additionalText="{oLoadingStatusModel>Bezei}"/>
+                            </ComboBox>
+<Label text="{i18n>Label12}"/>
+<!-- <ComboBox class="sapUiResponsiveContentPadding" id="loadingcodestatic" change="onLoadingCodeChange" showSecondaryValues="true" selectionChange="onLoadingCodeChange" width="auto" busyIndicatorDelay="100" items="{ path: 'oLoadingCodeModel>/',length : 1500}">
+					<core:ListItem key="{oLoadingCodeModel>Vegr4}" text="{oLoadingCodeModel>Vegr4}" additionalText="{oLoadingCodeModel>Bezei}"/>
+                            </ComboBox> -->
+<!-- <Input id="idInput" class="sapUiResponsiveContentPadding" showValueHelp="true" valueHelpRequest="onLoadingCodeVH"></Input> -->
+<!-- <Input id="loadingcodestatic" maxLength="20" width="auto" enabled="false"/> -->
+<Input id="loadingcodestatic" class="sapUiResponsiveContentPadding"  showValueHelp="true" valueHelpRequest="onLoadingCodeVH" width="auto"></Input>
+</f:content>
+</f:SimpleForm>
+</WizardStep>
+</Wizard>
+        </content>
+    </Page>
+</mvc:View>

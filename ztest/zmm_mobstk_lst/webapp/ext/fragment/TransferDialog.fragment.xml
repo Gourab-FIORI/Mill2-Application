@@ -1,0 +1,179 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:smartForm="sap.ui.comp.smartform"
+	xmlns:smartField="sap.ui.comp.smartfield" xmlns:bar="sap.ndc">
+	<Dialog id="TransferDialog" title="{i18n>TRANSFER_DIALOG_TITLE}" verticalScrolling="true" stretch="true" stretchOnPhone="true">
+		<content>
+			<ScrollContainer height="100%" width="100%" vertical="true" focusable="true">
+				<Panel id="TransferDialogPanel1" width="auto" expandable="false" backgroundDesign="Transparent">
+					<content>
+						<VBox>
+							<Label id="TransferDialogTransferTypeLabel" text="{i18n>LABEL_TRANSFER_TYPE}" tooltip="{i18n>LABEL_TRANSFER_TYPE}"/>
+							<Select id="TransferDialogTransferTypeSelect" items="{ path: '/AvailableMovementTypes', sorter: { path: 'MovementType' } }"
+								ariaLabelledBy="TransferDialogTransferTypeLabel" change="handleTransferTypeChange" forceSelection="false"
+								selectedKey="{Transfers>/NewTransfer/TransferType}" valueState="{Transfers>/NewTransfer/TransferTypeState}"
+								valueStateText="{Transfers>/NewTransfer/TransferTypeStateText}">
+								<core:Item key="{MovementType}" text="{MovementType} - {MovementTypeDescription}"/>
+							</Select>
+						</VBox>
+					</content>
+				</Panel>
+				<Panel id="TransferDialogPanel2" width="auto" expandable="false" backgroundDesign="Transparent">
+					<headerToolbar>
+						<OverflowToolbar>
+							<Title text="{i18n>TITLE_SOURCE_LOCATION}"/>
+						</OverflowToolbar>
+					</headerToolbar>
+					<content>
+						<VBox class="sapUiTinyMarginTop">
+							<Label id="TransferDialogMaterialLabel" text="{/#ZC_MOBSTOCK_LSTType/Material/@sap:label}"
+								tooltip="{/#ZC_MOBSTOCK_LSTType/Material/@sap:label}"/>
+							<Input id="TransferDialogMaterialInput"
+								value="{parts:[{path: 'MaterialName'}, {path:'Material'}], formatter:'ZMM.zmm_mobstock_lst.ext.util.formatter.formatMaterial'}"
+								editable="false" textAlign="Left" ariaLabelledBy="TransferDialogMaterialLabel"/>
+						</VBox>
+						<VBox>
+							<VBox>
+								<Label id="TransferPlantLabel" text="{/#ZC_MOBSTOCK_LSTType/Plant/@sap:label}" tooltip="{/#ZC_MOBSTOCK_LSTType/Plant/@sap:label}"/>
+								<Input id="TransferPlantInput"
+									value="{parts:[{path: 'Plant'}, {path:'PlantName'}], formatter:'ZMM.zmm_mobstock_lst.ext.util.formatter.formatValWithName'}"
+									editable="false" textAlign="Left" ariaLabelledBy="TransferPlantLabel"/>
+							</VBox>
+							<VBox>
+								<Label id="TransferStorageLocationLabel" text="{/#ZC_MOBSTOCK_LSTType/StorageLocation/@sap:label}"
+									tooltip="{/#ZC_MOBSTOCK_LSTType/StorageLocation/@sap:label}"/>
+								<Input id="TransferStorageLocationInput"
+									value="{parts:[{path: 'StorageLocation'}, {path:'StorageLocationName'}], formatter:'ZMM.zmm_mobstock_lst.ext.util.formatter.formatValWithName'}"
+									editable="false" textAlign="Left" ariaLabelledBy="TransferStorageLocationLabel"/>
+							</VBox>
+						</VBox>
+						<HBox visible="{= ${Batch} !== '' || ${BatchBySupplier} !== '' ? true : false}">
+							<VBox>
+								<Text id="TransferDialogBatchLabel" text="{/#ZC_MOBSTOCK_LSTType/Batch/@sap:label}" tooltip="{/#ZC_MOBSTOCK_LSTType/Batch/@sap:label}"/>
+								<Input id="TransferDialogBatchInput" value="{Batch}" editable="false" ariaLabelledBy="TransferDialogBatchLabel"/>
+							</VBox>
+							<VBox class="sapUiSmallMarginBegin">
+								<Text id="TransferDialogSupplierBatchLabel" text="{/#ZC_MOBSTOCK_LSTType/BatchBySupplier/@sap:label}"
+									tooltip="{/#ZC_MOBSTOCK_LSTType/BatchBySupplier/@sap:label}"/>
+								<HBox>
+									<Input id="TransferDialogSupplierBatchInput" value="{BatchBySupplier}" editable="false" ariaLabelledBy="TransferDialogSupplierBatchLabel"/>
+								</HBox>
+							</VBox>
+						</HBox>
+						<HBox visible="{= ${Transfers>/NewTransfer/SalesOrder} ? true : false }">
+							<VBox>
+								<Text id="TransferDialogSOLabel" text="{i18n>LABEL_SALES_ORDER}" tooltip="{i18n>LABEL_SALES_ORDER}"/>
+								<Input id="TransferDialogSOInput" value="{Transfers>/NewTransfer/SalesOrder}" editable="false" ariaLabelledBy="TransferDialogSOLabel"/>
+							</VBox>
+							<VBox class="sapUiSmallMarginBegin">
+								<Text id="TransferDialogSOItemLabel" text="{i18n>LABEL_SALES_ORDER_ITEM}" tooltip="{/#ZC_MOBSTOCK_LSTType/BatchBySupplier/@sap:label}"/>
+								<HBox>
+									<Input id="TransferDialogSOItemInput" value="{Transfers>/NewTransfer/SalesOrderItem}" editable="false"
+										ariaLabelledBy="TransferDialogSOItemLabel"/>
+								</HBox>
+							</VBox>
+						</HBox>
+						<HBox visible="{= ${Transfers>/NewTransfer/Vendor} ? true : false }">
+							<VBox>
+								<Text id="TransferDialogVendorLabel" text="{i18n>LABEL_VENDOR}" tooltip="{i18n>LABEL_VENDOR}"/>
+								<Input id="TransferDialogVendorInput" value="{Transfers>/NewTransfer/Vendor}" editable="false" ariaLabelledBy="TransferDialogVendorLabel"/>
+							</VBox>
+						</HBox>
+						<VBox>
+							<Text id="TransferDialogAvailableQuantityLabel" text="{i18n>LABEL_AVAILABLE_QUANTITY}" tooltip="{/#ZC_MOBSTOCK_LSTType/Quantity/@sap:label}"/>
+							<HBox>
+								<!--
+								<Input id="TransferDialogAvailableQuantityInput"
+									value="{Transfers>/NewTransfer/AvailableQuantity} {Transfers>/NewTransfer/AvailableQuantityUnit} ({Transfers>/NewTransfer/StockTypeText} - {Transfers>/NewTransfer/StockType})"
+									type="Text"
+									width="20rem"
+									editable="false" textAlign="Left" ariaLabelledBy="TransferDialogAvailableQuantityLabel"/>
+								-->
+								<Input id="TransferDialogAvailableQuantityInput"
+									value="{path:'Transfers>/NewTransfer/AvailableQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}} {Transfers>/NewTransfer/AvailableQuantityUnit} ({Transfers>/NewTransfer/StockTypeText} - {Transfers>/NewTransfer/StockType})"
+									type="Text"
+									width="20rem"
+									editable="false" textAlign="Left" ariaLabelledBy="TransferDialogAvailableQuantityLabel"/>
+								
+								<!--
+								<Input id="TransferDialogAvailableQuantityUoMInput" value="{Transfers>/NewTransfer/AvailableQuantityUnit}" editable="false" textAlign="Left"
+									ariaLabelledBy="TransferDialogAvailableQuantityInput" class="sapUiSmallMarginBegin" width="50%" valueHelpRequest="onUoMValueHelpRequest"/>
+								-->
+							</HBox>
+						</VBox>
+						<VBox visible="{= ${PlantWMLEnabled} === 'X' &amp;&amp; ${Transfers>/NewTransfer/WMLBinVisible} ? true : false }">
+							<Text id="TransferDialogStorageBinLabel" text="{i18n>LABEL_STORAGEBIN}" tooltip="{i18n>LABEL_STORAGEBIN}"/>
+							<Input id="TransferDialogStorageBinInput" value="{Transfers>/NewTransfer/WMLBin}" editable="{true}" textAlign="Right"
+								ariaLabelledBy="TransferDialogStorageBinLabel" showValueHelp="true" valueHelpRequest="onWmlBinValueHelpRequest"
+								valueState="{Transfers>/NewTransfer/StorageBinState}" valueStateText="{Transfers>/NewTransfer/StorageBinStateText}"/>
+						</VBox>
+					</content>
+				</Panel>
+				<Panel id="TransferDialogPanel4" width="auto" expandable="false" backgroundDesign="Transparent">
+					<headerToolbar>
+						<OverflowToolbar>
+							<Title text="{i18n>TITLE_DESTINATION_LOCATION}"/>
+						</OverflowToolbar>
+					</headerToolbar>
+					<content>
+						<VBox>
+							<Text id="TransferDialogQuantityLabel" text="{i18n>LABEL_TRANSFER_QUANTITY}" tooltip="{/#ZC_MOBSTOCK_LSTType/Quantity/@sap:label}"/>
+							<HBox>
+								<Input id="TransferDialogQuantityInput" value="{Transfers>/NewTransfer/Quantity}" editable="true" textAlign="Right"
+									ariaLabelledBy="TransferDialogQuantityLabel" change="handleQuantityChange" valueState="{Transfers>/NewTransfer/QuantityState}"
+									valueStateText="{Transfers>/NewTransfer/QuantityStateText}"/>
+								<Input id="TransferDialogQuantityUoMInput" value="{Transfers>/NewTransfer/Unit}" editable="true" textAlign="Left"
+									ariaLabelledBy="TransferDialogQuantityLabel" class="sapUiSmallMarginBegin" width="50%" suggest="onInputSuggest" showSuggestion="true"
+									showValueHelp="true" change="handleUoMChange" valueHelpRequest="onUoMValueHelpRequest"/>
+							</HBox>
+						</VBox>
+						<VBox>
+							<Label id="TransferDstStorageLocationLabel" text="{/#ZC_MOBSTOCK_LSTType/StorageLocation/@sap:label}"
+								tooltip="{/#ZC_MOBSTOCK_LSTType/StorageLocation/@sap:label}"/>
+							<!-- editable="{Transfers>/NewTransfer/DstStorageLocationEditable}" -->
+							<Input id="TransferDstStorageLocationInput" value="{Transfers>/NewTransfer/DstStorageLocation}" editable="{Transfers>/NewTransfer/DstStorageLocationEditable}" textAlign="Right"
+								maxLength="10" ariaLabelledBy="TransferDstStorageLocationLabel" showValueHelp="true" valueHelpRequest="onStorageLocationValueHelpRequest"
+								change="handleDstStorageLocationChange" valueState="{Transfers>/NewTransfer/DstStorageLocationState}"
+								valueStateText="{Transfers>/NewTransfer/DstStorageLocationStateText}"/>
+						</VBox>
+						<HBox visible="{Transfers>/NewTransfer/DstSalesOrderVisible}">
+							<VBox>
+								<Text id="TransferDialogDstSOLabel" text="{i18n>LABEL_SALES_ORDER}" tooltip="{i18n>LABEL_SALES_ORDER}"/>
+								<Input id="TransferDialogDstSOInput" value="{Transfers>/NewTransfer/DstSalesOrder}" ariaLabelledBy="TransferDialogDstSOLabel"
+									textAlign="Right" change="handleDstSalesOrderChange" valueState="{Transfers>/NewTransfer/DstSalesOrderState}"
+									valueStateText="{Transfers>/NewTransfer/DstSalesOrderStateText}"/>
+							</VBox>
+							<VBox class="sapUiSmallMarginBegin">
+								<Text id="TransferDialogDstSOItemLabel" text="{i18n>LABEL_SALES_ORDER_ITEM}" tooltip="{/#ZC_MOBSTOCK_LSTType/BatchBySupplier/@sap:label}"/>
+								<HBox>
+									<Input id="TransferDialogDstSOItemInput" value="{Transfers>/NewTransfer/DstSalesOrderItem}" ariaLabelledBy="TransferDialogDstSOItemLabel"
+										textAlign="Right" change="handleDstSalesOrderItemChange" valueState="{Transfers>/NewTransfer/DstSalesOrderState}"
+										valueStateText="{Transfers>/NewTransfer/DstSalesOrderStateText}"/>
+								</HBox>
+							</VBox>
+						</HBox>
+						<HBox visible="{Transfers>/NewTransfer/DstVendorVisible}">
+							<VBox>
+								<Text id="TransferDialogDstVendorLabel" text="{i18n>LABEL_VENDOR}" tooltip="{i18n>LABEL_VENDOR}"/>
+								<Input id="TransferDialogDstVendorInput" value="{Transfers>/NewTransfer/DstVendor}" ariaLabelledBy="TransferDialogDstVendorLabel"
+									textAlign="Right" change="handleDstVendorChange" valueState="{Transfers>/NewTransfer/DstVendorState}"
+									valueStateText="{Transfers>/NewTransfer/DstVendorStateText}"/>
+							</VBox>
+						</HBox>
+						<VBox visible="{= ${PlantWMLEnabled} === 'X' &amp;&amp; ${Transfers>/NewTransfer/DstWMLBinVisible} ? true : false }">
+							<Text id="TransferDialogDstStorageBinLabel" text="{i18n>LABEL_STORAGEBIN}" tooltip="{i18n>LABEL_STORAGEBIN}"/>
+							<Input id="TransferDialogDstStorageBinInput" value="{Transfers>/NewTransfer/DstWMLBin}" editable="{true}" textAlign="Right"
+								ariaLabelledBy="TransferDialogDstStorageBinLabel" showValueHelp="true" valueHelpRequest="onDstWmlBinValueHelpRequest"
+								valueState="{Transfers>/NewTransfer/DstStorageBinState}" valueStateText="{Transfers>/NewTransfer/DstStorageBinStateText}"  change="handleDstWmlBinChange" />
+						</VBox>
+					</content>
+				</Panel>
+			</ScrollContainer>
+		</content>
+		<beginButton>
+			<Button id="idButtonDistributionItemAdd" press="handleTransferDialogOk" text="{i18n>BUTTON_TRANSFER}" type="Emphasized"
+				enabled="{Transfers>/NewTransfer/ValidTransfer}"/>
+		</beginButton>
+		<endButton>
+			<Button id="idButtonDistributionItemCancel" press="handleTransferDialogCancel" text="{i18n>DIALOG_CANCEL}"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,15 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Material Group"
+		class="sapUiPopupWithPadding"
+		items="{oMaterialModel>/}"
+		search="_handleMaterialGroupSearch"
+		confirm="_handleMaterialGroupSelect"
+		cancel="_handleMaterialGroupClose">
+		<StandardListItem
+			title="{oMaterialModel>Matkl}"
+			description="{oMaterialModel>Wgbez}" />
+	</SelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZWM_WAGON_LOADING_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="wagonId" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Exidv2"/>
+                </Key>
+                <Property Name="Exidv2" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Wagon Id" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZshLoadingCode" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Exidv2"/>
+                </Key>
+                <Property Name="Bezei" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Exidv2" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="HU ID 2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vegr4" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="HU group 4" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="Check_Bar" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="BAR_NBR"/>
+                </Key>
+                <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="BAR/NBR" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgpla" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Function" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Function" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgtyp" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="warehouseNo" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="lgnum"/>
+                </Key>
+                <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lnumt" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="Warehouse Number Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="storageType" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="lgnum"/>
+                    <PropertyRef Name="lgtyp"/>
+                </Key>
+                <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgtyp" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ltypt" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="Storage Type Desc" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="storageBin" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="lgnum"/>
+                    <PropertyRef Name="lgtyp"/>
+                </Key>
+                <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgtyp" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="lgpla" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="wagonData" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Exidv2"/>
+                </Key>
+                <Property Name="Exidv2" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="HU ID 2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vegr1" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="HU group 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Exidv" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Handling Unit" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vegr4" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="HU group 4" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lgnum" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Warehouse No." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vegr2" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="HU group 2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vegr3" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="HU group 3" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="BezeiLane" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Tarag" Type="Edm.Decimal" Precision="15" Scale="3" sap:unicode="false" sap:label="Tare weight" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Magew" Type="Edm.Decimal" Precision="15" Scale="3" sap:unicode="false" sap:label="Allowed Weight" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Ntgew" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Net weight" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Brgew" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Gross weight" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ZshLoadingStatus" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Exidv2"/>
+                </Key>
+                <Property Name="Exidv2" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="HU ID 2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vegr1" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="HU group 1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Bezei" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZWM_WAGON_LOADING_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="wagonIdSet" EntityType="ZWM_WAGON_LOADING_SRV.wagonId" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZshLoadingCodeSet" EntityType="ZWM_WAGON_LOADING_SRV.ZshLoadingCode" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="Check_BarSet" EntityType="ZWM_WAGON_LOADING_SRV.Check_Bar" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="warehouseNoSet" EntityType="ZWM_WAGON_LOADING_SRV.warehouseNo" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="storageTypeSet" EntityType="ZWM_WAGON_LOADING_SRV.storageType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="storageBinSet" EntityType="ZWM_WAGON_LOADING_SRV.storageBin" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="wagonDataSet" EntityType="ZWM_WAGON_LOADING_SRV.wagonData" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="ZshLoadingStatusSet" EntityType="ZWM_WAGON_LOADING_SRV.ZshLoadingStatus" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZWM_WAGON_LOADING_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZWM_WAGON_LOADING_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

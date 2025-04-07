@@ -1,0 +1,30 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Dialog id="InventoryEntriesOverviewDialog" title="{i18n>titleInventoryEntriesOverviewDialog}" verticalScrolling="true" stretch="true"
+		stretchOnPhone="true">
+		<content>
+			<!--
+			<Label text="{/#ZC_STLOC_PINVDType/StorageLocation/@sap:label}" tooltip="{/#ZC_STLOC_PINVDType/StorageLocation/@sap:label}"/>-->
+			<ObjectHeader id="InventoryEntriesOverviewHeader" title="{Functional>/StorageBin}"
+				number="{path:'Functional>/CummulativeQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+				numberUnit="{Functional>/UnitOfMeasure}" condensed="true">
+				<ObjectAttribute id="InventoryEntriesOverviewHeaderStorageLocation" text="{Functional>/StorageLocationName} ({Functional>/StorageLocation})"/>
+			</ObjectHeader>
+			<List id="OverviewDialogEntriesList" items="{Functional>/PendingInventoryEntries}" headerText="{i18n>listTitleValidatedBatches}">
+				<ObjectListItem id="OverviewDialogEntriesListItem" title="{Functional>Batch}"
+					number="{path:'Functional>Quantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+					numberUnit="{Functional>UnitOfMeasure}" type="Inactive" class="custTinyPaddingTopBottom custSmallPaddingBeginEnd">
+					<ObjectAttribute id="OverviewDialogEntriesListItemMaterial" text="{Functional>MaterialName} ({Functional>Material})"/>
+					<ObjectAttribute id="OverviewDialogEntriesListItemSupplierBatch" text="{Functional>SupplierBatch}"/>
+				</ObjectListItem>
+			</List>
+		</content>
+		<buttons>
+			<Button id="OverviewDialogBack" text="{i18n>buttonOverviewDialogBack}" press="handleOverviewDialogBack" width="6rem" type="Back"/>
+			<Button id="OverviewDialogValidate" text="{i18n>buttonOverviewDialogValidate}" press="handleOverviewDialogValidate" width="6rem"
+				type="Accept"/>
+			<Button id="OverviewDialogCancelAll" text="{i18n>buttonOverviewDialogCancelAll}" press="handleOverviewDialogCancelAll" width="4rem" type="Reject"/>
+			<Button id="OverviewDialogFinish" text="{i18n>buttonOverviewDialogFinish}" press="handleOverviewDialogFinish"
+				enabled="{WizardUI>/BatchDetailsFinishBtnEnabled}" width="6rem" type="Accept"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

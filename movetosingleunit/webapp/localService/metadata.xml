@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0"
+xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+xmlns:sap="http://www.sap.com/Protocols/SAPData">
+<edmx:DataServices m:DataServiceVersion="2.0">
+    <Schema Namespace="ZMM_MOVE_TO_SINGLEUNIT_SRV" xml:lang="en" sap:schema-version="1"
+    xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+    <EntityType Name="warehouseNo" sap:content-version="1">
+        <Key>
+            <PropertyRef Name="lgnum"/>
+        </Key>
+        <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="lnumt" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="Warehouse Number Description" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    </EntityType>
+    <EntityType Name="storageType" sap:content-version="1">
+        <Key>
+            <PropertyRef Name="lgnum"/>
+            <PropertyRef Name="lgtyp"/>
+        </Key>
+        <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="lgtyp" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="ltypt" Type="Edm.String" Nullable="false" MaxLength="25" sap:unicode="false" sap:label="Storage Type Desc" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    </EntityType>
+    <EntityType Name="storageBin" sap:content-version="1">
+        <Key>
+            <PropertyRef Name="lgnum"/>
+            <PropertyRef Name="lgtyp"/>
+        </Key>
+        <Property Name="lgnum" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="lgtyp" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="lgpla" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    </EntityType>
+    <EntityType Name="ZshOutputDevice" sap:content-version="1">
+        <Key>
+            <PropertyRef Name="Padest"/>
+        </Key>
+        <Property Name="Padest" Type="Edm.String" Nullable="false" MaxLength="30" sap:unicode="false" sap:label="Output Device" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Pastandort" Type="Edm.String" Nullable="false" MaxLength="64" sap:unicode="false" sap:label="Location" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    </EntityType>
+    <EntityType Name="genInfo" sap:content-version="1">
+        <Key>
+            <PropertyRef Name="Charg"/>
+        </Key>
+        <Property Name="Charg" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Batch" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Lgort" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Stor. Loc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Lgtyp" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Lgpla" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Kalab" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:label="Unrestricted" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Kains" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:label="Quality Insp." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Kaspe" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:unicode="false" sap:label="Blocked" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="NbrPieces" Type="Edm.Byte" Nullable="false" sap:unicode="false" sap:label="Nbr of Pieces" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Vbeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Sales document" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Posnr" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Char1" Type="Edm.String" Nullable="false" MaxLength="70" sap:unicode="false" sap:label="Char 70" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Char2" Type="Edm.String" Nullable="false" MaxLength="70" sap:unicode="false" sap:label="Char 70" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Char3" Type="Edm.String" Nullable="false" MaxLength="70" sap:unicode="false" sap:label="Char 70" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    </EntityType>
+    <EntityType Name="genInfoBar" sap:content-version="1">
+        <Key>
+            <PropertyRef Name="BAR_NBR"/>
+        </Key>
+        <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="BAR/NBR" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Matnr" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Werks" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Lgort" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Stor. Loc." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Lgnum" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Lgtyp" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Lgpla" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Kalab" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Unrestricted" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Kains" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Quality Insp." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Kaspe" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Blocked" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="NbrPieces" Type="Edm.Byte" sap:unicode="false" sap:label="Nbr of Pieces" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Vbeln" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Sales document" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Posnr" Type="Edm.String" MaxLength="6" sap:unicode="false" sap:label="Item" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Profile" Type="Edm.String" MaxLength="70" sap:unicode="false" sap:label="Profile" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="SDT" Type="Edm.String" MaxLength="70" sap:unicode="false" sap:label="SDT" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Length" Type="Edm.String" MaxLength="70" sap:unicode="false" sap:label="Length" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+    </EntityType>
+    <EntityType Name="moveToSuBatch" sap:content-version="1">
+        <Key>
+            <PropertyRef Name="BAR_NBR"/>
+        </Key>
+        <Property Name="BAR_NBR" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="BAR/NBR" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+        <Property Name="Lgnum" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Warehouse Number" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Lgtyp" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Storage Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="Lgpla" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Storage Bin" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+        <Property Name="PRINTER" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Printer" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+    </EntityType>
+    <EntityContainer Name="ZMM_MOVE_TO_SINGLEUNIT_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+        <EntitySet Name="warehouseNoSet" EntityType="ZMM_MOVE_TO_SINGLEUNIT_SRV.warehouseNo" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+        <EntitySet Name="storageTypeSet" EntityType="ZMM_MOVE_TO_SINGLEUNIT_SRV.storageType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+        <EntitySet Name="storageBinSet" EntityType="ZMM_MOVE_TO_SINGLEUNIT_SRV.storageBin" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+        <EntitySet Name="ZshOutputDeviceSet" EntityType="ZMM_MOVE_TO_SINGLEUNIT_SRV.ZshOutputDevice" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+        <EntitySet Name="genInfoSet" EntityType="ZMM_MOVE_TO_SINGLEUNIT_SRV.genInfo" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+        <EntitySet Name="genInfoBarSet" EntityType="ZMM_MOVE_TO_SINGLEUNIT_SRV.genInfoBar" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+        <EntitySet Name="moveToSuBatchSet" EntityType="ZMM_MOVE_TO_SINGLEUNIT_SRV.moveToSuBatch" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+    </EntityContainer>
+    <Annotation Term="Core.SchemaVersion" String="1.0.0"
+    xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+    <atom:link rel="self" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZMM_MOVE_TO_SINGLEUNIT_SRV/$metadata"
+    xmlns:atom="http://www.w3.org/2005/Atom"/>
+    <atom:link rel="latest-version" href="https://SAPD4LONG.LCE.ARCELORMITTAL.COM:1415/sap/opu/odata/sap/ZMM_MOVE_TO_SINGLEUNIT_SRV/$metadata"
+    xmlns:atom="http://www.w3.org/2005/Atom"/>
+</Schema>
+</edmx:DataServices>
+</edmx:Edmx>

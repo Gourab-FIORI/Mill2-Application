@@ -1,0 +1,20 @@
+<mvc:View controllerName="com.ami.zwagonloading.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m"
+    xmlns:ndc="sap.ndc" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+    <Page id="page" title="{i18n>title}">
+        <!-- <headerContent>
+        <Select id="languageSelect1" change="onLanguageChange">
+        <core:Item key="en" text="English"/>
+        <core:Item key="fr" text="Français"/>
+        </Select>
+        </headerContent> -->
+        <content>
+        	<List
+		headerText="{i18n>headerText1}" headerLevel="H1">
+		<ActionListItem text="{i18n>ActionListItem1}" press="onNavToInternal" />
+		<ActionListItem text="{i18n>ActionListItem2}" press="onNavToShipping" />
+		<ActionListItem text="{i18n>ActionListItem3}" press="onNavToUnload" />
+	</List>
+        </content>
+    </Page>
+</mvc:View>

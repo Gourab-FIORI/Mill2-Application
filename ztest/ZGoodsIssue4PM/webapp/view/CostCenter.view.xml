@@ -1,0 +1,29 @@
+<mvc:View xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout"
+	xmlns:html="http://www.w3.org/1999/xhtml" controllerName="webapp.ZGoodsIssue4PM.controller.CostCenter">
+	<Page title="{i18n>titlecostcenter}">
+		<content>
+			<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4">
+				<f:content>
+					<VBox>
+						<Label text="{i18n>costcenter}"/>
+						<Input id="idCC" showValueHelp="true" valueHelpRequest="onCostcenterHelp"/>
+						<!-- <Button text="Next" press="onCostcenterGet"/> -->
+
+				
+					<!-- adding Vbox and internal order here T_singhag1 01.08.2024 -->
+				
+						<Label text="{i18n>InternalOrd}"/>
+						<Input id="idIO" showValueHelp="true" valueHelpRequest="onInternalOrdHelp"/>
+						<Button text="Next" press="onCostcenterGet"/>
+
+					</VBox>
+					<!-- adding Vbox and internal order here T_singhag1 01.08.2024 -->
+				</f:content>
+			</f:SimpleForm>
+		</content>
+	</Page>
+</mvc:View>

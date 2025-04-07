@@ -1,0 +1,23 @@
+<core:FragmentDefinition  xmlns:core='sap.ui.core' xmlns='sap.ui.comp.smartfilterbar' xmlns:m='sap.m' xmlns:bar="sap.ndc"> 
+   <ControlConfiguration 
+      id="barCodeScanner"
+      key="barCodeScanner"
+      label="{i18n>SCAN_BUTTON}"
+      visibleInAdvancedArea="true"
+      index="100"
+      filterType="single">
+      <customControl>
+      	<m:HBox id="barCodeScanner-VBox">
+		<!-- <m:Button text="{i18n>btnScan}" id="barCodeScanner-Button"  press="onBarcodeScan" icon="sap-icon://bar-code" width="7rem"/> -->
+		<bar:BarcodeScannerButton 
+			width="7rem" 
+			id="idScanButton"
+			scanSuccess="handleProductionOrderScanSuccess" 
+			scanFail="handleProductionOrderScanError"               
+			inputLiveUpdate="handleProductionOrderScanLiveupdate"              
+			dialogTitle="Scan"
+		/>
+		</m:HBox>
+      </customControl>
+    </ControlConfiguration>
+</core:FragmentDefinition>

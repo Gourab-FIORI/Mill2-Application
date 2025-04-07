@@ -1,0 +1,85 @@
+specVersion: "3.1"
+metadata:
+  name: s2p.mm.im.goodsreceipt.purchaseorder.gr4pos1extension
+type: application
+framework:
+  name: SAPUI5
+  version: 1.84.23
+  libraries:
+    - name: null
+    - name: sap.f
+    - name: sap.m
+    - name: sap.ui.comp
+    - name: sap.ui.core
+    - name: sap.ui.generic.app
+    - name: sap.ui.table
+    - name: sap.ushell
+    - name: themelib_sap_bluecrystal
+    - name: themelib_sap_fiori_3
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        backend:
+          - path: /sap
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            destination: LHDCLNT010
+          - path: /resources/ui/s2p/mm/im/lib/materialmaster
+            destination: LHDCLNT010
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            pathPrefix: /sap/bc/ui5_ui5/sap/mmimreusemats1
+          - path: /resources/sap/se/mi/plm/lib/attachmentservice
+            destination: LHDCLNT010
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            pathPrefix: /sap/bc/ui5_ui5/sap/plm_ath_cres1
+          - path: /resources/sap/s4h/cfnd/featuretoggle
+            destination: LHDCLNT010
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            pathPrefix: /sap/bc/ui5_ui5/sap/featuretoggles1
+          - path: /resources/ui/s2p/mm/im/lib/materialmaster
+            destination: LHDCLNT010
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            pathPrefix: /sap/bc/ui5_ui5/sap/mmimreusemats1
+          - path: /resources/sap/se/mi/plm/lib/attachmentservice
+            destination: LHDCLNT010
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            pathPrefix: /sap/bc/ui5_ui5/sap/plm_ath_cres1
+          - path: /resources/sap/s4h/cfnd/featuretoggle
+            destination: LHDCLNT010
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            pathPrefix: /sap/bc/ui5_ui5/sap/featuretoggles1
+          - path: /dist/resources/ui/s2p/mm/im/lib/materialmaster
+            destination: LHDCLNT010
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            pathPrefix: /sap/bc/ui5_ui5/sap/mmimreusemats1
+          - path: /dist/resources/sap/se/mi/plm/lib/attachmentservice
+            destination: LHDCLNT010
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            pathPrefix: /sap/bc/ui5_ui5/sap/plm_ath_cres1
+          - path: /dist/resources/sap/s4h/cfnd/featuretoggle
+            destination: LHDCLNT010
+            url: http://s4dev.lce.arcelormittal.com:44300/
+            client: "010"
+            pathPrefix: /sap/bc/ui5_ui5/sap/featuretoggles1
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        component: s2p.mm.im.goodsreceipt.purchaseorder.GR4POS1Extension
+        ui5Theme: sap_fiori_3

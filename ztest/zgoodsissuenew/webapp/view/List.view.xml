@@ -1,0 +1,100 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="webapp.zgoodsissue.controller.List" 	xmlns:f="sap.ui.layout.form"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<Page title="{i18n>listtitle}">
+	  <!-- start of code t_singhag1 01.08.2024 -->
+<content>
+            <l:VerticalLayout width="100%">
+                <l:Grid containerQuery="true" hSpacing="1" vSpacing="1" position="Center">
+                    <Input type="Text" id="idfplant" placeholder="{i18n>issueingplant}">
+                        <layoutData>
+                            <l:GridData span="XL3 L3 M6 S6" />
+                        </layoutData>
+                    </Input>
+                    <DatePicker id="idfdeldate" valueFormat="yyyy.MM.dd">
+                        <layoutData>
+                            <l:GridData span="XL3 L3 M6 S6" />
+                        </layoutData>
+                    </DatePicker>
+                    <Input type="Text" id="idfrequester" placeholder="{i18n>requi}">
+                        <layoutData>
+                            <l:GridData span="XL3 L3 M6 S6" />
+                        </layoutData>
+                    </Input>
+                    <Input type="Text" id="idfcostcenter" placeholder="{i18n>costcenter}">
+                        <layoutData>
+                            <l:GridData span="XL3 L3 M6 S6" />
+                        </layoutData>
+                    </Input>
+                    <Input type="Text" id="idfinternalord" placeholder="{i18n>InternalOrd}">
+                        <layoutData>
+                            <l:GridData span="XL3 L3 M6 S6" />
+                        </layoutData>
+                    </Input>
+                    <Button text="GO" width="100%" press="onFilter">
+                        <layoutData>
+                            <l:GridData span="XL3 L3 M6 S6" />
+                        </layoutData>
+                    </Button>
+                </l:Grid>
+                <List id="idList" items="{/GIheadSet}" itemPress="onPressListItem" class="sapUiSmallMarginTop">
+                    <ObjectListItem type="Navigation" title="{Ebeln}">
+                        <attributes>
+                            <ObjectAttribute title="{i18n>costcenter}" text="{Kostl}" />
+                            <ObjectAttribute title="{i18n>InternalOrd}" text="{Aufnr}" />
+                            <ObjectAttribute title="{i18n>noofitems}" text="{Azpos}" />
+                        </attributes>
+                    </ObjectListItem>
+                </List>
+            </l:VerticalLayout>
+        </content>
+		  <!-- End of code t_singhag1 01.08.2024  below is the existing code  -->
+		  
+<!-- 	
+		<content>
+			 <l:VerticalLayout width="100%">
+				<l:Grid containerQuery="true" hSpacing="1" vSpacing="1" position="Center">
+					<Input type="Text" id="idfplant" placeholder="{i18n>issueingplant}">
+						<layoutData>
+							<l:GridData span="XL3 L3 M6 S6"></l:GridData>
+						</layoutData>
+					</Input>
+					<DatePicker id="idfdeldate" valueFormat="yyyy.MM.dd" class="sapUiSmallMarginBottom" >
+						<layoutData>
+							<l:GridData span="XL3 L3 M6 S6"></l:GridData>
+						</layoutData>
+					</DatePicker>
+					<Input type="Text" id="idfrequester" placeholder="{i18n>requi}">
+						<layoutData>
+							<l:GridData span="XL3 L3 M6 S6"></l:GridData>
+						</layoutData>
+					</Input>
+					<Input type="Text" id="idfcostcenter" placeholder="{i18n>costcenter}">
+						<layoutData>
+							<l:GridData span="XL3 L3 M6 S6"></l:GridData>
+						</layoutData>
+					</Input>
+					
+					<Button text="GO" width="100%" press="onFilter">
+						<layoutData>
+							<l:GridData span="XL3 L3 M6 S6"></l:GridData>
+						</layoutData>
+					</Button>
+				</l:Grid>
+			</l:VerticalLayout> 
+		
+
+			<List id="idList" items="{/GIheadSet}" itemPress="onPressListItem">
+				<ObjectListItem type="Navigation" title="{Ebeln}">
+					<attributes>
+						<ObjectAttribute title="{i18n>costcenter}" text="{Kostl}"></ObjectAttribute>
+					</attributes>
+					
+					<attributes>
+						<ObjectAttribute title="{i18n>noofitems}" text="{Azpos}"></ObjectAttribute>
+					</attributes>
+				</ObjectListItem>
+			</List>
+			
+		</content> -->
+	</Page>
+</mvc:View>

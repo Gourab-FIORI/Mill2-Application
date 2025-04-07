@@ -1,0 +1,25 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:commons="sap.suite.ui.microchart" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+	<SelectDialog noDataText="{i18n>STORAGELOCATION_VALUE_HELP_NO_DATA}"
+		title="{i18n>STORAGELOCATION_VALUE_HELP_TITLE}" search="_handleStorageBinSearch" 
+		confirm="_handleStorageBinClose"
+		cancel="_handleStorageBinClose"
+		items="{ path: 'bindatavh>/data' }">
+		<CustomListItem class="sapUiTinyMarginBegin">
+			<content>
+				<FlexBox alignItems="Start">
+					<items>
+						<VBox class="sapUiSmallMargin">
+							<ObjectIdentifier title="{bindatavh>Bin}"
+								text="Storage Location {bindatavh>StorageLocation}" ariaLabelledBy="idStorageBin">
+							</ObjectIdentifier>
+							<Label displayOnly="true" wrapping="true" text=""/>
+							<layoutData>
+								<FlexItemData growFactor="1"/>
+							</layoutData>
+						</VBox>
+					</items>
+				</FlexBox>
+			</content>
+		</CustomListItem>
+	</SelectDialog>
+</core:FragmentDefinition>

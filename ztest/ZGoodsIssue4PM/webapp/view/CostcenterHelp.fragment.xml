@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Dialog title="{i18n>titlecostsearch}" contentWidth="50%" contentHeight="70%">
+		<Table id="idTable" items="{/CostCenterSet}" mode="SingleSelectMaster" growing="true" growingScrollToLoad="true" selectionChange="onRowSelect">
+			<columns>
+				<Column><Text text="{i18n>costcenter}"/></Column>
+				<Column><Text text="{i18n>description}"/></Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells><Text text="{Kostl}"/></cells>
+					<cells><Text text="{Ktext}"/></cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<endButton>
+			<Button text="Close" type="Emphasized" press="onCloseDialog"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZMM_MOBPINVDIRBLIND_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="I_StorageLocationType" sap:label="Storage Location" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="StorageLocation"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/>
+                <Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="StorageLocationName" sap:label="Storage Location"/>
+                <Property Name="StorageLocationName" Type="Edm.String" MaxLength="16" sap:label="Storage Loc. Name" sap:quickinfo="Storage Location Name"/>
+                <Property Name="SalesOrganization" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Sales Organization"/>
+                <Property Name="DistributionChannel" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Distribution Channel"/>
+                <Property Name="Division" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Division"/>
+                <Property Name="IsStorLocAuthznCheckActive" Type="Edm.Boolean" sap:label="Authorization check" sap:quickinfo="Storage location authorization for goods movements active"/>
+                <Property Name="HandlingUnitIsRequired" Type="Edm.Boolean" sap:label="HU reqmnt" sap:quickinfo="Handling unit requirement"/>
+                <Property Name="ConfigDeprecationCode" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Validity" sap:quickinfo="Deprecated Entries"/>
+            </EntityType>
+            <EntityType Name="I_Supplier_VHType" sap:label="Supplier" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Supplier"/>
+                </Key>
+                <Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:text="BPSupplierName" sap:label="Supplier" sap:quickinfo="Account Number of Supplier"/>
+                <Property Name="SupplierName" Type="Edm.String" MaxLength="35" sap:label="Supplier Name1" sap:quickinfo="Supplier Name"/>
+                <Property Name="BusinessPartnerName1" Type="Edm.String" MaxLength="40" sap:label="Business Partner Name1"/>
+                <Property Name="BPSupplierName" Type="Edm.String" MaxLength="81" sap:label="Business Partner Supplier Name" sap:quickinfo="Supplier Name"/>
+                <Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Authorization" sap:quickinfo="Authorization Group"/>
+                <Property Name="SupplierAccountGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Account group" sap:quickinfo="Vendor account group"/>
+                <Property Name="IsBusinessPurposeCompleted" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Purpose Completed" sap:quickinfo="Business Purpose Completed Flag"/>
+                <Property Name="BusinessPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Business Partner" sap:quickinfo="Business Partner Number"/>
+                <Property Name="BusinessPartnerType" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Business Partner Type"/>
+                <Property Name="DataControllerSet" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Data Ctrlr. Set" sap:quickinfo="BP: Data Controller Set Flag"/>
+                <Property Name="DataController1" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+                <Property Name="DataController2" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+                <Property Name="DataController3" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+                <Property Name="DataController4" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+                <Property Name="DataController5" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+                <Property Name="DataController6" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+                <Property Name="DataController7" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+                <Property Name="DataController8" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+                <Property Name="DataController9" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+                <Property Name="DataController10" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:label="Data Controller" sap:quickinfo="BP: Data Controller (Internal Use Only)"/>
+            </EntityType>
+            <EntityType Name="ZC_BATCH_PINVDType" sap:label="VIew for pys. inv. dir. batches" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Material"/>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="StorageLocation"/>
+                    <PropertyRef Name="Batch"/>
+                    <PropertyRef Name="SupplierBatch"/>
+                    <PropertyRef Name="BaseUnit"/>
+                    <PropertyRef Name="AlternativeUnitSAP"/>
+                </Key>
+                <Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Stock Material" sap:quickinfo="Material in Respect of Which Stock is Managed"/>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/>
+                <Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Storage Location"/>
+                <Property Name="Batch" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Batch SID" sap:quickinfo="Batch Number (Stock Identifier)"/>
+                <Property Name="SupplierBatch" Type="Edm.String" Nullable="false" MaxLength="15" sap:display-format="UpperCase" sap:label="Supplier Batch" sap:quickinfo="Supplier Batch Number"/>
+                <Property Name="BaseUnit" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="AlternativeUnitSAP" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="AlternativeUnit" sap:quickinfo="Alternative Unit of Measure for Stockkeeping Unit" sap:semantics="unit-of-measure"/>
+                <Property Name="AlternativeUnit" Type="Edm.String" MaxLength="3" sap:label="Commercial" sap:quickinfo="External Unit of Measurement in Commercial Format (3-Char.)"/>
+                <Property Name="BaseUnitQuantity" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="BaseUnit" sap:label="Quantity"/>
+                <Property Name="AlternativeUnitQuantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="AlternativeUnitSAP"/>
+                <Property Name="MaterialName" Type="Edm.String" MaxLength="40" sap:label="Material Description"/>
+                <Property Name="StockType" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Stock Type" sap:quickinfo="Stock Type of Goods Movement (Stock Identifier)"/>
+                <Property Name="SpecialStock" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Special Stock" sap:quickinfo="Special Stock Indicator"/>
+                <Property Name="HeatNumber" Type="Edm.String" MaxLength="70" sap:label="Heat Value" sap:quickinfo="Characteristic Value"/>
+                <Property Name="SalesOrder" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales order" sap:quickinfo="Sales order number of valuated sales order stock"/>
+                <Property Name="SalesOrderItem" Type="Edm.String" MaxLength="6" sap:display-format="NonNegative" sap:label="Sales order item" sap:quickinfo="Sales Order Item of Valuated Sales Order Stock"/>
+                <NavigationProperty Name="to_WmlStock" Relationship="ZMM_MOBPINVDIRBLIND_SRV.assoc_A4A7FCC52D4E6788D636475BD1B6FC04" FromRole="FromRole_assoc_A4A7FCC52D4E6788D636475BD1B6FC04" ToRole="ToRole_assoc_A4A7FCC52D4E6788D636475BD1B6FC04"/>
+            </EntityType>
+            <EntityType Name="ZC_PINVD_UNITSType" sap:label="VIew for pys. inv. dir. units" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="UnitOfMeasure"/>
+                </Key>
+                <Property Name="UnitOfMeasure" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="UnitOfMeasureSAPCode" Type="Edm.String" MaxLength="3" sap:label="Internal SAP Code" sap:quickinfo="Unit of Measurement, Internal SAP Code (No Conversion)"/>
+                <Property Name="UnitOfMeasureISOCode" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="ISO Code" sap:quickinfo="ISO Code for Unit of Measurement"/>
+                <Property Name="UnitOfMeasureISOCodeName" Type="Edm.String" MaxLength="25" sap:label="ISO code" sap:quickinfo="ISO codes for measurement unit names"/>
+                <Property Name="UnitOfMeasureName" Type="Edm.String" MaxLength="10" sap:label="Meas. Unit Text" sap:quickinfo="Unit of Measurement Text (Maximum 10 Characters)"/>
+                <Property Name="UnitOfMeasureLongName" Type="Edm.String" MaxLength="30" sap:label="Meas. Unit Text" sap:quickinfo="Unit of Measurement Text (Maximum 30 Characters)"/>
+            </EntityType>
+            <EntityType Name="ZC_STLOC_PINVDType" sap:label="View for stloc. in physicla inv dir" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="StorageLocation"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="PlantName" sap:label="Plant"/>
+                <Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="StorageLocationName" sap:label="Storage Location"/>
+                <Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/>
+                <Property Name="StorageLocationName" Type="Edm.String" MaxLength="16" sap:label="Storage Loc. Name" sap:quickinfo="Storage Location Name"/>
+            </EntityType>
+            <EntityType Name="ZC_WMLB_PINVDAUType" sap:label="View for bins alt unit phys inv dir" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="StorageLocation"/>
+                    <PropertyRef Name="StorageBin"/>
+                    <PropertyRef Name="Batch"/>
+                    <PropertyRef Name="Material"/>
+                    <PropertyRef Name="StockType"/>
+                    <PropertyRef Name="Vendor"/>
+                    <PropertyRef Name="AlternativeUnitSAP"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="PlantName" sap:label="Plant"/>
+                <Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="StorageLocationName" sap:label="Storage Location"/>
+                <Property Name="StorageBin" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="Storage Bin"/>
+                <Property Name="Batch" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Batch" sap:quickinfo="Batch Number"/>
+                <Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+                <Property Name="StockType" Type="Edm.String" Nullable="false" MaxLength="2" sap:display-format="UpperCase" sap:label="Stock Type" sap:quickinfo="Stock Type of Goods Movement (Stock Identifier)"/>
+                <Property Name="Vendor" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Supplier" sap:quickinfo="Account Number of Supplier"/>
+                <Property Name="AlternativeUnitSAP" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="AlternativeUnit" sap:quickinfo="Alternative Unit of Measure for Stockkeeping Unit" sap:semantics="unit-of-measure"/>
+                <Property Name="UnitOfMeasure_E" Type="Edm.String" MaxLength="3" sap:label="Commercial" sap:quickinfo="External Unit of Measurement in Commercial Format (3-Char.)"/>
+                <Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/>
+                <Property Name="StorageLocationName" Type="Edm.String" MaxLength="16" sap:label="Storage Loc. Name" sap:quickinfo="Storage Location Name"/>
+                <Property Name="MaterialName" Type="Edm.String" MaxLength="40" sap:label="Material Description"/>
+                <Property Name="SupplierBatch" Type="Edm.String" MaxLength="15" sap:display-format="UpperCase" sap:label="Supplier Batch" sap:quickinfo="Supplier Batch Number"/>
+                <Property Name="Supplier" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Supplier" sap:quickinfo="Supplier's Account Number" sap:value-list="standard"/>
+                <Property Name="SupplierName" Type="Edm.String" MaxLength="80" sap:label="Name of Supplier"/>
+                <Property Name="HeatNumber" Type="Edm.String" MaxLength="70" sap:label="Heat Value" sap:quickinfo="Characteristic Value"/>
+                <Property Name="BaseUnitQuantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="BaseUnit" sap:label="Quantity"/>
+                <Property Name="AlternativeUnitQuantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="AlternativeUnitSAP"/>
+                <Property Name="BaseUnit" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="SalesOrder" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales Document"/>
+                <Property Name="SalesOrderItem" Type="Edm.String" MaxLength="6" sap:display-format="NonNegative" sap:label="Item (SD)" sap:quickinfo="Item number of the SD document"/>
+                <Property Name="VendorName" Type="Edm.String" MaxLength="80" sap:label="Name of Supplier"/>
+            </EntityType>
+            <EntityType Name="ZC_WMLB_PINVD_VHType" sap:label="Value help wml bin pys. inv. dir." sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="StorageLocation"/>
+                    <PropertyRef Name="StorageBin"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/>
+                <Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="StorageLocationName" sap:label="Storage Location" sap:value-list="standard"/>
+                <Property Name="StorageBin" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="Storage Bin"/>
+                <Property Name="StorageLocationName" Type="Edm.String" MaxLength="16" sap:label="Storage Loc. Name" sap:quickinfo="Storage Location Name"/>
+            </EntityType>
+            <EntityType Name="ZC_WMLSTOG_PINVDAUType" sap:label="VIew group pys. inv. dir. stock alt unit" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="StorageLocation"/>
+                    <PropertyRef Name="StorageBin"/>
+                    <PropertyRef Name="Material"/>
+                    <PropertyRef Name="Vendor"/>
+                    <PropertyRef Name="BaseUnit"/>
+                    <PropertyRef Name="AlternativeUnitSAP"/>
+                    <PropertyRef Name="HeatNumber"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="PlantName" sap:label="Plant"/>
+                <Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="StorageLocationName" sap:label="Storage Location"/>
+                <Property Name="StorageBin" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="Storage Bin"/>
+                <Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+                <Property Name="Vendor" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Vendor" sap:quickinfo="Account Number of Supplier"/>
+                <Property Name="BaseUnit" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="AlternativeUnitSAP" Type="Edm.String" Nullable="false" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="HeatNumber" Type="Edm.String" Nullable="false" MaxLength="70" sap:label="Heat Value" sap:quickinfo="Characteristic Value"/>
+                <Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/>
+                <Property Name="StorageLocationName" Type="Edm.String" MaxLength="16" sap:label="Storage Loc. Name" sap:quickinfo="Storage Location Name"/>
+                <Property Name="MaterialName" Type="Edm.String" MaxLength="40" sap:label="Material Description"/>
+                <Property Name="VendorName" Type="Edm.String" MaxLength="80" sap:label="Vendor Name" sap:quickinfo="Name of Supplier"/>
+                <Property Name="BatchCount" Type="Edm.Int32" sap:label="Batch Count"/>
+                <Property Name="BaseUnitQuantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="BaseUnit"/>
+                <Property Name="AlternativeUnitQuantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="AlternativeUnitSAP"/>
+            </EntityType>
+            <EntityType Name="ZI_WMLSTOCKType" sap:label="CDS wml stock quantities" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="StorageLocation"/>
+                    <PropertyRef Name="StorageBin"/>
+                    <PropertyRef Name="Material"/>
+                    <PropertyRef Name="Batch"/>
+                    <PropertyRef Name="StockType"/>
+                    <PropertyRef Name="Vendor"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="PlantName" sap:label="Plant"/>
+                <Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="StorageLocationName" sap:label="Storage Location"/>
+                <Property Name="StorageBin" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="Storage Bin"/>
+                <Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+                <Property Name="Batch" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Batch" sap:quickinfo="Batch Number"/>
+                <Property Name="StockType" Type="Edm.String" Nullable="false" MaxLength="2" sap:display-format="UpperCase" sap:label="Stock Type" sap:quickinfo="Stock Type of Goods Movement (Stock Identifier)"/>
+                <Property Name="Vendor" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Supplier" sap:quickinfo="Account Number of Supplier"/>
+                <Property Name="MaterialName" Type="Edm.String" MaxLength="40" sap:label="Material Description"/>
+                <Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/>
+                <Property Name="StorageLocationName" Type="Edm.String" MaxLength="16" sap:label="Storage Loc. Name" sap:quickinfo="Storage Location Name"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:label="Quantity"/>
+                <Property Name="UnitMeasure" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="SalesOrder" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales Document"/>
+                <Property Name="SalesOrderItem" Type="Edm.String" MaxLength="6" sap:display-format="NonNegative" sap:label="Item (SD)" sap:quickinfo="Item number of the SD document"/>
+                <Property Name="InScopeIndicator" Type="Edm.String" MaxLength="1" sap:label="Indicator" sap:quickinfo="Use in BAPIs"/>
+            </EntityType>
+            <ComplexType Name="InventoryEntryReturn">
+                <Property Name="ErrorCode" Type="Edm.Int16" Nullable="false" sap:label="Error Code" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ErrorType" Type="Edm.String" Nullable="false" MaxLength="1" sap:label="Error Type" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ErrorMessage" Type="Edm.String" Nullable="false" MaxLength="255" sap:label="Error Message" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Batch" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Index" Type="Edm.Int16" Nullable="false" sap:label="Signed INT2 / int16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="3" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ReferenceText" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SalesOrder" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SalesOrderItem" Type="Edm.String" Nullable="false" MaxLength="6" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StockType" Type="Edm.String" Nullable="false" MaxLength="2" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StorageBin" Type="Edm.String" Nullable="false" MaxLength="20" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="UnitOfMeasure" Type="Edm.String" Nullable="false" MaxLength="3" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="InvDocNumber" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="InvDocYear" Type="Edm.String" Nullable="false" MaxLength="4" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="MaterialName" Type="Edm.String" Nullable="false" MaxLength="40" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="StorageLocationName" Type="Edm.String" Nullable="false" MaxLength="16" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="SupplierName" Type="Edm.String" Nullable="false" MaxLength="80" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vendor" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="VendorName" Type="Edm.String" Nullable="false" MaxLength="80" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </ComplexType>
+            <Association Name="assoc_A4A7FCC52D4E6788D636475BD1B6FC04" sap:content-version="1">
+                <End Type="ZMM_MOBPINVDIRBLIND_SRV.ZC_BATCH_PINVDType" Multiplicity="1" Role="FromRole_assoc_A4A7FCC52D4E6788D636475BD1B6FC04"/>
+                <End Type="ZMM_MOBPINVDIRBLIND_SRV.ZI_WMLSTOCKType" Multiplicity="*" Role="ToRole_assoc_A4A7FCC52D4E6788D636475BD1B6FC04"/>
+            </Association>
+            <EntityContainer Name="ZMM_MOBPINVDIRBLIND_SRV_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="I_StorageLocation" EntityType="ZMM_MOBPINVDIRBLIND_SRV.I_StorageLocationType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="I_Supplier_VH" EntityType="ZMM_MOBPINVDIRBLIND_SRV.I_Supplier_VHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="ZC_BATCH_PINVD" EntityType="ZMM_MOBPINVDIRBLIND_SRV.ZC_BATCH_PINVDType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_PINVD_UNITS" EntityType="ZMM_MOBPINVDIRBLIND_SRV.ZC_PINVD_UNITSType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_STLOC_PINVD" EntityType="ZMM_MOBPINVDIRBLIND_SRV.ZC_STLOC_PINVDType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_WMLB_PINVDAU" EntityType="ZMM_MOBPINVDIRBLIND_SRV.ZC_WMLB_PINVDAUType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_WMLB_PINVD_VH" EntityType="ZMM_MOBPINVDIRBLIND_SRV.ZC_WMLB_PINVD_VHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_WMLSTOG_PINVDAU" EntityType="ZMM_MOBPINVDIRBLIND_SRV.ZC_WMLSTOG_PINVDAUType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZI_WMLSTOCK" EntityType="ZMM_MOBPINVDIRBLIND_SRV.ZI_WMLSTOCKType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <AssociationSet Name="assoc_A4A7FCC52D4E6788D636475BD1B6FC04" Association="ZMM_MOBPINVDIRBLIND_SRV.assoc_A4A7FCC52D4E6788D636475BD1B6FC04" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZC_BATCH_PINVD" Role="FromRole_assoc_A4A7FCC52D4E6788D636475BD1B6FC04"/>
+                    <End EntitySet="ZI_WMLSTOCK" Role="ToRole_assoc_A4A7FCC52D4E6788D636475BD1B6FC04"/>
+                </AssociationSet>
+                <FunctionImport Name="EmptyBin" ReturnType="Collection(ZMM_MOBPINVDIRBLIND_SRV.InventoryEntryReturn)" m:HttpMethod="POST">
+                    <Parameter Name="Plant" Type="Edm.String" Mode="In" MaxLength="4"/>
+                    <Parameter Name="StorageBin" Type="Edm.String" Mode="In" MaxLength="20"/>
+                    <Parameter Name="StorageLocation" Type="Edm.String" Mode="In" MaxLength="4"/>
+                    <Parameter Name="UnitOfMeasure" Type="Edm.String" Mode="In" MaxLength="3"/>
+                    <Parameter Name="ReferenceText" Type="Edm.String" Mode="In" MaxLength="40"/>
+                </FunctionImport>
+                <FunctionImport Name="AddInventoryEntry" ReturnType="Collection(ZMM_MOBPINVDIRBLIND_SRV.InventoryEntryReturn)" m:HttpMethod="POST">
+                    <Parameter Name="UnitOfMeasure" Type="Edm.String" Mode="In" MaxLength="3"/>
+                    <Parameter Name="Quantity" Type="Edm.Decimal" Mode="In" Precision="3" Scale="3"/>
+                    <Parameter Name="StockType" Type="Edm.String" Mode="In" MaxLength="2"/>
+                    <Parameter Name="SalesOrderItem" Type="Edm.String" Mode="In" MaxLength="6"/>
+                    <Parameter Name="SalesOrder" Type="Edm.String" Mode="In" MaxLength="10"/>
+                    <Parameter Name="ReferenceText" Type="Edm.String" Mode="In" MaxLength="40"/>
+                    <Parameter Name="Vendor" Type="Edm.String" Mode="In" MaxLength="10"/>
+                    <Parameter Name="Batch" Type="Edm.String" Mode="In" MaxLength="10"/>
+                    <Parameter Name="Index" Type="Edm.Int16" Mode="In" sap:label="Signed INT2 / int16"/>
+                    <Parameter Name="StorageBin" Type="Edm.String" Mode="In" MaxLength="20"/>
+                    <Parameter Name="Plant" Type="Edm.String" Mode="In" MaxLength="4"/>
+                    <Parameter Name="Material" Type="Edm.String" Mode="In" MaxLength="40"/>
+                    <Parameter Name="StorageLocation" Type="Edm.String" Mode="In" MaxLength="4"/>
+                </FunctionImport>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <Annotations Target="ZMM_MOBPINVDIRBLIND_SRV.ZC_WMLB_PINVDAUType/Supplier" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Supplier"/>
+                        <PropertyValue Property="CollectionPath" String="I_Supplier_VH"/>
+                        <PropertyValue Property="SearchSupported" Bool="true"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Supplier"/>
+                                    <PropertyValue Property="ValueListProperty" String="Supplier"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="SupplierName"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerName1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BPSupplierName"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartner"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="BusinessPartnerType"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZMM_MOBPINVDIRBLIND_SRV.ZC_WMLB_PINVD_VHType/StorageLocation" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Storage Location"/>
+                        <PropertyValue Property="CollectionPath" String="I_StorageLocation"/>
+                        <PropertyValue Property="SearchSupported" Bool="true"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="StorageLocation"/>
+                                    <PropertyValue Property="ValueListProperty" String="StorageLocation"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Plant"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="StorageLocationName"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="SalesOrganization"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="DistributionChannel"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Division"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="IsStorLocAuthznCheckActive"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="HandlingUnitIsRequired"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="ConfigDeprecationCode"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZMM_MOBPINVDIRBLIND_SRV.ZMM_MOBPINVDIRBLIND_SRV_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+            </Annotations>
+            <Annotations Target="ZMM_MOBPINVDIRBLIND_SRV.ZMM_MOBPINVDIRBLIND_SRV_Entities/ZC_BATCH_PINVD" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_WmlStock"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZMM_MOBPINVDIRBLIND_SRV.I_StorageLocationType" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.SAPObjectNodeType">
+                    <Record>
+                        <PropertyValue Property="Name" String="StorageLocation"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="https://S4DEV.LCE.ARCELORMITTAL.COM:44300/sap/opu/odata/sap/ZMM_MOBPINVDIRBLIND_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://S4DEV.LCE.ARCELORMITTAL.COM:44300/sap/opu/odata/sap/ZMM_MOBPINVDIRBLIND_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

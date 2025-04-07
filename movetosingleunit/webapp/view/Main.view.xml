@@ -1,0 +1,148 @@
+<mvc:View controllerName="com.movetosingleunit.movetosingleunit.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:ndc="sap.ndc"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+    <Page id="page" title="{i18n>title}">
+        <!-- <headerContent> -->
+        <!-- <Select id="languageSelect" change="onLanguageChange">
+                <core:Item key="en" text="English"/>
+                <core:Item key="fr" text="Français"/>
+            </Select>
+        </headerContent> -->
+        <content>
+            <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="false" complete="onPostMoveToSuBatch" finishButtonText="{i18n>Label22}">
+                <WizardStep id="Step1" title="{i18n>WizardStep1}" activate="onActivate" validated="true">
+                    <VBox id="vbox">
+                        <Label text="{i18n>Label1}" class="sapUiResponsiveContentPadding" required="true" labelFor="warehouse"></Label>
+                        <ComboBox class="sapUiResponsiveContentPadding" id="warehouse" required="true" change="onWarehouseChange" width="auto" showSecondaryValues="true" busyIndicatorDelay="100" items="{ path: '/warehouseNoSet',length : 1500}">
+                            <core:ListItem key="{lgnum}" text="{lgnum}" additionalText="{lnumt}"/>
+                        </ComboBox>
+                        <Label text="{i18n>Label2}" class="sapUiResponsiveContentPadding" required="true" labelFor="sttyp"></Label>
+                        <ComboBox id="sttyp" required="true" class="sapUiResponsiveContentPadding" change="onStorageTypeChange" width="auto" showSecondaryValues="true" items="{ path: 'storageType>/results',length : 1500}">
+                            <core:ListItem key="{storageType>lgtyp}" text="{storageType>lgtyp}" additionalText="{storageType>ltypt}"/>
+                        </ComboBox>
+                        <Label text="{i18n>Label3}" class="sapUiResponsiveContentPadding" required="true" labelFor="stbin"></Label>
+                        <ComboBox id="stbin" class="sapUiResponsiveContentPadding" required="true" change="onComboBoxChange" width="auto" items="{ path: 'storageBin>/results',length : 1500, sorter: { path: 'lgpla'}}">
+                            <core:ListItem key="{storageBin>lgpla}" text="{storageBin>lgpla}"/>
+                        </ComboBox>
+                        <Label text="{i18n>Label4}" class="sapUiResponsiveContentPadding" required="true"></Label>
+                        <!-- <HBox> -->
+                        <!-- <ndc:BarcodeScannerButton id="sampleBarcodeScannerButton" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/> -->
+                        <Input id="barcodeInput" width="203px" type="Number" maxLength="20" liveChange="onComboBoxChange1" change="checkbarcode" submit="checkbarcode"/>
+                        <!-- </HBox> -->
+                        <Label text="{i18n>Label5}" class="sapUiResponsiveContentPadding" required="true" labelFor="printer"></Label>
+                        <ComboBox id="printer" required="true" change="onComboBoxChange" width="auto" showSecondaryValues="true" items="{ path: '/ZshOutputDeviceSet',length : 1500}">
+                            <core:ListItem key="{Padest}" text="{Padest}" additionalText="{Pastandort}"/>
+                        </ComboBox>
+                        <Label text="{i18n>Label24}" class="sapUiResponsiveContentPadding"></Label>
+                        <Input id="idrmark" width="13rem"/>
+                        <Label text="{i18n>Label25}" class="sapUiResponsiveContentPadding"></Label>
+                        <Input id="idryear" width="13rem"/>
+                        <Label text="{i18n>Label26}" class="sapUiResponsiveContentPadding"></Label>
+                        <Input id="idrlifnr" width="13rem"/>
+                    </VBox>
+                </WizardStep>
+                <WizardStep id="Step2" title="{i18n>WizardStep2}" activate="onActivate" validated="true">
+                    <f:SimpleForm id="GenInfo" editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="12" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="1" singleContainerFullSize="false">
+                        <f:content>
+                            <Label text="{i18n>Label6}"/>
+                            <Text text="{/BAR_NBR}"/>
+
+                            <Label text="{i18n>Label7_N}"/>
+                            <Text text="{/extcut}"/>
+
+                            <!-- <Label text="{i18n>Label7}"/>
+        <Text text="{/Matnr}"/>
+        
+        <Label text="{i18n>Label8}"/>
+        <Text text="{/Werks}"/> -->
+
+                            <!-- <Label text="{i18n>Label9}"/>
+        <Text text="{/Lgort}"/> -->
+
+                            <!-- <Label text="{i18n>Label10}"/>
+        <Text text="{/Lgnum}"/> -->
+
+                            <Label text="{i18n>Label11}"/>
+                            <Text text="{/Lgtyp}"/>
+
+                            <Label text="{i18n>Label12}"/>
+                            <Text text="{/Lgpla}" />
+
+                            <!-- <Label text="{i18n>Label13}"/>
+        <Text text="{/Kalab}"/> -->
+
+                            <!-- <Label text="{i18n>Label14}"/>
+        <Text text="{/Kains}"/>
+        
+        <Label text="{i18n>Label15}"/>
+        <Text text="{/Kaspe}"/> -->
+
+                            <!-- <Label text="{i18n>Label16}"/>
+        <Text text="{/NbrPieces}"/> -->
+
+                            <Label text="{i18n>Label17}"/>
+                            <Text text="{/Vbeln}"/>
+
+                            <Label text="{i18n>Label18}"/>
+                            <Text text="{/Posnr}"/>
+
+                            <Label text="{i18n>Label19}"/>
+                            <Text text="{/Profile}"/>
+
+                            <!-- <Label text="{i18n>Label20}"/>
+        <Text text="{/SDT}"/>
+        
+        <Label text="{i18n>Label21}"/>
+        <Text text="{/Length}"/> -->
+                            <Label text="{i18n>formlabel1}"/>
+                            <Text text="{/crimping}"/>
+
+                            <Label text="{i18n>formlabel2}"/>
+                            <Text text="{/diaHole}"/>
+
+                            <Label text="{i18n>formlabel3}"/>
+                            <Text text="{/holePos}"/>
+
+                            <!-- <Label text="{i18n>formlabel4}"/>
+                            <Text text="{/extcut}"/> -->
+
+                            <Label text="{i18n>formlabel5}"/>
+                            <Text text="{/sealingMill}"/>
+
+                            <Label text="{i18n>formlabel6}"/>
+                            <Text text="{/tolMinusPlus}"/>
+
+                            <Label text="{i18n>formlabel7}"/>
+                            <Text text="{/numberHole}"/>
+
+                            <Label text="{i18n>formlabel8}"/>
+                            <Text text="{/Transport}"/>
+
+                            <Label text="{i18n>formlabel9}"/>
+                            <Text text="{/Quai}"/>
+
+                            <Label text="{i18n>formlabel10}"/>
+                            <Text text="{/form}"/>
+
+                            <Label text="{i18n>formlabel11}"/>
+                            <Text text="{/Customer}"/>
+
+                        </f:content>
+                    </f:SimpleForm>
+                    <!-- <CheckBox id="confirmPrint" text="{i18n>Label23}" select="onConfirmSelect"/> -->
+                </WizardStep>
+            </Wizard>
+        </content>
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button id="idNextStep" text="Next" icon="sap-icon://open-command-field" press="onNextPress" enabled="false"/>
+                <Button id="idFinalStep" text="{i18n>Label22}" type="Accept" icon="sap-icon://print" press="onPostMoveToSuBatch" enabled="false" visible="false" />
+                <ToolbarSpacer/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

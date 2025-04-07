@@ -1,0 +1,115 @@
+
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:layout="sap.ui.layout" xmlns:ndc="sap.ndc" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified" controllerName="com.ami.zmobgrpo.controller.View1" displayBlock="true">
+<Page id="page" title="{i18n>title}">
+<content>
+<ObjectListItem id="POItemsListItem" title="{path : 'PurchaseOrderItem', type : 'sap.ui.model.odata.type.String', constraints : {isDigitSequence : true, maxLength : 10 }} - {PurchaseOrderItemText}" visible="false" number="{path:'ScheduleLineOpenQty', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}" numberUnit="{PurchaseOrderQuantityUnit}" type="Inactive">
+<ObjectAttribute id="POItemsListItemMaterialLabel" text="{MaterialName} ({Material})"/>
+<ObjectAttribute id="POItemsListItemDeliveryDate" text="{path: 'ScheduleLineDeliveryDate', type: 'sap.ui.model.odata.type.Date', formatOptions: { style: 'short' }}"/>
+</ObjectListItem>
+<Wizard id="GRWizard" complete="wizardCompletedHandler" showNextButton="false" renderMode="Page" stepActivate="onWizardStepActivate">
+<WizardStep id="POSelect" title="{i18n>wizardPOSelectPageTitle}" validated="false">
+<Text id="POSelectLabel" text="{/#ZC_PURORDVHType/PurchaseOrder/@sap:label}" tooltip="{/#ZC_PURORDVHType/PurchaseOrder/@sap:label}" class="sapUiLargeMarginTop"/>
+<Input id="POSelectInput" editable="true" ariaLabelledBy="POSelectLabel" showValueHelp="true" valueHelpRequest="onPOValueHelpRequest" change="handlePOSelectChange" submit="handlePOSelectChange" textAlign="End" value="{Transfers>/PurchaseOrder}" valueState="{Transfers>/PurchaseOrderValueState}" valueStateText="{Transfers>/PurchaseOrderValueStateText}"/>
+</WizardStep>
+<WizardStep id="POItemSelect" validated="false" title="{i18n>wizardPOItemSelectPageTitle}">
+<List id="POItemsList" headerText="Purchase Order Items" noDataText="No Purchase Order Items found" mode="SingleSelectMaster" selectionChange="handlePOItemsListSelect"/>
+</WizardStep>
+<WizardStep id="EntriesCommon" validated="false" title="{i18n>wizardEntriesCommonPageTitle}">
+<FlexBox id="EntriesCommonBox" direction="Column" alignItems="Stretch">
+<Text id="DeliveryNoteLabel" text="{i18n>deliveryNoteLabel}" tooltip="{i18n>deliveryNoteLabel}" class="sapUiLargeMarginTop"/>
+<Input id="DeliveryNoteInput" editable="true" ariaLabelledBy="DeliveryNoteLabel" change="handleDeliveryNoteChange" textAlign="End" value="{Transfers>/DeliveryNote}"/>
+
+</FlexBox>
+</WizardStep>
+<WizardStep id="BatchDetails" validated="false" title="{i18n>wizardBatchEntryPageTitle}">
+<VBox id="vbox2">
+<HBox>
+<ndc:BarcodeScannerButton id="sampleBarcodeScannerButton" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" provideFallback="false" preferFrontCamera="true"/>
+<!-- <Input id="barcodeInput" liveChange="onInputChange" submit="onCheckBarcode" placeholder="{i18n>placeholder1}"/> -->
+<TextArea id="barcodeInput" placeholder="{i18n>placeholder1}" width="auto" change="onCheckBarcode" />
+<!-- <Button text="Submit" type="Emphasized" press="onCheckBarcode"/> -->
+<!-- <VBox> -->
+<Button text="{i18n>Button1}" type="Transparent" press="onManual"/> 
+<!-- <Button text="{i18n>Button2}" type="Transparent" press="onPreview"/> -->
+<Button text="{i18n>Button3}" type="Critical" press="onClearAll"/>
+<!-- </VBox> -->
+</HBox>
+</VBox>
+<Text id="DiameterLabel" text="{i18n>diameterInputLabel}" tooltip="{i18n>diameterInputLabel}" class="sapUiTinyMarginTop"/>
+<Input id="DiameterInput" editable="true" ariaLabelledBy="DiameterLabel" change="handleDiameterChange1" textAlign="End" value="{Transfers>/Diameter}" showValueHelp="true" valueHelpIconSrc="sap-icon://decline" valueHelpRequest="handleInputClear" enabled="false" liveChange="onLiveChangeValidateFloat"/>
+<Text id="GradeLabel" text="{i18n>gradeInputLabel}" tooltip="{i18n>gradeInputLabel}" class="sapUiTinyMarginTop"/>
+<Input id="GradeInput" editable="true" ariaLabelledBy="GradeLabel" change="handleGradeChange1" textAlign="End" value="{Transfers>/Grade}" showValueHelp="true" valueHelpIconSrc="sap-icon://decline" valueHelpRequest="handleInputClear" liveChange="handleLiveChange" enabled="false"/>
+<Text id="WeightLabel" text="{i18n>weightInputLabel}" tooltip="{i18n>weightInputLabel}" class="sapUiTinyMarginTop"/>
+<Input id="WeightInput" editable="true" ariaLabelledBy="WeightLabel" change="handleWeightChange1" textAlign="End" value="{Transfers>/Weight}" showValueHelp="true" valueHelpIconSrc="sap-icon://decline" valueHelpRequest="handleInputClear" enabled="false" liveChange="onLiveChangeValidateFloat"/>
+<Text id="SupplierBatchLabel" text="{i18n>supplierBatchLabel}" tooltip="{i18n>supplierBatchLabel}" class="sapUiSmallMarginTop"/>
+<Input id="SupplierBatchInput" editable="true" ariaLabelledBy="SupplierBatchLabel" change="handleSupplierBatchChange1" textAlign="End" value="{Transfers>/SupplierBatch}" showValueHelp="true" valueHelpIconSrc="sap-icon://decline" valueHelpRequest="handleInputClear" liveChange="handleLiveChange" enabled="false"/>
+<Text id="HeatnumberLabel" text="{i18n>heatnumberInputLabel}" tooltip="{i18n>heatnumberInputLabel}" class="sapUiTinyMarginTop"/>
+<Input id="heatnumberInput" editable="true" ariaLabelledBy="HeatnumberLabel" change="handleheatnumberChange1" textAlign="End" value="{Transfers>/HeatNumber}" showValueHelp="true" valueHelpIconSrc="sap-icon://decline" valueHelpRequest="handleInputClear" liveChange="handleLiveChange" valueState="{Transfers>/BatchQuantityValueState}" valueStateText="{Transfers>/BatchQuantityValueStateText}" enabled="false"/>
+<Text id="BinLabel" text="{i18n>binInputLabel}" tooltip="{i18n>binInputLabel}" class="sapUiTinyMarginTop"/>
+<Input id="idSearchBin" value="{Transfers>/Bin}" placeholder="Select BIN" showSuggestion="true" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onBinValueHelpRequest">
+
+
+
+<suggestionItems>
+<core:Item text="{Name}"/>
+</suggestionItems>
+</Input>
+<HBox >
+<Label id="Lusedcap" text="{i18n>UsedCapacity}" tooltip="{i18n>UsedCapacity}" class="sapUiTinyMarginTop"/>
+<Text id="usedcap" tooltip="{i18n>TotalCapacity}" class="sapUiTinyMarginTop"/>
+<Label id="Ltotalcap" text="{i18n>TotalCapacity}" tooltip="{i18n>UsedCapacity}" class="sapUiTinyMarginTop"/>
+<Text id="totalcap" tooltip="{i18n>TotalCapacity}" class="sapUiTinyMarginTop"/>
+
+</HBox>
+</WizardStep>
+<WizardStep id="MovementSuccess" validated="false" title="{i18n>wizardResultsPageTitle}">
+<FlexBox id="MaterialDocumentBox" direction="Column" alignItems="Center">
+<Text id="MaterialDocumentLabel" text="{i18n>materialDocumentLabel}" tooltip="{i18n>materialDocumentLabel}" class="sapUiSmallMarginTop"/>
+<Input id="MaterialDocumentInput" editable="false" ariaLabelledBy="MaterialDocumentLabel" textAlign="Center" value="{Transfers>/MaterialDocument} / {Transfers>/MaterialDocumentYear}"/>
+<Table id="batchList"
+		
+		items="{path: '/'}">
+
+        	<columns>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Text text="Barcode Details" />
+			</Column>
+		</columns>		
+		<items>
+			<ColumnListItem vAlign="Middle">
+			
+				<cells>
+						<Text
+						text="{Diameter} x {Grade} x {Weight} x {SupplierBatch} x {HeatNumber} x {Bin}"/>
+					</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+
+
+</FlexBox>
+</WizardStep>
+</Wizard>
+</content>
+<footer>
+<Toolbar id="FooterBar">
+<ToolbarSpacer id="FooterBarSpacer01"/>
+<Button id="GoToPOSelect" text="{i18n>buttonBackToPOSelect}" press="handleGoToPOSelect" visible="{WizardUI>/GoToPOSelectBtnVisible}" width="6rem" type="Back" class="sapUiSmallMarginBeginEnd"/>
+<Button id="GoToPOItems" text="{i18n>buttonBackToPOItems}" press="handleGoToPOItems" visible="{WizardUI>/GoToPOItemsSelectBtnVisible}" width="6rem" type="Back" class="sapUiSmallMarginBeginEnd"/>
+<Button id="GoToBatchDetails" text="{i18n>buttonEntriesCommonNext}" press="handleGoToBatchDetails" visible="{WizardUI>/GoToBatchDetailsBtnVisible}" enabled="{WizardUI>/GoToBatchDetailsBtnEnabled}" width="6rem" type="Accept" class="sapUiSmallMarginBeginEnd"/>
+<Button id="BatchDetailsBack" press="handleBatchDetailsBack" visible="{WizardUI>/BatchDetailsBackBtnVisible}" width="2rem" type="Back"/>
+<Button id="idAttachment" icon="sap-icon://attachment" press="handleUploadPress" enabled="true" visible="{WizardUI>/BatchDetailsBackBtnVisible}" width="2rem" type="Neutral"/>
+<!-- <Button id="BatchDetailsNext" text="{i18n>buttonBatchDetailsNext}" press="handleBatchDetailsNext" enabled="true" visible="{WizardUI>/NextBatchDetailsBtnVisible}" width="6rem" type="Accept" class="sapUiSmallMarginBeginEnd"/> -->
+<Button id="AddBatchDetails" icon="sap-icon://add" press="handleAddBatchDetails" visible="{WizardUI>/BatchDetailsBackBtnVisible}" enabled="true" width="2rem" type="Accept"/>
+<Button icon="sap-icon://show" type="Transparent" press="onPreview" visible="{WizardUI>/BatchDetailsBackBtnVisible}" enabled="true" width="2rem"/>
+<Button id="BatchDetailsFinish" text="{i18n>buttonBatchDetailsFinish}" press="handleBatchDetailsFinish" visible="{WizardUI>/FinishBatchDetailsBtnVisible}" enabled="{WizardUI>/FinishBatchDetailsBtnEnabled}" width="auto" type="Accept" class="sapUiTinyMarginBeginEnd"/>
+<Button id="ResetToPOSelect" text="{i18n>buttonResetToPOSelect}" press="handleResetToPOSelect" visible="{WizardUI>/ResetToPOSelectBtnVisible}" width="10rem" type="Accept" class="sapUiSmallMarginBeginEnd"/>
+<Button id="ResetToPOItems" text="{i18n>buttonResetToPOItems}" press="handleResetToPOItems" visible="{WizardUI>/ResetToPOItemsBtnVisible}" width="10rem" type="Accept" class="sapUiSmallMarginBeginEnd"/>
+<ToolbarSpacer id="FooterBarSpacer02"/>
+</Toolbar>
+</footer>
+</Page>
+</mvc:View>

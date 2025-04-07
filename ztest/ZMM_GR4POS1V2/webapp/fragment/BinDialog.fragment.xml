@@ -1,0 +1,61 @@
+<c:FragmentDefinition
+	xmlns="sap.m"  
+	xmlns:c="sap.ui.core">
+    <Dialog 
+            xmlns="sap.m"
+            title="{i18n>BinList}">
+                <Table id="table0" items="{ path: 'bindata>/Bin' }">
+                    <columns>
+                    	<Column>
+                    		<Text text="Position"/>
+                    	</Column>
+                        <Column>
+                            <Text text="Material" />                            
+                        </Column>
+                        <Column>
+                            <Text text="Plant" />                            
+                        </Column>
+                        <Column>
+                            <Text text="Storage Location" />                            
+                        </Column>  
+                        <Column>
+                            <Text text="Storage Bin"/>
+                        </Column>   
+                        <Column>
+                            <Text text="Batch"/>
+                        </Column>                                                     
+                        <Column>
+                            <Text text="Supplier Batch"/>
+                        </Column>      
+                        <Column>
+                            <Text text="Quantity"/>
+                        </Column>                                                                
+                        <Column>
+                            <Text text="Unit"/>
+                        </Column>                          
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                            	<ObjectNumber number="{bindata>MatDocPos}" />
+                                <ObjectIdentifier text="{bindata>Material}"/>
+                                <Text text="{bindata>Plant}" />
+                                <Text text="{bindata>StorageLocation}"/>
+                                <Input value="{bindata>StorageBin}"  valueHelpRequest=".onValueRequestBin" 
+                                     showValueHelp="true" class="sapUiSmallMarginBottom" valueHelpOnly="true" type="Text"/>
+                                <Text text="{bindata>Batch}" />
+                                <Text text="{bindata>SupplierBatch}" />                                    
+                                <Text text="{bindata>Quantity}"/>  
+                                <Text text="{bindata>Unit}" /> 
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                <beginButton>
+                    <Button tooltip="{i18n>savedoc}" icon="sap-icon://accept" press="onSaveAddress" type="Accept"/>
+                </beginButton>
+                <endButton>
+                    <Button tooltip="{i18n>Cancel}" icon="sap-icon://decline" press="closeDialog" type="Reject"/>   
+                </endButton>                    
+    </Dialog>    
+</c:FragmentDefinition>

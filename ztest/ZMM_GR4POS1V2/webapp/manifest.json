@@ -1,0 +1,167 @@
+{
+    "_version": "1.11.0",
+    "sap.app": {
+        "_version": "1.2.0",
+        "id": "s2p.mm.im.goodsreceipt.purchaseorder.GR4POS1Extension",
+        "type": "application",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "dataSources": {
+            "Z_MMIM_GR4PO_DL_SRV": {
+                "uri": "/sap/opu/odata/sap/Z_MMIM_GR4PO_DL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": [
+                        "annotation0",
+                        "Z_MMIM_GR4PO_DL_SRV_Annotation"
+                    ],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "MMIM_GR4PO_DL_SRV": {
+                "uri": "/sap/opu/odata/sap/MMIM_GR4PO_DL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml",
+                    "annotations": [
+                        "annotation0"
+                    ]
+                }
+            },
+            "MMIM_MATERIAL_DATA_SRV": {
+                "uri": "/sap/opu/odata/sap/MMIM_MATERIAL_DATA_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata1.xml"
+                }
+            },
+            "annotation0": {
+                "type": "ODataAnnotation",
+                "uri": "annotations/annotation0.xml",
+                "settings": {
+                    "localUri": "annotations/annotation0.xml"
+                }
+            },
+            "Z_MMIM_GR4PO_DL_SRV_Annotation": {
+                "uri": "/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='Z_MMIM_GR4PO_DL_ANNO_MDL',Version='0001')/$value/",
+                "type": "ODataAnnotation",
+                "settings": {
+                    "localUri": "localService/Z_MMIM_GR4PO_DL_SRV_Annotation.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "fioriexttemplate.replaceservicecomponent",
+            "version": "1.4.0",
+            "toolsId": "9ba9cfb9-bca2-4957-ab49-69200ffaaa36"
+        },
+        "i18n": "i18n/i18n.properties"
+    },
+    "sap.ui": {
+        "_version": "1.2.0",
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://task",
+            "favIcon": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": [
+            "sap_hcb",
+            "sap_bluecrystal"
+        ]
+    },
+    "sap.ui5": {
+        "_version": "1.1.0",
+        "flexEnabled": true,
+        "config": {
+            "fullWidth": true,
+            "sapFiori2Adaptation": true
+        },
+        "dependencies": {
+            "minUI5Version": "1.78.17"
+        },
+        "componentUsages": {
+            "attachmentReuseComponent": {
+                "name": "sap.se.mi.plm.lib.attachmentservice.attachment",
+                "settings": {}
+            }
+        },
+        "extends": {
+            "component": "s2p.mm.im.goodsreceipt.purchaseorder",
+            "extensions": {
+                "sap.ui.viewReplacements": {
+                    "s2p.mm.im.goodsreceipt.purchaseorder.view.S1": {
+                        "viewName": "s2p.mm.im.goodsreceipt.purchaseorder.GR4POS1Extension.view.S1Custom",
+                        "type": "XML"
+                    },
+                    "s2p.mm.im.goodsreceipt.purchaseorder.view.S2": {
+                        "viewName": "s2p.mm.im.goodsreceipt.purchaseorder.GR4POS1Extension.view.S2Custom",
+                        "type": "XML"
+                    }
+                },
+                "sap.ui.controllerExtensions": {
+                    "s2p.mm.im.goodsreceipt.purchaseorder.controller.S1": {
+                        "controllerName": "s2p.mm.im.goodsreceipt.purchaseorder.GR4POS1Extension.controller.S1Custom"
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "s2p.mm.im.goodsreceipt.purchaseorder.GR4POS1Extension.i18n.i18n"
+                }
+            },
+            "oData": {
+                "dataSource": "Z_MMIM_GR4PO_DL_SRV",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "oData2": {
+                "dataSource": "MMIM_GR4PO_DL_SRV",
+                "preload": true,
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading"
+                    },
+                    "defaultBindingMode": "TwoWay"
+                }
+            },
+            "oDataHelp": {
+                "dataSource": "MMIM_MATERIAL_DATA_SRV",
+                "preload": true,
+                "settings": {
+                    "metadataUrlParams": {
+                        "sap-documentation": "heading"
+                    }
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/zmm_gr4pos1v2/webapp",
+        "_version": "1.1.0"
+    }
+}

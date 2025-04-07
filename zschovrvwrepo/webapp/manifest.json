@@ -1,0 +1,151 @@
+{
+  "_version": "1.53.0",
+  "sap.app": {
+    "id": "com.ami.zschovrvwrepo",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.16.2",
+      "toolsId": "7c503776-cf51-461a-a281-2274df7fdd98"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata4/sap/zsb_schedulingovrvwreport/srvd/sap/zui_schedulingrunovrvwreport/0001/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "annotation"
+          ],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      },
+      "annotation": {
+        "type": "ODataAnnotation",
+        "uri": "annotations/annotation.xml",
+        "settings": {
+          "localUri": "annotations/annotation.xml"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.114.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.ami.zschovrvwrepo.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "ZI_SCHEDULINGRUNOVERVIEWREPORTList",
+          "target": "ZI_SCHEDULINGRUNOVERVIEWREPORTList"
+        },
+        {
+          "pattern": "ZI_SCHEDULINGRUNOVERVIEWREPORT({key}):?query:",
+          "name": "ZI_SCHEDULINGRUNOVERVIEWREPORTObjectPage",
+          "target": "ZI_SCHEDULINGRUNOVERVIEWREPORTObjectPage"
+        }
+      ],
+      "targets": {
+        "ZI_SCHEDULINGRUNOVERVIEWREPORTList": {
+          "type": "Component",
+          "id": "ZI_SCHEDULINGRUNOVERVIEWREPORTList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/ZI_SCHEDULINGRUNOVERVIEWREPORT",
+              "variantManagement": "Page",
+              "navigation": {
+                "ZI_SCHEDULINGRUNOVERVIEWREPORT": {
+                  "detail": {
+                    "route": "ZI_SCHEDULINGRUNOVERVIEWREPORTObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ZI_SCHEDULINGRUNOVERVIEWREPORTObjectPage": {
+          "type": "Component",
+          "id": "ZI_SCHEDULINGRUNOVERVIEWREPORTObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/ZI_SCHEDULINGRUNOVERVIEWREPORT"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

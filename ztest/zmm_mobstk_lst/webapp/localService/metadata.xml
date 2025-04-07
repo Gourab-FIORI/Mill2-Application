@@ -1,0 +1,293 @@
+<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="http://10.99.76.219:8000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/></edmx:Reference>
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="http://10.99.76.219:8000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/></edmx:Reference>
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="http://10.99.76.219:8000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/></edmx:Reference>
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="http://10.99.76.219:8000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/></edmx:Reference>
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="http://10.99.76.219:8000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/></edmx:Reference>
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="http://10.99.76.219:8000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/></edmx:Reference>
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="http://10.99.76.219:8000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/></edmx:Reference>
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="http://10.99.76.219:8000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/></edmx:Reference>
+	<edmx:Reference xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx"
+		Uri="http://10.99.76.219:8000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value"><edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/></edmx:Reference>
+	<edmx:DataServices m:DataServiceVersion="2.0">
+		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZMM_MOBSTOCK_LST_SRV" xml:lang="en" sap:schema-version="1">
+			<EntityType Name="I_BatchType" sap:label="Batch information" sap:content-version="1">
+				<Key><PropertyRef Name="Plant"/><PropertyRef Name="Material"/><PropertyRef Name="Batch"/></Key><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/><Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
+					sap:quickinfo="Material Number" sap:value-list="standard"/><Property Name="Batch" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Batch"
+					sap:quickinfo="Batch Number"/><Property Name="BatchIsMarkedForDeletion" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Batch Deletion Flag"
+					sap:quickinfo="Deletion Flag for All Data in a Batch"/><Property Name="MatlBatchIsInRstrcdUseStock" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Batch Restricted"
+					sap:quickinfo="Batch in Restricted-Use Stock"/><Property Name="Supplier" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Supplier"
+					sap:quickinfo="Vendor's account number" sap:value-list="standard"/><Property Name="BatchBySupplier" Type="Edm.String" MaxLength="15" sap:display-format="UpperCase" sap:label="Supplier Batch"
+					sap:quickinfo="Supplier Batch Number"/><Property Name="CountryOfOrigin" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Country of origin"
+					sap:quickinfo="Country of Origin of Material (Non-Preferential Origin)"/><Property Name="RegionOfOrigin" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Region of origin"
+					sap:quickinfo="Region of Origin of Material (Non-Preferential Origin)"/><Property Name="MatlBatchAvailabilityDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Available from"
+					sap:quickinfo="Availability date"/><Property Name="ShelfLifeExpirationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="SLED/BBD"
+					sap:quickinfo="Shelf Life Expiration or Best-Before Date"/><Property Name="ManufactureDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Date of Manufacture"/><Property Name="NextInspectionDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Next Inspection Date"/><Property Name="LastGoodsReceiptDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Last Goods Receipt"
+					sap:quickinfo="Date of last goods receipt"/><Property Name="FreeDefinedDate1" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Date for Free Use 1"/><Property Name="FreeDefinedDate2" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Date for Free Use 2"/><Property Name="FreeDefinedDate3" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Date for Free Use 3"/><Property Name="FreeDefinedDate4" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Date for Free Use 4"/><Property Name="FreeDefinedDate5" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Date for Free Use 5"/><Property Name="FreeDefinedDate6" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Date for Free Use 6"/><Property Name="DefinitionOfBatchLevel" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Batch definition"
+					sap:quickinfo="Indicator: definition of batch management level"/><Property Name="IsSubordinateBatch" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Is Subordinate Batch"
+					sap:quickinfo="Subordinate Batch"/><Property Name="BatchIdentifyingPlant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/><Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Created On" sap:quickinfo="Created On Timestamp"/><Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7" sap:label="Last Change" sap:quickinfo="Last Change Timestamp"/><Property Name="ClfnObjectInternalID" Type="Edm.String" MaxLength="18" sap:display-format="NonNegative" sap:label="Internal object no."
+					sap:quickinfo="Internal object no.: Batch classification"/><Property Name="BatchExtWhseMgmtInternalId" Type="Edm.Guid" sap:label="Batch ID"/><Property Name="StockSegment" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Stock Segment"/><Property Name="ExportAndImportProductGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Intrastat Group"
+					sap:quickinfo="Material Group for Intrastat"/><Property Name="InventoryValuationType" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Valuation Type"/></EntityType>
+			<EntityType Name="I_Customer_VHType" sap:label="Customer" sap:value-list="true" sap:content-version="1">
+				<Key><PropertyRef Name="Customer"/></Key><Property Name="Customer" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:text="CustomerName"
+					sap:label="Customer" sap:quickinfo="Customer Number"/><Property Name="OrganizationBPName1" Type="Edm.String" MaxLength="35" sap:label="Name 1"/><Property Name="OrganizationBPName2" Type="Edm.String" MaxLength="35" sap:label="Name 2"/><Property Name="Country" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Country" sap:quickinfo="Country Key"/><Property Name="CityName" Type="Edm.String" MaxLength="35" sap:label="City"/><Property Name="StreetName" Type="Edm.String" MaxLength="35" sap:label="Street" sap:quickinfo="Street and House Number"/><Property Name="CustomerName" Type="Edm.String" MaxLength="80" sap:label="Customer Name" sap:quickinfo="Name of Customer"/><Property Name="CustomerAccountGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Account group"
+					sap:quickinfo="Customer Account Group"/><Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Authorization"
+					sap:quickinfo="Authorization Group"/><Property Name="IsBusinessPurposeCompleted" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Purpose Complete Flag"
+					sap:quickinfo="Business Purpose Completed Flag"/></EntityType>
+			<EntityType Name="I_InventorySpecialStockTypeTType" sap:label="Inventory Special Stock Type Text" sap:content-version="1">
+				<Key><PropertyRef Name="InventorySpecialStockType"/><PropertyRef Name="Language"/></Key><Property Name="InventorySpecialStockType" Type="Edm.String" Nullable="false" MaxLength="1" sap:display-format="UpperCase"
+					sap:label="Special Stock" sap:quickinfo="Special Stock Indicator"/><Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" sap:label="Language Key"/><Property Name="InventorySpecialStockTypeName" Type="Edm.String" MaxLength="20" sap:label="Special stock descr."
+					sap:quickinfo="Description of special stock"/></EntityType>
+			<EntityType Name="I_InventoryStockTypeTType" sap:label="Inventory Stock Type Text" sap:content-version="1">
+				<Key><PropertyRef Name="InventoryStockType"/><PropertyRef Name="Language"/></Key><Property Name="InventoryStockType" Type="Edm.String" Nullable="false" MaxLength="2" sap:display-format="UpperCase" sap:label="Stock Type"
+					sap:quickinfo="Stock Type of Goods Movement (Stock Identifier)"/><Property Name="Language" Type="Edm.String" Nullable="false" MaxLength="2" sap:label="Lang." sap:quickinfo="Language Key"/><Property Name="InventoryStockTypeName" Type="Edm.String" MaxLength="60" sap:label="Stock Type Name"/></EntityType>
+			<EntityType Name="I_MaterialType" sap:label="Material" sap:content-version="1">
+				<Key><PropertyRef Name="Material"/></Key><Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:text="Material_Text"
+					sap:label="Material" sap:quickinfo="Material Number"/><Property Name="Material_Text" Type="Edm.String" MaxLength="40" sap:label="Material Description" sap:creatable="false" sap:updatable="false"/><Property Name="MaterialType" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Material type"/><Property Name="MaterialGroup" Type="Edm.String" MaxLength="9" sap:display-format="UpperCase" sap:label="Material Group"/><Property Name="MaterialBaseUnit" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/><Property Name="MaterialGrossWeight" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="MaterialWeightUnit" sap:label="Gross weight"/><Property Name="MaterialNetWeight" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="MaterialWeightUnit" sap:label="Net weight"/><Property Name="MaterialWeightUnit" Type="Edm.String" MaxLength="3" sap:label="Weight unit" sap:quickinfo="Weight Unit"
+					sap:semantics="unit-of-measure"/><Property Name="MaterialManufacturerNumber" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Manufacturer"
+					sap:quickinfo="Manufacturer number"/><Property Name="MaterialManufacturerPartNumber" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Mfr Part Number"
+					sap:quickinfo="Manufacturer Part Number"/><Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Authorization Group"/><Property Name="IsBatchManagementRequired" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Batch Management"
+					sap:quickinfo="Batch Management Requirement Indicator"/><Property Name="CrossPlantConfigurableProduct" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Cross-plant CM"
+					sap:quickinfo="Cross-Plant Configurable Material"/><Property Name="ProductCategory" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Material Category"/><Property Name="ProductCharacteristic1" Type="Edm.String" MaxLength="18" sap:label="Color"
+					sap:quickinfo="Characteristic Value for Colors of Variants"/><Property Name="ProductCharacteristic2" Type="Edm.String" MaxLength="18" sap:label="Main Size"
+					sap:quickinfo="Characteristic Value for Main Sizes of Variants"/><Property Name="ProductCharacteristic3" Type="Edm.String" MaxLength="18" sap:label="Second Size"
+					sap:quickinfo="Characteristic Value for Second Size for Variants"/><Property Name="ProdCharc1InternalNumber" Type="Edm.String" MaxLength="30" sap:display-format="NonNegative" sap:label="Int. Char. Number"
+					sap:quickinfo="Internal Charactieristic Number for Color Characteristics"/><Property Name="ProdCharc2InternalNumber" Type="Edm.String" MaxLength="30" sap:display-format="NonNegative" sap:label="Int. Char. Number"
+					sap:quickinfo="Internal Char. Number for Characteristics for Main Sizes"/><Property Name="ProdCharc3InternalNumber" Type="Edm.String" MaxLength="30" sap:display-format="NonNegative" sap:label="Int. Char. Number"
+					sap:quickinfo="Internal Char. Number for Characteristics for Second Sizes"/></EntityType>
+			<EntityType Name="I_MaterialStdVHType" sap:label="Material" sap:value-list="true" sap:content-version="1">
+				<Key><PropertyRef Name="Material"/></Key><Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:text="Material_Text"
+					sap:label="Material" sap:quickinfo="Material Number"/><Property Name="Material_Text" Type="Edm.String" MaxLength="40" sap:label="Material Description" sap:creatable="false" sap:updatable="false"/></EntityType>
+			<EntityType Name="I_PlantType" sap:label="Plant" sap:content-version="1">
+				<Key><PropertyRef Name="Plant"/></Key><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="PlantName"
+					sap:label="Plant"/><Property Name="PlantName" Type="Edm.String" MaxLength="30" sap:label="Plant Name"/><Property Name="ValuationArea" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Valuation area"/><Property Name="PlantCustomer" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer No Plant"
+					sap:quickinfo="Customer Number of Plant" sap:value-list="standard"/><Property Name="PlantSupplier" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Sppl. No. Plnt"
+					sap:quickinfo="Supplier Number of Plant" sap:value-list="standard"/><Property Name="FactoryCalendar" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Factory Calendar"
+					sap:quickinfo="Factory calendar key"/><Property Name="DefaultPurchasingOrganization" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase"
+					sap:label="Purch. organization" sap:quickinfo="Purchasing organization"/><Property Name="SalesOrganization" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Sales Organization"
+					sap:quickinfo="Sales Organization for Intercompany Billing"/><Property Name="AddressID" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Address"/><Property Name="PlantCategory" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Plant cat."
+					sap:quickinfo="Plant category"/><Property Name="DistributionChannel" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Distrib.channel"
+					sap:quickinfo="Distribution channel for intercompany billing"/><Property Name="Division" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Int.co billing div."
+					sap:quickinfo="Division for intercompany billing"/><Property Name="Language" Type="Edm.String" MaxLength="2" sap:label="Language Key"/><Property Name="IsMarkedForArchiving" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Archiving flag"
+					sap:quickinfo="Central archiving marker for master record"/></EntityType>
+			<EntityType Name="I_StorageLocationType" sap:label="Storage Location" sap:content-version="1">
+				<Key><PropertyRef Name="Plant"/><PropertyRef Name="StorageLocation"/></Key><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/><Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase"
+					sap:text="StorageLocationName" sap:label="Storage location"/><Property Name="StorageLocationName" Type="Edm.String" MaxLength="16" sap:label="Storage Loc. Name" sap:quickinfo="Storage Location Name"/><Property Name="SalesOrganization" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Sales Organization"/><Property Name="DistributionChannel" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Distribution Channel"/><Property Name="Division" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Division"/><Property Name="IsStorLocAuthznCheckActive" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Authorization check"
+					sap:quickinfo="Storage location authorization for goods movements active"/></EntityType>
+			<EntityType Name="I_Supplier_VHType" sap:label="Supplier" sap:value-list="true" sap:content-version="1">
+				<Key><PropertyRef Name="Supplier"/></Key><Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:text="SupplierName"
+					sap:label="Vendor" sap:quickinfo="Account Number of Vendor or Creditor"/><Property Name="SupplierName" Type="Edm.String" MaxLength="35" sap:label="Name" sap:quickinfo="Name 1"/><Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Authorization"
+					sap:quickinfo="Authorization Group"/><Property Name="SupplierAccountGroup" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Account group"
+					sap:quickinfo="Vendor account group"/><Property Name="IsBusinessPurposeCompleted" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Purpose Completed"
+					sap:quickinfo="Business Purpose Completed Flag"/></EntityType>
+			<EntityType Name="ZC_MOBSTOCK_LSTType" sap:label="Stock list with WML Display" sap:content-version="1">
+				<Key><PropertyRef Name="Material"/><PropertyRef Name="Plant"/><PropertyRef Name="StorageLocation"/><PropertyRef Name="Batch"/></Key><Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase"
+					sap:text="to_Material/Material_Text" sap:label="Stock Material" sap:quickinfo="Material in Respect of Which Stock is Managed"
+					sap:value-list="standard"/><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:text="to_Plant/PlantName"
+					sap:label="Plant" sap:value-list="standard"/><Property Name="StorageLocation" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase"
+					sap:text="to_StorageLocation/StorageLocationName" sap:label="Storage location" sap:value-list="standard"/><Property Name="Batch" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Batch SID"
+					sap:quickinfo="Batch Number (Stock Identifier)" sap:value-list="standard"/><Property Name="BatchBySupplier" Type="Edm.String" MaxLength="15" sap:display-format="UpperCase" sap:label="Supplier Batch"
+					sap:quickinfo="Supplier Batch Number" sap:value-list="standard"/><Property Name="Unit" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/><Property Name="Quantity" Type="Edm.Decimal" Precision="31" Scale="14" sap:unit="Unit" sap:label="Stock Quantity"/><Property Name="InventoryStockType" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Stock Type"
+					sap:quickinfo="Stock Type of Goods Movement (Stock Identifier)"/><Property Name="InventorySpecialStockType" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Special Stock"
+					sap:quickinfo="Special Stock Indicator"/><Property Name="MaterialName" Type="Edm.String" MaxLength="40" sap:label="Material Description"/><NavigationProperty Name="toInventorySpecialStockTypeText" Relationship="ZMM_MOBSTOCK_LST_SRV.assoc_11A614F19C8BB50ECA4EF5E5CBE00064"
+					FromRole="FromRole_assoc_11A614F19C8BB50ECA4EF5E5CBE00064" ToRole="ToRole_assoc_11A614F19C8BB50ECA4EF5E5CBE00064"/><NavigationProperty Name="toInventoryStockTypeText" Relationship="ZMM_MOBSTOCK_LST_SRV.assoc_75CA78C088B66CAE852DD1C111B06CF8"
+					FromRole="FromRole_assoc_75CA78C088B66CAE852DD1C111B06CF8" ToRole="ToRole_assoc_75CA78C088B66CAE852DD1C111B06CF8"/><NavigationProperty Name="to_Batch" Relationship="ZMM_MOBSTOCK_LST_SRV.assoc_3CACF8E8F33CBF5A94015D89D79A2844"
+					FromRole="FromRole_assoc_3CACF8E8F33CBF5A94015D89D79A2844" ToRole="ToRole_assoc_3CACF8E8F33CBF5A94015D89D79A2844"/><NavigationProperty Name="to_Material" Relationship="ZMM_MOBSTOCK_LST_SRV.assoc_AB8CFC966757D0FA6A1BEB4A93E26017"
+					FromRole="FromRole_assoc_AB8CFC966757D0FA6A1BEB4A93E26017" ToRole="ToRole_assoc_AB8CFC966757D0FA6A1BEB4A93E26017"/><NavigationProperty Name="to_Plant" Relationship="ZMM_MOBSTOCK_LST_SRV.assoc_BFF03342C2BB9E23A3543486A1DD5510"
+					FromRole="FromRole_assoc_BFF03342C2BB9E23A3543486A1DD5510" ToRole="ToRole_assoc_BFF03342C2BB9E23A3543486A1DD5510"/><NavigationProperty Name="to_StorageLocation" Relationship="ZMM_MOBSTOCK_LST_SRV.assoc_4FFC082CF11373582E504D44B94876CC"
+					FromRole="FromRole_assoc_4FFC082CF11373582E504D44B94876CC" ToRole="ToRole_assoc_4FFC082CF11373582E504D44B94876CC"/></EntityType>
+			<EntityType Name="ZI_MOBSTOCK_SB_VHType" sap:label="Value help Batch,Supplier Batch" sap:value-list="true" sap:content-version="1">
+				<Key><PropertyRef Name="Plant"/><PropertyRef Name="Material"/><PropertyRef Name="Batch"/></Key><Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/><Property Name="Material" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Material"
+					sap:quickinfo="Material Number"/><Property Name="Batch" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Batch"
+					sap:quickinfo="Batch Number"/><Property Name="BatchBySupplier" Type="Edm.String" MaxLength="15" sap:display-format="UpperCase" sap:label="Supplier Batch"
+					sap:quickinfo="Supplier Batch Number"/></EntityType>
+			<Association Name="assoc_75CA78C088B66CAE852DD1C111B06CF8" sap:content-version="1"><End Type="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType" Multiplicity="1" Role="FromRole_assoc_75CA78C088B66CAE852DD1C111B06CF8"/><End Type="ZMM_MOBSTOCK_LST_SRV.I_InventoryStockTypeTType" Multiplicity="0..1" Role="ToRole_assoc_75CA78C088B66CAE852DD1C111B06CF8"/></Association>
+			<Association Name="assoc_3CACF8E8F33CBF5A94015D89D79A2844" sap:content-version="1"><End Type="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType" Multiplicity="1" Role="FromRole_assoc_3CACF8E8F33CBF5A94015D89D79A2844"/><End Type="ZMM_MOBSTOCK_LST_SRV.I_BatchType" Multiplicity="1" Role="ToRole_assoc_3CACF8E8F33CBF5A94015D89D79A2844"/></Association>
+			<Association Name="assoc_AB8CFC966757D0FA6A1BEB4A93E26017" sap:content-version="1"><End Type="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType" Multiplicity="1" Role="FromRole_assoc_AB8CFC966757D0FA6A1BEB4A93E26017"/><End Type="ZMM_MOBSTOCK_LST_SRV.I_MaterialType" Multiplicity="1" Role="ToRole_assoc_AB8CFC966757D0FA6A1BEB4A93E26017"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_AB8CFC966757D0FA6A1BEB4A93E26017"><PropertyRef Name="Material"/></Principal>
+					<Dependent Role="FromRole_assoc_AB8CFC966757D0FA6A1BEB4A93E26017"><PropertyRef Name="Material"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_BFF03342C2BB9E23A3543486A1DD5510" sap:content-version="1"><End Type="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType" Multiplicity="1" Role="FromRole_assoc_BFF03342C2BB9E23A3543486A1DD5510"/><End Type="ZMM_MOBSTOCK_LST_SRV.I_PlantType" Multiplicity="1" Role="ToRole_assoc_BFF03342C2BB9E23A3543486A1DD5510"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_BFF03342C2BB9E23A3543486A1DD5510"><PropertyRef Name="Plant"/></Principal>
+					<Dependent Role="FromRole_assoc_BFF03342C2BB9E23A3543486A1DD5510"><PropertyRef Name="Plant"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_4FFC082CF11373582E504D44B94876CC" sap:content-version="1"><End Type="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType" Multiplicity="1" Role="FromRole_assoc_4FFC082CF11373582E504D44B94876CC"/><End Type="ZMM_MOBSTOCK_LST_SRV.I_StorageLocationType" Multiplicity="0..1" Role="ToRole_assoc_4FFC082CF11373582E504D44B94876CC"/>
+				<ReferentialConstraint>
+					<Principal Role="ToRole_assoc_4FFC082CF11373582E504D44B94876CC"><PropertyRef Name="StorageLocation"/><PropertyRef Name="Plant"/></Principal>
+					<Dependent Role="FromRole_assoc_4FFC082CF11373582E504D44B94876CC"><PropertyRef Name="StorageLocation"/><PropertyRef Name="Plant"/></Dependent>
+				</ReferentialConstraint>
+			</Association>
+			<Association Name="assoc_11A614F19C8BB50ECA4EF5E5CBE00064" sap:content-version="1"><End Type="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType" Multiplicity="1" Role="FromRole_assoc_11A614F19C8BB50ECA4EF5E5CBE00064"/><End Type="ZMM_MOBSTOCK_LST_SRV.I_InventorySpecialStockTypeTType" Multiplicity="0..1" Role="ToRole_assoc_11A614F19C8BB50ECA4EF5E5CBE00064"/></Association>
+			<EntityContainer Name="ZMM_MOBSTOCK_LST_SRV_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true"
+				sap:supported-formats="atom json xlsx"><EntitySet Name="I_Batch" EntityType="ZMM_MOBSTOCK_LST_SRV.I_BatchType" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:content-version="1"/><EntitySet Name="I_Customer_VH" EntityType="ZMM_MOBSTOCK_LST_SRV.I_Customer_VHType" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="I_InventorySpecialStockTypeT" EntityType="ZMM_MOBSTOCK_LST_SRV.I_InventorySpecialStockTypeTType" sap:creatable="false"
+				sap:updatable="false" sap:deletable="false" sap:content-version="1"/><EntitySet Name="I_InventoryStockTypeT" EntityType="ZMM_MOBSTOCK_LST_SRV.I_InventoryStockTypeTType" sap:creatable="false"
+				sap:updatable="false" sap:deletable="false" sap:content-version="1"/><EntitySet Name="I_Material" EntityType="ZMM_MOBSTOCK_LST_SRV.I_MaterialType" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="I_MaterialStdVH" EntityType="ZMM_MOBSTOCK_LST_SRV.I_MaterialStdVHType" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="I_Plant" EntityType="ZMM_MOBSTOCK_LST_SRV.I_PlantType" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:searchable="true" sap:content-version="1"/><EntitySet Name="I_StorageLocation" EntityType="ZMM_MOBSTOCK_LST_SRV.I_StorageLocationType" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="I_Supplier_VH" EntityType="ZMM_MOBSTOCK_LST_SRV.I_Supplier_VHType" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="ZC_MOBSTOCK_LST" EntityType="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:searchable="true" sap:content-version="1"/><EntitySet Name="ZI_MOBSTOCK_SB_VH" EntityType="ZMM_MOBSTOCK_LST_SRV.ZI_MOBSTOCK_SB_VHType" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+				<AssociationSet Name="assoc_4FFC082CF11373582E504D44B94876CC" Association="ZMM_MOBSTOCK_LST_SRV.assoc_4FFC082CF11373582E504D44B94876CC"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="ZC_MOBSTOCK_LST" Role="FromRole_assoc_4FFC082CF11373582E504D44B94876CC"/><End EntitySet="I_StorageLocation" Role="ToRole_assoc_4FFC082CF11373582E504D44B94876CC"/></AssociationSet>
+				<AssociationSet Name="assoc_BFF03342C2BB9E23A3543486A1DD5510" Association="ZMM_MOBSTOCK_LST_SRV.assoc_BFF03342C2BB9E23A3543486A1DD5510"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="ZC_MOBSTOCK_LST" Role="FromRole_assoc_BFF03342C2BB9E23A3543486A1DD5510"/><End EntitySet="I_Plant" Role="ToRole_assoc_BFF03342C2BB9E23A3543486A1DD5510"/></AssociationSet>
+				<AssociationSet Name="assoc_75CA78C088B66CAE852DD1C111B06CF8" Association="ZMM_MOBSTOCK_LST_SRV.assoc_75CA78C088B66CAE852DD1C111B06CF8"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="ZC_MOBSTOCK_LST" Role="FromRole_assoc_75CA78C088B66CAE852DD1C111B06CF8"/><End EntitySet="I_InventoryStockTypeT" Role="ToRole_assoc_75CA78C088B66CAE852DD1C111B06CF8"/></AssociationSet>
+				<AssociationSet Name="assoc_11A614F19C8BB50ECA4EF5E5CBE00064" Association="ZMM_MOBSTOCK_LST_SRV.assoc_11A614F19C8BB50ECA4EF5E5CBE00064"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="ZC_MOBSTOCK_LST" Role="FromRole_assoc_11A614F19C8BB50ECA4EF5E5CBE00064"/><End EntitySet="I_InventorySpecialStockTypeT" Role="ToRole_assoc_11A614F19C8BB50ECA4EF5E5CBE00064"/></AssociationSet>
+				<AssociationSet Name="assoc_3CACF8E8F33CBF5A94015D89D79A2844" Association="ZMM_MOBSTOCK_LST_SRV.assoc_3CACF8E8F33CBF5A94015D89D79A2844"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="ZC_MOBSTOCK_LST" Role="FromRole_assoc_3CACF8E8F33CBF5A94015D89D79A2844"/><End EntitySet="I_Batch" Role="ToRole_assoc_3CACF8E8F33CBF5A94015D89D79A2844"/></AssociationSet>
+				<AssociationSet Name="assoc_AB8CFC966757D0FA6A1BEB4A93E26017" Association="ZMM_MOBSTOCK_LST_SRV.assoc_AB8CFC966757D0FA6A1BEB4A93E26017"
+					sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"><End EntitySet="ZC_MOBSTOCK_LST" Role="FromRole_assoc_AB8CFC966757D0FA6A1BEB4A93E26017"/><End EntitySet="I_Material" Role="ToRole_assoc_AB8CFC966757D0FA6A1BEB4A93E26017"/></AssociationSet>
+			</EntityContainer>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.I_BatchType/Material">
+				<Annotation Term="Common.ValueList">
+					<Record><PropertyValue Property="Label" String="Material"/><PropertyValue Property="CollectionPath" String="I_MaterialStdVH"/><PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="Material"/><PropertyValue Property="ValueListProperty" String="Material"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="Material_Text"/></Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.I_BatchType/Supplier">
+				<Annotation Term="Common.ValueList">
+					<Record><PropertyValue Property="Label" String="Supplier"/><PropertyValue Property="CollectionPath" String="I_Supplier_VH"/><PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="Supplier"/><PropertyValue Property="ValueListProperty" String="Supplier"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="SupplierName"/></Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.I_PlantType/PlantCustomer">
+				<Annotation Term="Common.ValueList">
+					<Record><PropertyValue Property="Label" String="Customer"/><PropertyValue Property="CollectionPath" String="I_Customer_VH"/><PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="PlantCustomer"/><PropertyValue Property="ValueListProperty" String="Customer"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="OrganizationBPName1"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="OrganizationBPName2"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="Country"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="CityName"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="StreetName"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="CustomerName"/></Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.I_PlantType/PlantSupplier">
+				<Annotation Term="Common.ValueList">
+					<Record><PropertyValue Property="Label" String="Supplier"/><PropertyValue Property="CollectionPath" String="I_Supplier_VH"/><PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="PlantSupplier"/><PropertyValue Property="ValueListProperty" String="Supplier"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="SupplierName"/></Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType/Material">
+				<Annotation Term="Common.ValueList">
+					<Record><PropertyValue Property="Label" String="Material"/><PropertyValue Property="CollectionPath" String="I_Material"/><PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="Material"/><PropertyValue Property="ValueListProperty" String="Material"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="Material_Text"/></Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType/Plant">
+				<Annotation Term="Common.ValueList">
+					<Record><PropertyValue Property="Label" String="Plant"/><PropertyValue Property="CollectionPath" String="I_Plant"/><PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="Plant"/><PropertyValue Property="ValueListProperty" String="Plant"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="PlantName"/></Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType/StorageLocation">
+				<Annotation Term="Common.ValueList">
+					<Record><PropertyValue Property="Label" String="Storage Location"/><PropertyValue Property="CollectionPath" String="I_StorageLocation"/><PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="Plant"/><PropertyValue Property="ValueListProperty" String="Plant"/></Record>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="StorageLocation"/><PropertyValue Property="ValueListProperty" String="StorageLocation"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="StorageLocationName"/></Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType/Batch">
+				<Annotation Term="Common.ValueList">
+					<Record><PropertyValue Property="Label" String="Value help Batch,Supplier Batch"/><PropertyValue Property="CollectionPath" String="ZI_MOBSTOCK_SB_VH"/><PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="Batch"/><PropertyValue Property="ValueListProperty" String="Batch"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="Plant"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="Material"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="BatchBySupplier"/></Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.ZC_MOBSTOCK_LSTType/BatchBySupplier">
+				<Annotation Term="Common.ValueList">
+					<Record><PropertyValue Property="Label" String="Value help Batch,Supplier Batch"/><PropertyValue Property="CollectionPath" String="ZI_MOBSTOCK_SB_VH"/><PropertyValue Property="SearchSupported" Bool="true"/>
+						<PropertyValue Property="Parameters">
+							<Collection>
+								<Record Type="Common.ValueListParameterInOut"><PropertyValue Property="LocalDataProperty" PropertyPath="BatchBySupplier"/><PropertyValue Property="ValueListProperty" String="BatchBySupplier"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="Plant"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="Material"/></Record>
+								<Record Type="Common.ValueListParameterDisplayOnly"><PropertyValue Property="ValueListProperty" String="Batch"/></Record>
+							</Collection>
+						</PropertyValue>
+					</Record>
+				</Annotation>
+			</Annotations>
+			<Annotations xmlns="http://docs.oasis-open.org/odata/ns/edm" Target="ZMM_MOBSTOCK_LST_SRV.ZMM_MOBSTOCK_LST_SRV_Entities"><Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+				<Annotation Term="Aggregation.ApplySupported">
+					<Record>
+						<PropertyValue Property="Transformations">
+							<Collection>
+								<String>aggregate</String>
+								<String>groupby</String>
+								<String>filter</String>
+							</Collection>
+						</PropertyValue><PropertyValue Property="Rollup" EnumMember="None"/></Record>
+				</Annotation>
+			</Annotations><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self"
+				href="http://10.99.76.219:8000/sap/opu/odata/sap/ZMM_MOBSTOCK_LST_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version"
+				href="http://10.99.76.219:8000/sap/opu/odata/sap/ZMM_MOBSTOCK_LST_SRV/$metadata"/></Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

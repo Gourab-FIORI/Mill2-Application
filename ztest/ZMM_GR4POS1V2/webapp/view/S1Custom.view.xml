@@ -1,0 +1,361 @@
+<!--
+
+    Copyright (C) 2009-2021 SAP SE or an SAP affiliate company. All rights reserved.
+
+-->
+<mvc:View controllerName="s2p.mm.im.goodsreceipt.purchaseorder.controller.S1" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form"
+	xmlns:bar="sap.ndc" xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns:ob="sap.uxap"
+	xmlns:chart="sap.suite.ui.microchart" xmlns:semantic="sap.m.semantic" xmlns="sap.m" xmlns:ndc="sap.ndc">
+	<semantic:FullscreenPage id="idPage" navButtonPress="onNavBack" showNavButton="true" title="{oFrontend>/fullscreenTitle}"
+		enableScrolling="true">
+		<semantic:content>
+			<f:SimpleForm editable="true" id="idSimpleFormHeader" maxContainerCols="1" minWidth="1024" emptySpanL="0" emptySpanM="0" emptySpanS="2"
+				labelSpanL="5" labelSpanM="5" labelSpanS="4" layout="ResponsiveGridLayout" visible="{oFrontend>/DocumentInputVisible}">
+				<Label id="idPOInputLabel" text="{oFrontend>/searchFieldLabel}"/>
+				<Input change="handleInputChangeEvent" filterSuggests="false" id="POInput" maxLength="{oFrontend>/Ebeln_maxLength}" showSuggestion="false"
+					showValueHelp="true" startSuggestion="3" suggest="handleSuggest" type="Text" valueHelpRequest="handlePOHelp"
+					tooltip="{oFrontend>/searchPlaceholderText}" width="100%" maxSuggestionWidth="{oFrontend>/maxSuggestionWidth}"
+					valueState="{oFrontend>/PO_Input_valueState}">
+					<layoutData>
+						<l:GridData id="idInputGridData" span="L2 M2 S6"/>
+					</layoutData>
+				</Input>
+				<bar:BarcodeScannerButton width="10px" scanSuccess="handleScanSuccess" visible="{oFrontend>/ScanButtonVisible}" id="idScanButton"></bar:BarcodeScannerButton>
+			</f:SimpleForm>
+			<MessagePage id="idInitialMessagePage" showHeader="false" visible="{= ${oFrontend>/visible} === false }" icon="sap-icon://product"
+				text="{oFrontend>/searchPlaceholderText}" description=""/>
+			<ob:ObjectPageLayout id="ObjectPageLayout" alwaysShowContentHeader="true" visible="{oFrontend>/visible}" upperCaseAnchorBar="false">
+				<ob:headerTitle>
+					<ob:ObjectPageHeader id="idLifname" objectTitle="{oFrontend>/Objectheader}" objectSubtitle="{oFrontend>/Objectheadertext}"
+						titleSelectorPress="handleDisplaySupplierLinkPress"></ob:ObjectPageHeader>
+				</ob:headerTitle>
+				<ob:headerContent>
+					<VBox id="idHeaderContent" visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}">
+						<ObjectAttribute id="idLifnr" text="{oFrontend>/Lifnr}" title="{i18n>LABEL_SUP_COL}" visible="{= ${oFrontend>/SupplyingPlant} !== ''}"/>
+						<ObjectAttribute active="{oFrontend>/PurchaseOrderDisplayActive}" id="idEbeln" press="handleDisplayPurchaseOrderLinkPress"
+							text="{oFrontend>/Ebeln}" title="{oFrontend>/Ebeln_label}"/>
+						<ObjectAttribute id="idPurchasingDocumentType"
+							text="{parts:[{path: 'oFrontend>/PurchasingDocumentTypeName'},{path: 'oFrontend>/PurchasingDocumentType'}], formatter: '.formatter.concatenateNameIdFormatter'}"
+							title="{i18n>PO_TYPE_LABEL}" visible="{= ${oFrontend>/SourceOfGR} === 'PURORD'}"/>
+						<ObjectAttribute id="idOrderType"
+							text="{parts:[{path: 'oFrontend>/OrderTypeName'},{path: 'oFrontend>/OrderType'}], formatter: '.formatter.concatenateNameIdFormatter'}"
+							title="{i18n>PROD_TYPE_LABEL}" visible="{= ${oFrontend>/SourceOfGR} === 'PRODORD'}"/>
+					</VBox>
+				</ob:headerContent>
+				<ob:sections>
+					<ob:ObjectPageSection id="idOPSectionGenericInfo" title="{i18n>GENERAL}" titleUppercase="false">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSectionGeneralInfo" title="{i18n>GENERAL}">
+								<ob:blocks>
+									<f:SimpleForm columnsL="3" columnsM="1" editable="true" emptySpanL="0" emptySpanM="0" id="SimpleFormDisplay354" labelSpanL="5"
+										labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="3" minWidth="1024">
+										<f:content>
+											<core:Title id="idGroup1"/>
+											<Label design="Standard" id="idOutputLabel" text="{i18n>PRINTING_LABEL}" textAlign="Left" labelFor="idVersionForPrintingSlip"/>
+											<Select id="idVersionForPrintingSlip" selectedKey="{oFrontend>/VersionForPrintingSlip_selectedKey}" enabled="{oFrontend>/visible}"
+												items="{oFrontend>/VersionForPrintingSlip}" ariaLabelledBy="idOutputLabel">
+												<core:Item id="idVersionForPrintingSlipItem" key="{oFrontend>key}" text="{oFrontend>text}"/>
+											</Select>
+											<Label design="Standard" id="idBillOfLadingLabel" text="{i18n>BILL_OF_LADING_LABEL}" textAlign="Left"
+												visible="{oFrontend>/BillOfLadingVisible}"/>
+											<Input change="handleUpperCase" enabled="{oFrontend>/visible}" id="idBillOfLading" maxLength="16" type="Text"
+												value="{oFrontend>/BillOfLading}" ariaLabelledBy="idBillOfLadingLabel" visible="{oFrontend>/BillOfLadingVisible}"/>
+											<core:Title id="idGroup2"/>
+											<Label design="Standard" id="idMaterialDocumentHeaderTextLabel" text="{i18n>HEADER_NOTE_LABEL}" textAlign="Left"/>
+											<Input enabled="{oFrontend>/visible}" id="idMaterialDocumentHeaderText" maxLength="25" type="Text"
+												value="{oFrontend>/MaterialDocumentHeaderText}" ariaLabelledBy="idMaterialDocumentHeaderTextLabel"/>
+											<Label design="Standard" id="idDeliveryDocumentByVendorLabel" text="{i18n>DELIVERY_NOTE_LABEL}" textAlign="Left"/>
+											<Input change="handleUpperCase" enabled="{oFrontend>/visible}" id="idDeliveryDocumentByVendor" maxLength="16" type="Text"
+												value="{oFrontend>/DeliveryDocumentByVendor}" ariaLabelledBy="idDeliveryDocumentByVendorLabel"/>
+											<core:Title id="idGroup3"/>
+											<Label required="true" design="Standard" id="idDocumentDateLabel" text="{i18n>DOCUMENT_DATE_LABEL}" textAlign="Left"/>
+											<DatePicker change="handleDateChange" enabled="{oFrontend>/visible}" id="idDocumentDate" value="{oFrontend>/DocumentDate}"
+												valueFormat="dd.MM.yyyy" valueState="{oFrontend>/DocumentDate_valueState}" ariaLabelledBy="idDocumentDateLabel"/>
+											<Label required="true" design="Standard" id="idPostingDateLabel" text="{i18n>POSTING_DATE_LABEL}" textAlign="Left"/>
+											<DatePicker change="handleDateChange" enabled="{oFrontend>/visible}" id="idPostingDate" value="{oFrontend>/PostingDate}"
+												valueFormat="dd.MM.yyyy" valueState="{oFrontend>/PostingDate_valueState}" valueStateText="{oFrontend>/PostingDate_valueStateText}"
+												ariaLabelledBy="idPostingDateLabel"/>
+										</f:content>
+									</f:SimpleForm>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+				<ob:sections>
+					<ob:ObjectPageSection id="idOPSectionTable" title="{i18n>SECTION_ITEMS}" titleUppercase="false">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubSectionTable" title="{i18n>SECTION_ITEMS}">
+								<ob:blocks>
+									<Table id="idProductsTable" updateFinished="onUpdateFinished" items="{path:'oFrontend>/Items', key:'DocumentItem'}" growing="true" ariaLabelledBy="idPOItemsCountTableHeader">
+																	  
+																	   
+										<headerToolbar>
+											<OverflowToolbar id="idTableToolbar">
+												<Title text="{oFrontend>/POItemsCountTableHeader}" id="idPOItemsCountTableHeader"/>
+												<ToolbarSpacer id="idToolbarSpacer"/>
+												<SearchField enabled="{oFrontend>/visible}" id="idTableSearch" search="handleSearch" selectOnFocus="false"
+													visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}" width="20%">
+													<layoutData shrinkable="false"></layoutData>
+												</SearchField>
+
+												<Button icon="sap-icon://sort" id="idViewSettingsButton" press="handleViewSettingsDialogButtonPressed"
+													visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}">
+													<layoutData shrinkable="false"></layoutData>
+												</Button>
+												<Button enabled="{oFrontend>personalizationEnabled}" icon="sap-icon://action-settings" id="idPersonalizationButton"
+													press="onPersoButtonPressed" visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}"/>
+												<Button text="{i18n>COPY_BUTTON}" id="idCopyButton" enabled="{oFrontend>/CopyButtonVisible}" press="handleCopyButtonPressed"
+													visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}">
+													<layoutData shrinkable="false"></layoutData>
+												</Button>
+												<Button text="{i18n>DELETE_BUTTON}" id="idDeleteButton" enabled="{oFrontend>/DeleteButtonVisible}" press="handleDeleteButtonPressed"
+													visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}">
+													<layoutData shrinkable="false"></layoutData>
+												</Button>
+												<Button text="{i18n>CREATE_BUTTON}" id="idAddButton" press="handleAddButtonPressed" tooltip="{i18n>LABEL_ADD}"
+													visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}">
+													<layoutData shrinkable="false"></layoutData>
+												</Button>	
+												<Button id="btnStoLoc"
+												        text="Apply Storage Bin" press="handleAssignStoBin">
+													
+												</Button>										
+											</OverflowToolbar>
+										</headerToolbar>
+										<columns>
+											<Column id="idSelectAllColumn" minScreenWidth="Phone" width="3rem">
+												<CheckBox id="idSelectAll" select="handleSelectAll" tooltip="{i18n>TABLE_SELECT_ALL_TOOLTIP}" ariaDescribedBy="idSelectAll"/>
+											</Column>
+											<Column id="idItemColumn" minScreenWidth="Phone" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}" width="5rem">
+												<Text id="idItemColumnText" text="{i18n>TABLE_COLUMN_Item_TEXT}"/>
+											</Column>
+											<Column id="idMaterialColumn" minScreenWidth="Phone" visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}">
+												<Text id="idMaterialColumnText" text="{i18n>TABLE_COLUMN_MATERIAL_TEXT}"/>
+											</Column>
+											<Column id="idMaterialInputColumn" minScreenWidth="Phone" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}">
+												<Text id="idMaterialInputColumnText" text="{i18n>TABLE_COLUMN_MATERIAL_TEXT}"/>
+											</Column>
+											<Column id="idMaterialComponents" minScreenWidth="Phone" visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF' &amp;&amp; ${oFrontend>/HasSubcontractingItem}}" hAlign="Center">
+												<Text id="idMaterialComponentsText" text="{i18n>TABLE_COLUMN_MATERIAL_COMPONENT}"/>
+											</Column>
+											<Column demandPopin="true" id="idOpenQuantityColumn" minScreenWidth="Tablet" visible="{oFrontend>/ColumnOpenQuantityVisible}">
+												<Text id="idOpenQuantityColumnText" text="{i18n>TABLE_COLUMN_OPEN_QUANT_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idNonVltdGRBlockedStockQtyColumn" minScreenWidth="Desktop"
+												visible="{oFrontend>/ColumnNonVltdGRBlockedStockQty}">
+												<Text id="idNonVltdGRBlockedStockQtyColumnText" text="{i18n>TABLE_COLUMN_OPEN_GRBLOCK_QUANT_TEXT}"
+													visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}"/>
+											</Column>
+											<Column demandPopin="true" id="idDeliveredQuantityColumn" minScreenWidth="1281px" width="13rem" visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}" >
+												<Text id="idDeliveredQuantityColumnText" text="{i18n>TABLE_COLUMN_DELIV_QUANT_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idQuantityUnitColumn" minScreenWidth="Tablet" width="12rem"
+												visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}">
+												<Text id="idDeliveredQuantityColumnTextNOREF" text="{i18n>TABLE_COLUMN_QUANT_UNIT_TEXT}"/>
+											</Column>
+											<!--Begin of Scale Changes-->
+											<Column demandPopin="true" id="idScaleWeightColumn" minScreenWidth="Tablet" hAlign="Right" visible="{oFrontend>/ColumnScaleVisible}">
+												<Text id="idScaleWeightColumnText" text="{i18n>TABLE_COLUMN_SCALE_WT_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idScaleButtonColumn" minScreenWidth="Tablet" visible="{oFrontend>/ColumnScaleVisible}">
+											</Column>
+											<!--End of Scale Changes-->											
+											<Column demandPopin="true" id="idSplitColumn" minScreenWidth="Tablet" visible="{oFrontend>/ColumnSplitVisible}" hAlign="Center">
+												<Text id="idSplitColumnText" text="{i18n>TABLE_COLUMN_SPLIT_ASS_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idPlantColumn" minScreenWidth="Tablet" visible="{oFrontend>/ColumnPlantVisible}">
+												<Text id="idPlantColumnText" text="{i18n>TABLE_COLUMN_PLANT_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idIsReturnsItemColumn" minScreenWidth="Desktop" visible="{oFrontend>/ColumnIsReturnsItemVisible}"
+												hAlign="Center">
+												<Text id="idIsReturnsItemColumnText" text="{i18n>TABLE_COLUMN_RETURN_ITEM_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idStorageLocationColumn" minScreenWidth="1100px" visible="{oFrontend>/ColumnStorageLocationVisible}">
+												<Text id="idStorageLocationColumnText" text="{i18n>TABLE_COLUMN_STOR_LOC_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idStockTypeColumn" minScreenWidth="1281px" visible="{oFrontend>/ColumnStockTypeVisible}">
+												<Text id="idStockTypeColumnText" text="{i18n>TABLE_COLUMN_STOCK_T_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idStorageBinColumn" minScreenWidth="1281px" visible="{oFrontend>/ColumnStorageBinVisible}">
+												<Text id="idStorageBinColumnText" text="{i18n>TABLE_COLUMN_STOR_BIN_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idBatchColumn" minScreenWidth="1281px" visible="{oFrontend>/ColumnBatchVisible}">
+												<Text id="idBatchColumnText" text="{i18n>TABLE_COLUMN_BATCH_T_TEXT}"/>
+											</Column>
+
+											<!--Begin Column for Supplier Batch-->
+											<Column demandPopin="true" id="idSupplierBatchColumn"  minScreenWidth="1281px" visible="{= ${oFrontend>/ScanButtonVisible} === false ? true : false }">
+												<Text id="idSupplierBatchColumnText" text="Supplier Batch"/>
+											</Column>	
+											
+											<Column demandPopin="true" id="idBarcodeScanColumn" visible="{= ${oFrontend>/ScanButtonVisible} === false ? true : false }">
+											</Column>
+											<!--End Column for Supplier Batch-->
+
+											<Column demandPopin="true" id="idAccountAssignmentChartColumn" minScreenWidth="Desktop"
+												visible="{oFrontend>/ColumnAccountAssignmentVisible}">
+												<Text id="idAccountAssignmentColumnChartText" text="{i18n>TABLE_COLUMN_ACC_ASS_TEXT}"/>
+											</Column>
+											<Column demandPopin="true" id="idSpecialStock" minScreenWidth="1281px" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}">
+												<Text id="idSpecialStockColumnText" text="{i18n>TABLE_COLUMN_SPECIAL_STOCK_TEXT}" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}"/>
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem id="idTableItems" press="handleDetailPress" type="Navigation" highlight="{oFrontend>highlight}" vAlign="Middle">
+												<cells>
+													<CheckBox enabled="{oFrontend>SelectEnabled}" id="idSelectedCell" select="handleSelect" selected="{oFrontend>Selected}"
+														visible="{oFrontend>MaterialVisible}" tooltip="{i18n>TABLE_SELECT_ITEM_TOOLTIP}" ariaLabelledBy="idSelectedCell"/>
+													<ObjectIdentifier id="idItemCell" title="{oFrontend>DocumentItem}" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}"/>
+													<ObjectIdentifier class="sapMTableContentMargin" id="idMaterialNameCell" text="{path:'oFrontend>Material', formatter: '.matidformatter' }"
+														tooltip="{oFrontend>MaterialName}" title="{oFrontend>MaterialText}"
+														titleActive="{= ${oFrontend>/MaterialDisplayActive} === true &amp;&amp; ${oFrontend>Material} !== '' }"
+														ariaLabelledBy="idMaterialColumnText" titlePress="handleDisplayMaterialLinkPress" visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}">
+														<customData>
+															<core:CustomData id="idMaterialCustomData" key="Material" value="{oFrontend>Material}"/>
+														</customData>
+													</ObjectIdentifier>
+													<Input editable="true" required="oFrontend>Material_InputMandatory" enabled="{oFrontend>ItemEnabled}" id="idMaterial_inputCell"
+														showValueHelp="true" textAlign="Left" type="Text" valueHelpOnly="false" value="{oFrontend>Material_Name}"
+														valueHelpRequest="handleMaterialValueHelp" valueState="{oFrontend>Material_Input_valueState}"
+														valueStateText="{oFrontend>Material_Input_valueStateText}" showSuggestion="true" suggest="handleMaterialSuggest"
+														suggestionItemSelected="handleSuggestionMaterialSelected" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}" maxSuggestionWidth="40rem"
+														change="handleMaterialChangeEvent"></Input>
+													<l:HorizontalLayout id="idComponentIndicatorLayout" allowWrapping="false" visible="{oFrontend>ItemComponentVisible}">
+														<core:Icon id="idComponentIconPositive" color="Positive" src="sap-icon://message-success" tooltip="{i18n>COMPONENT_ICON_CORRECT_TOOLTIP}" visible="{= ${oFrontend>ComponentIconState} === 'Positive'}"/>
+														<core:Icon id="idComponentIconNegative" color="Negative" src="sap-icon://message-warning" tooltip="{i18n>COMPONENT_ICON_ERROR_TOOLTIP}" visible="{= ${oFrontend>ComponentIconState} === 'Negative'}"/>
+														<core:Icon id="idComponentIconCritical" color="Critical" src="sap-icon://message-warning" tooltip="{i18n>COMPONENT_ICON_WARNING_TOOLTIP}" visible="{= ${oFrontend>ComponentIconState} === 'Critical'}"/>
+														<Text id="idComponentAutoAdjustText" class="sapUiTinyMarginBeginEnd" text="{i18n>COMPONENT_AUTO_ADJUST}" visible="{oFrontend>ComponentAutoAdjusted}"></Text>
+														<Text id="idComponentManualAdjustText" class="sapUiTinyMarginBeginEnd" text="{i18n>COMPONENT_MANUAL_ADJUST}" visible="{oFrontend>ComponentManualAdjusted}"></Text>
+													</l:HorizontalLayout>
+													<ObjectNumber emphasized="false" id="idOpenQuantityCell"
+														number="{path:'oFrontend>OpenQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+														unit="{oFrontend>Unit}" visible="{oFrontend>MaterialVisible}"/>
+													<ObjectNumber emphasized="false" id="idNonVltdGRBlockedStockQtyCell"
+														number="{path:'oFrontend>NonVltdGRBlockedStockQty', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+														unit="{oFrontend>Unit}" visible="{oFrontend>MaterialVisible}"/>
+													<HBox id="idDeliveredQuantityLayout" wrap="Wrap" width="13rem">
+														<Input change="handleInputChange" required="oFrontend>DeliveredQuantity_inputMandatory" enabled="{oFrontend>ItemEnabled}"
+															tooltip="{i18n>LABEL_QUANTITY}" id="idDeliveredQuantity_inputCell" showValueStateMessage="true" textAlign="Right"
+															editable="{oFrontend>DeliveredQuantityEditable}"
+															value="{path:'oFrontend>DeliveredQuantity_input', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1, emptyString:''}}"
+															valueState="{oFrontend>DeliveredQuantity_valueState}" valueStateText="{oFrontend>DeliveredQuantity_valueStateText}" width="7rem"
+															ariaLabelledBy="idDeliveredQuantityColumnText" visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}"/>
+														<Input editable="{oFrontend>DeliveredUnitEditable}" enabled="{oFrontend>ItemEnabled}" id="idDeliveredUnit_inputCell" showValueHelp="true"
+															required="oFrontend>DeliveredUnit_inputMandatory" textAlign="Right" type="Text" value="{oFrontend>DeliveredUnit_input}" valueHelpOnly="true"
+															valueHelpRequest="handleAUoMHelp" valueState="{oFrontend>DeliveredUnit_input_valueState}" tooltip="{i18n>LABEL_UNIT}"
+															valueStateText="{oFrontend>DeliveredUnit_input_valueStateText}" width="5rem" ariaLabelledBy="idDeliveredQuantityColumnText"
+															visible="{= ${oFrontend>/SourceOfGR} !== 'NOREF'}" class="sapUiTinyMarginBegin" />
+													</HBox>
+													<l:HorizontalLayout id="idQuantityUnitLayout" allowWrapping="false">
+														<Input change="handleInputChange" required="oFrontend>DeliveredQuantity_inputMandatory" enabled="{oFrontend>ItemEnabled}"
+															tooltip="{i18n>LABEL_QUANTITY}" id="idDeliveredQuantity_inputCell_NOREF" showValueStateMessage="true" textAlign="Right"
+															editable="{oFrontend>DeliveredQuantityEditable}"
+															value="{path:'oFrontend>DeliveredQuantity_input', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+															valueState="{oFrontend>DeliveredQuantity_valueState}" valueStateText="{oFrontend>DeliveredQuantity_valueStateText}" width="5rem"
+															ariaLabelledBy="idDeliveredQuantityColumnTextNOREF" class="sapUiTinyMargin" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}"/>
+														<Input editable="{oFrontend>DeliveredUnitEditable}" enabled="{oFrontend>ItemEnabled}" id="idDeliveredUnit_inputCell_NOREF"
+															tooltip="{i18n>LABEL_UNIT}" showValueHelp="true" required="oFrontend>DeliveredUnit_inputMandatory" textAlign="Right" type="Text"
+															value="{oFrontend>DeliveredUnit_input}" valueHelpOnly="true" valueHelpRequest="handleAUoMHelp"
+															valueState="{oFrontend>DeliveredUnit_input_valueState}" valueStateText="{oFrontend>DeliveredUnit_input_valueStateText}" width="5rem"
+															ariaLabelledBy="idDeliveredQuantityColumnTextNOREF" class="sapUiTinyMargin" visible="{= ${oFrontend>/SourceOfGR} === 'NOREF'}"/>
+													</l:HorizontalLayout>
+													
+													<!--Begin Scale changes-->
+													<ComboBox id="idScaleCombo" showSecondaryValues="true" value="{oFrontend>ScaleNo}" items="{path:'scalemodel>/results', templateShareable:false}"  selectionChange="handleScaleSelect" width="50%" visible="{oFrontend>/ColumnScaleVisible}">
+														<core:ListItem id="idCombolist" key="{scalemodel>ScaleNo}" text="{scalemodel>ScaleNo}" additionalText = "{scalemodel>Name}"/>
+													</ComboBox>
+													<Button icon="sap-icon://compare" id="idScaleBtn" press="handleScaleWeightGet" tooltip="{i18n>LABEL_GETSCALE}" visible="{oFrontend>/ColumnScaleVisible}"/>
+													<!--End Scale Changes	-->
+													
+													<Button icon="{oFrontend>SplitButtonIcon}" id="idSplitCell" press="handleItemSplit" tooltip="{i18n>LABEL_DISTRIBUTION}"
+														visible="{oFrontend>SplitEnabled}" type="Transparent"/>
+													<Input id="idPlant_inputCell" valueHelpOnly="true" editable="{oFrontend>Plant_input_editable}" value="{oFrontend>Plant_input}"
+														visible="{oFrontend>PlantVisible}" showValueHelp="true" valueHelpRequest="handlePlantHelp" required="oFrontend>Plant_inputMandatory"/>
+													<CheckBox id="idIsReturnsItemCell" enabled="false" selected="{oFrontend>IsReturnsItem}"/>
+													<Input editable="{oFrontend>StorageLocationEditable}" enabled="{oFrontend>ItemEnabled}" id="idStorageLocation_inputCell"
+														showValueHelp="true" showValueStateMessage="true" type="Text" value="{oFrontend>StorageLocation_input}" valueHelpOnly="true"
+														valueHelpRequest="handleStorageLocationHelp" valueState="{oFrontend>StorageLocation_valueState}"
+														valueStateText="{oFrontend>StorageLocation_valueStateText}" visible="{oFrontend>StorageLocationVisible}"
+														ariaLabelledBy="idStorageLocationColumnText" required="{oFrontend>StorageLocationMandatory}"></Input>
+													<Select change="handleStockTypeChange"
+														enabled="{= ${oFrontend>ItemEnabled} === true &amp;&amp; ${oFrontend>StockTypeEnabled} === true &amp;&amp; ${oFrontend>StockTypeNOREFEnabled} === true }"
+														id="idStockType_inputCell" items="{path: 'oFrontend>StockType_input', templateShareable: false }" width="14rem"
+														selectedKey="{oFrontend>StockType_selectedKey}" visible="{oFrontend>StockTypeVisible}" ariaLabelledBy="idStockTypeColumnText">
+														<core:Item id="idStockType" key="{oFrontend>key}" text="{oFrontend>text}">
+															<core:customData>
+																<core:CustomData id="idCustomDataControlBatchField" key="ControlOfBatchTableField" value="{oFrontend>ControlOfBatchTableField}"/>
+																<core:CustomData id="idCustomDataControlExpirationDate" key="ControlOfExpirationDate" value="{oFrontend>ControlOfExpirationDate}"/>
+																<core:CustomData id="idCustomDataControlManufactureDate" key="ControlOfManufactureDate" value="{oFrontend>ControlOfManufactureDate}"/>
+																<core:CustomData id="idCustomDataControlReasonCodeTableField" key="ControlOfReasonCodeTableField" value="{oFrontend>ControlOfReasonCodeTableField}"/>
+															</core:customData>
+														</core:Item>
+													</Select>
+													<Text id="idStorageBinText" text="{oFrontend>WarehouseStorageBin}" visible="{= ${oFrontend>WarehouseStorageBin} !== '' }"></Text>
+													<Input visible="{oFrontend>BatchVisible}" ariaLabelledBy="idBatchColumnText" editable="{oFrontend>BatchEditable}" change="handleInputBatchChangeEvent"
+														required="{oFrontend>BatchMandatory}" enabled="{oFrontend>ItemEnabled}" id="idBatch_inputCel" type="Text" maxLength="10" width="10em"
+														valueState="{oFrontend>Batch_valueState}" value="{oFrontend>Batch}" valueHelpRequest="handleBatchHelp"
+														showValueHelp="{= ${oFrontend>StorageLocation_valueStateText} === ''}"/>							
+
+													<!--Begin of Supplier Batch Info-->
+													<Input visible="true" ariaLabelledBy="idSupplierBatchColumnText" 
+														   enabled="true" id="idSupplierBatch_inputCel" value="{oFrontend>SupplierBatch}"
+														   type="Text" maxLength="15" width="10em" change="handleInputSupplierBatch"/>	
+														   
+													<ndc:BarcodeScannerButton
+														   id="idBarcodeScanButton"
+														   scanSuccess="onScanSuccess"
+														   scanFail="onScanError"
+														   inputLiveUpdate="onScanLiveupdate"
+														   dialogTitle="Barcode Scanner Button Sample"/>													    		   
+													<!--End of Supplier Batch Info-->
+														<l:VerticalLayout id="idAccountAssignmentCellLayout" visible="{oFrontend>AccountAssignmentVisible}">
+														<Text id="idAccountAssignmentCell"
+															text="{parts:[{path:'oFrontend>AcctAssignmentCategoryName'}, {path:'oFrontend>AcctAssignmentCategory'}], formatter: '.concatenateNameIdFormatter'}"
+															visible="{oFrontend>AccountAssignmentVisible}"/>
+														<chart:StackedBarMicroChart id="idAccountAssignmentChartCell" press="onDisplayAccountAssignment"
+															visible="{oFrontend>AccountAssignmentChartVisible}" size="Auto" precision="0"></chart:StackedBarMicroChart>
+													</l:VerticalLayout>
+													<Text id="idSpecialStockCell" text="{oFrontend>InventorySpecialStockTypeName}" visible="{oFrontend>/ColumnSpecialStockVisible}"/>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+				<ob:sections>
+					<ob:ObjectPageSection title="{i18n>ATTACHMENTS}" id="idAttachmentSection" visible="{oFrontend>/AttachmentVisible}" titleUppercase="false">
+						<ob:subSections>
+							<ob:ObjectPageSubSection id="idOPSubAttachment" title="{i18n>ATTACHMENTS}" visible="{oFrontend>/AttachmentVisible}">
+								<ob:blocks>
+									<core:ComponentContainer id="idastestcompContainer"/>
+								</ob:blocks>
+							</ob:ObjectPageSubSection>
+						</ob:subSections>
+					</ob:ObjectPageSection>
+				</ob:sections>
+			</ob:ObjectPageLayout>
+		</semantic:content>
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction id="idShareEmail" press="onShareEmailPress" visible="{oFrontend>/saveShareEmailActive}"/>
+		</semantic:sendEmailAction>
+		<semantic:shareInJamAction>
+			<semantic:ShareInJamAction id="idShareInJam" press="onShareInJamPress"
+				visible="{= ${FLP>/isShareInJamActive} === true &amp;&amp; ${oFrontend>/SourceOfGR} !== 'NOREF'}"/>
+		</semantic:shareInJamAction>
+		<semantic:saveAsTileAction>
+			<footerbar:AddBookmarkButton id="shareTile" title="{oFrontend>/saveAsTileTitle}" customUrl="{oFrontend>/saveAsTileURL}"
+				subtitle="{oFrontend>/saveAsTileSubtitle}" visible="{oFrontend>/shareTileActive}"/>
+		</semantic:saveAsTileAction>
+		<semantic:messagesIndicator>
+			<semantic:MessagesIndicator id="idMessageIndicator" press="onMessagesButtonPress"/>
+		</semantic:messagesIndicator>
+		<semantic:customFooterContent>
+			<Button enabled="{oFrontend>/PostButtonEnabled}" id="postBtn" press="handlePost" text="{i18n>POST_BUTTON}" type="Emphasized"
+				visible="{oFrontend>/PostButtonVisible}"/>
+		</semantic:customFooterContent>
+	</semantic:FullscreenPage>
+</mvc:View>

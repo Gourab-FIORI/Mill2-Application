@@ -1,0 +1,8 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Column id="ExtensionWizard::ColumnBreakout">
+		<Text text="Action"/>
+		<customData>
+			<core:CustomData key="p13nData" value='\{"columnKey": "Test", "columnIndex" : "1000"}'/>
+		</customData>
+	</Column>
+</core:FragmentDefinition>

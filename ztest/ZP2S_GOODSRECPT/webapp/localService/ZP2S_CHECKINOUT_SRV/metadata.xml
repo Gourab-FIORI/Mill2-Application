@@ -1,0 +1,56 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZP2S_CHECKINOUT_SRV" xml:lang="en" sap:schema-version="1">
+            <EntityType Name="checkinout" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="IDatefrom"/>
+                    <PropertyRef Name="IDateto"/>
+                </Key>
+                <Property Name="Message" Type="Edm.String" Nullable="false" MaxLength="220" sap:unicode="false" sap:label="Message text" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IDatefrom" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Current Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IDateto" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Current Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IDirection" Type="Edm.String" MaxLength="35" sap:unicode="false" sap:label="CHAR35" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ILifex" Type="Edm.String" MaxLength="35" sap:unicode="false" sap:label="Ext. Delivery" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ILocation" Type="Edm.String" MaxLength="4" sap:unicode="false" sap:label="Plant" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IOperations" Type="Edm.String" MaxLength="35" sap:unicode="false" sap:label="CHAR35" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lifex" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Ext. Delivery" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Direction" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="CHAR35" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Dpreg" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="PlanCheckInDate" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Upreg" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="PlannedTimeChIn" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="CHAR35" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Tdlnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Service agent" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Vstel" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Shipping Point" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="18" sap:unicode="false" sap:label="Material" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Dareg" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Act.Date ChkIn" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Uareg" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="CurrentTmeChkIn" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="ZdaregO" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Act.Date ChkIn" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="ZuaregO" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="CurrentTmeChkIn" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Scacd" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="SCAC" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Signi" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Container ID" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Text2" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Rear License Pl" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Driver" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Driver" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Text1" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Round  Trip" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="BrgewI" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Gross Weight" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="BrgewO" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Gross Weight" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Ntgew" Type="Edm.Decimal" Precision="13" Scale="3" sap:unicode="false" sap:label="Net Weight" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="TndrTrkid" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="FA tracking ID" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Add01" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Suppl. 1" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Tknum" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Shipment Number" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Shtyp" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Shipment type" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Dtabf" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="DateShpmntCmpl." sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Uzabf" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="TimeTrspProcess" sap:creatable="false" sap:updatable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZP2S_CHECKINOUT_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="checkinoutSet" EntityType="ZP2S_CHECKINOUT_SRV.checkinout" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="https://DEVGFA.NOVELIS.BIZ:8401/sap/opu/odata/sap/ZP2S_CHECKINOUT_SRV/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="https://DEVGFA.NOVELIS.BIZ:8401/sap/opu/odata/sap/ZP2S_CHECKINOUT_SRV/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>

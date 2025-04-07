@@ -1,0 +1,229 @@
+<mvc:View controllerName="zmm.zmm_mobpinvn.controller.Main" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m"
+	xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="MainPage" showHeader="false" title="Main Page">
+					<content>
+						<Wizard id="MainWizard" complete="wizardCompletedHandler" showNextButton="false" renderMode="Page" stepActivate="onWizardStepActivate"
+							enableBranching="true">
+							<WizardStep id="StorageLocationStep" title="{i18n>wizardStorageLocationSelectPageTitle}" validated="false" nextStep="BinStep">
+								<FlexBox id="StorageLocationSelectBox" direction="Column" alignItems="Stretch" fitContainer="true" class="sapUiResponsiveContentPadding">
+									<Label id="StorageLocationSelectLabel" text="{/#ZC_STLOC_PINVDType/StorageLocation/@sap:label}"
+										tooltip="{/#ZC_STLOC_PINVDType/StorageLocation/@sap:label}"/>
+									<Select id="StorageLocationSelect" items="{/ZC_STLOC_PINVD}" ariaLabelledBy="StorageLocationSelectLabel" width="100%"
+										selectedKey="{Functional>/StorageLocation}" forceSelection="false" change="handleStorageLocationSelectionChange"
+										class="sapUiLargeMarginBottom">
+										<core:Item key="{StorageLocation}" text="{StorageLocationName} - ({StorageLocation})"/>
+									</Select>
+									<Label id="UnitOfMeasureSelectLabel" text="{/#ZC_PINVD_UNITSType/UnitOfMeasure/@sap:label}"
+										tooltip="{/#ZC_PINVD_UNITSType/UnitOfMeasure/@sap:label}"/>
+									<List id="UnitsList" items="{/ZC_PINVD_UNITS}" selectionChange="handleStorageLocationSelectionChange" mode="SingleSelect"
+										includeItemInSelection="true">
+										<StandardListItem title="{UnitOfMeasure} - {UnitOfMeasureLongName}" id="UnitListItem" class="sapUiSmallMarginBottom"/>
+									</List>
+								</FlexBox>
+							</WizardStep>
+							<WizardStep id="BinStep" title="{i18n>wizardBinSelectPageTitle}" validated="false" nextStep="BatchDetailsStep"
+								subsequentSteps="BinExtraStep, BatchDetailsStep, ResultsStep">
+								<FlexBox id="BinBox" direction="Column" alignItems="Stretch" fitContainer="true" class="sapUiResponsiveContentPadding">
+									<Label id="BinLabel" text="{/#ZC_WMLB_PINVD_VHType/StorageBin/@sap:label}" tooltip="{/#ZC_WMLB_PINVD_VHType/StorageBin/@sap:label}"/>
+									<Input id="BinInput" editable="true" ariaLabelledBy="BinLabel" change="handleBinChange" textAlign="End" value="{Functional>/StorageBin}"
+										valueState="{= ${WizardUI>/BinInputValueState} ? ${WizardUI>/BinInputValueState} : null }"
+										valueStateText="{= ${WizardUI>/BinInputValueStateText} ? ${WizardUI>/BinInputValueStateText} : '' }" class="sapUiLargeMarginBottom"/>
+									<Label id="ReferenceTextLabel" text="{i18n>referenceTextLabel}" tooltip="{i18n>referenceTextLabel}"/>
+									<Input id="ReferenceTextInput" editable="true" ariaLabelledBy="ReferenceTextLabel" change="handleReferenceTextChange" textAlign="End"
+										value="{Functional>/ReferenceText}"/>
+								</FlexBox>
+							</WizardStep>
+							<WizardStep id="BinExtraStep" title="{i18n>wizardBinExtraPageTitle}" validated="false" nextStep="BatchDetailsStep" visible="false">
+								<FlexBox id="BinExtraInputs" direction="Column" alignItems="Stretch" visible="{WizardUI>/BinExtraInputsVisible}">
+									<Label id="BinExtraMaterialLabel" text="{/#ZC_WMLB_PINVDAUType/Material/@sap:label}" tooltip="{/#ZC_WMLB_PINVDAUType/Material/@sap:label}"/>
+									<Input id="BinExtraMaterialInput" editable="false" ariaLabelledBy="BinExtraMaterialLabel" textAlign="Begin"
+										value="{Functional>/CurrentBinExtra/MaterialName} ({Functional>/CurrentBinExtra/Material})"/>
+									<Label id="BinExtraSupplierLabel" text="{/#ZC_WMLB_PINVDAUType/Vendor/@sap:label}" tooltip="{/#ZC_WMLB_PINVDAUType/Vendor/@sap:label}"
+										visible="{= ${Functional>/CurrentBinExtra/Vendor} !== '' }"/>
+									<Input id="BinExtraSupplierInput" editable="false" ariaLabelledBy="BinExtraSupplierLabel" textAlign="Begin"
+										value="{Functional>/CurrentBinExtra/VendorName} ({Functional>/CurrentBinExtra/Vendor})"
+										visible="{= ${Functional>/CurrentBinExtra/Vendor} !== '' }"/>
+									<Label id="BinExtraHeatNumberLabel" text="{/#ZC_WMLB_PINVDAUType/HeatNumber/@sap:label}"
+										tooltip="{/#ZC_WMLB_PINVDAUType/HeatNumber/@sap:label}" visible="{= ${Functional>/CurrentBinExtra/HeatNumber} !== '' }"/>
+									<Input id="BinExtraHeatNumberInput" editable="false" ariaLabelledBy="BinExtraHeatNumberLabel" textAlign="Begin"
+										value="{Functional>/CurrentBinExtra/HeatNumber}" visible="{= ${Functional>/CurrentBinExtra/HeatNumber} !== '' }"/>
+									<!--
+									<Label id="BinExtraQuantityLabel" text="{/#ZC_WMLB_PINVDAUType/BaseUnitQuantity/@sap:label}"
+										tooltip="{/#ZC_WMLB_PINVDAUType/BaseUnitQuantity/@sap:label}"/>
+									-->
+									<Label id="BatchCountLabel" text="{/#ZC_WMLSTOG_PINVDAUType/BatchCount/@sap:label}"
+										tooltip="{/#ZC_WMLSTOG_PINVDAUType/BatchCount/@sap:label}"/>
+									<FlexBox id="BinExtraInputsQuantityBox" alignItems="Start" justifyContent="Start">
+										<Input id="BatchCountInput" type="Number" editable="true" ariaLabelledBy="BatchCountLabel" change="handleBatchCountInputChange" textAlign="End"
+											value="{Functional>/CurrentBinExtra/ValidatedBatchCount}"/>
+										<!--
+										<Input id="BatchCountRefInput" editable="False" ariaLabelledBy="BatchCountLabel" textAlign="End"
+											value="{Functional>/CurrentBinExtra/BatchCount}"/>
+										-->
+										<!--
+										<Input id="BinExtraQuantityInput" editable="true" ariaLabelledBy="BinExtraQuantityLabel" change="handleBinExtraQuantityChange"
+											textAlign="End" value="{Functional>/CurrentBinExtra/ValidatedQuantity}"></Input>
+										<Input id="BinExtraAvailableQuantityInput" editable="false" ariaLabelledBy="BinExtraAvailableQuantityLabel" textAlign="End"
+											value="{path:'Functional>/CurrentBinExtra/AlternativeUnitQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"></Input>
+										<Input id="BinExtraUnitInput" editable="false" ariaLabelledBy="BinExtraQuantityLabel" textAlign="Center"
+											value="{Functional>/CurrentBinExtra/AlternativeUnitSAP}" width="4rem" class="sapUiTinyMarginBegin"></Input>
+										-->
+									</FlexBox>
+								</FlexBox>
+								<FlexBox id="BinExtraNoMoreInputs" direction="Column" alignItems="Stretch" visible="{WizardUI>/BinExtraNoMoreInputsVisible}"
+									fitContainer="true">
+									<ObjectHeader id="ValidatedBatchesListHeader" title="{Functional>/StorageBin}"
+										number="{path:'Functional>/CummulativeQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+										numberUnit="{Functional>/UnitOfMeasure}" condensed="true">
+										<ObjectAttribute id="ValidatedBatchesListHeaderStorageLocation" text="{Functional>/StorageLocationName} ({Functional>/StorageLocation})"/>
+									</ObjectHeader>
+									<List id="ValidatedBatchesList" headerText="{i18n>listTitleValidatedBatches}" noDataText="{i18n>listLabelNoItems}"
+										items="{Functional>/PendingInventoryEntries}">
+										<ObjectListItem id="ValidatedBatchesListItem" title="{Functional>Batch}"
+											number="{path:'Functional>Quantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+											numberUnit="{Functional>UnitOfMeasure}" type="Inactive" class="custTinyPaddingTopBottom custSmallPaddingBeginEnd">
+											<ObjectAttribute id="ValidatedBatchesListItemMaterial" text="{Functional>MaterialName} ({Functional>Material})"/>
+											<ObjectAttribute id="ValidatedBatchesListItemSupplierBatch" text="{Functional>SupplierBatch}"/>
+										</ObjectListItem>
+									</List>
+								</FlexBox>
+							</WizardStep>
+							<WizardStep id="BatchDetailsStep" title="{i18n>wizardBatchInputPageTitle}" validated="false" nextStep="ResultsStep" subsequentSteps="BinExtraStep, ResultsStep">
+								<FlexBox id="BatchDetailsBox" direction="Column" alignItems="Stretch" fitContainer="true">
+									<Label id="BatchDetailsBatchInputLabel" text="{/#ZC_BATCH_PINVDType/Batch/@sap:label}" tooltip="{/#ZC_BATCH_PINVDType/Batch/@sap:label}"
+										visible="{WizardUI>/BatchInputVisible}"/>
+									<Input id="BatchDetailsBatchInput" editable="true" ariaLabelledBy="BatchDetailsBatchInputLabel" change="handleBatchChange" textAlign="End"
+										value="{Functional>/CurrentBatchDetails/Batch}" visible="{WizardUI>/BatchInputVisible}"
+										valueState="{= ${WizardUI>/BatchInputValueState} ? ${WizardUI>/BatchInputValueState} : null }"
+										valueStateText="{= ${WizardUI>/BatchInputValueStateText} ? ${WizardUI>/BatchInputValueStateText} : '' }"/>
+									<Label id="BatchDetailsSupplierBatchInputLabel" text="{/#ZC_BATCH_PINVDType/SupplierBatch/@sap:label}"
+										tooltip="{/#ZC_BATCH_PINVDType/SupplierBatch/@sap:label}" visible="{WizardUI>/SupplierBatchInputVisible}"/>
+									<Input id="BatchDetailsSupplierBatchInput" ariaLabelledBy="BatchDetailsSupplierBatchInputLabel" change="handleBatchChange" textAlign="End"
+										value="{Functional>/CurrentBatchDetails/SupplierBatch}" visible="{WizardUI>/SupplierBatchInputVisible}"
+										editable="{WizardUI>/SupplierBatchEditable}"
+										valueState="{= ${WizardUI>/SupplierBatchInputValueState} ? ${WizardUI>/SupplierBatchInputValueState} : null }"
+										valueStateText="{= ${WizardUI>/SupplierBatchInputValueStateText} ? ${WizardUI>/SupplierBatchInputValueStateText} : '' }"/>
+									<Label id="BatchDetailsBatchFieldLabel" text="{/#ZC_BATCH_PINVDType/Batch/@sap:label}" tooltip="{/#ZC_BATCH_PINVDType/Batch/@sap:label}"
+										visible="{= ${WizardUI>/SupplierBatchInputVisible} &amp;&amp; ${Functional>/CurrentBatchDetails/Batch} ? true : false }"/>
+									<Input id="BatchDetailsBatchField" editable="false" ariaLabelledBy="BatchDetailsBatchFieldLabel" textAlign="End"
+										value="{Functional>/CurrentBatchDetails/Batch}"
+										visible="{= ${WizardUI>/SupplierBatchInputVisible} &amp;&amp; ${Functional>/CurrentBatchDetails/Batch} ? true : false }"/>
+									<FlexBox id="BatchDetailsAdditionalBox" direction="Column" alignItems="Stretch">
+										<FlexBox id="BatchDetailsMaterialBox" alignItems="Stretch" direction="Column"
+											visible="{= ${Functional>/CurrentBatchDetails/Material} ? true : false }">
+											<Label id="BatchDetailsMaterialLabel" text="{/#ZC_BATCH_PINVDType/Material/@sap:label}" tooltip="{/#ZC_BATCH_PINVDType/Material/@sap:label}"/>
+											<Input id="BatchDetailsMaterialInput" editable="false" ariaLabelledBy="BatchDetailsMaterialLabel" textAlign="End"
+												value="{Functional>/CurrentBatchDetails/MaterialName} ({Functional>/CurrentBatchDetails/Material})"/>
+										</FlexBox>
+										<FlexBox id="BatchDetailsHeatNumberBox" alignItems="Start" direction="Column"
+											visible="{= ${Functional>/CurrentBatchDetails/HeatNumber} ? true : false }">
+											<Label id="BatchDetailsHeatNumberLabel" text="{/#ZC_BATCH_PINVDType/HeatNumber/@sap:label}"
+												tooltip="{/#ZC_BATCH_PINVDType/HeatNumber/@sap:label}"/>
+											<Input id="BatchDetailsHeatNumberInput" editable="false" ariaLabelledBy="BatchDetailsHeatNumberLabel" textAlign="End"
+												value="{Functional>/CurrentBatchDetails/HeatNumber}"/>
+										</FlexBox>
+										<FlexBox id="BatchDetailsSalesOrderBox" alignItems="Start" justifyContent="Start"
+											visible="{= ${Functional>/CurrentBatchDetails/SalesOrder} ? true : false }">
+											<FlexBox id="BatchDetailsSalesOrderBox1" direction="Column">
+												<Label id="BatchDetailsSalesOrderLabel" text="{/#ZC_BATCH_PINVDType/SalesOrder/@sap:label}"
+													tooltip="{/#ZC_BATCH_PINVDType/SalesOrder/@sap:label}"/>
+												<Input id="BatchDetailsSalesOrderInput" editable="false" ariaLabelledBy="BatchDetailsSalesOrderLabel" textAlign="End"
+													value="{Functional>/CurrentBatchDetails/SalesOrder}"/>
+											</FlexBox>
+											<FlexBox id="BatchDetailsSalesOrderBox2" direction="Column" class="sapUiSmallMarginBegin">
+												<Label id="BatchDetailsSalesOrderItemLabel" text="{/#ZC_BATCH_PINVDType/SalesOrderItem/@sap:label}"
+													tooltip="{/#ZC_BATCH_PINVDType/SalesOrderItem/@sap:label}"/>
+												<Input id="BatchDetailsSalesOrderItemInput" editable="false" ariaLabelledBy="BatchDetailsSalesOrderItemLabel" textAlign="End"
+													value="{Functional>/CurrentBatchDetails/SalesOrderItem}"/>
+											</FlexBox>
+										</FlexBox>
+										<FlexBox id="BatchDetailsVendorBox" alignItems="Start" justifyContent="Start"
+											visible="{= ${Functional>/CurrentBatchDetails/Vendor} ? true : false }">
+											<Label id="BatchDetailsVendorLabel" text="{/#ZC_WMLB_PINVDAUType/Vendor/@sap:label}" tooltip="{/#ZC_WMLB_PINVDAUType/Vendor/@sap:label}"/>
+											<Input id="BatchDetailsVendorInput" editable="false" ariaLabelledBy="BatchDetailsVendorLabel" textAlign="End"
+												value="{Functional>/CurrentBatchDetails/VendorName} ({Functional>/CurrentBatchDetails/Vendor})"/>
+										</FlexBox>
+									</FlexBox>
+									<Label id="BatchDetailsQuantityLabel" text="{/#ZC_BATCH_PINVDType/BaseUnitQuantity/@sap:label}"
+										tooltip="{/#ZC_BATCH_PINVDType/BaseUnitQuantity/@sap:label}" visible="{= ${Functional>/CurrentBatchDetails/Material} ? true : false }"/>
+									<FlexBox id="BatchDetailsQuantityBox" alignItems="Start" justifyContent="Start"
+										visible="{= ${Functional>/CurrentBatchDetails/Material} ? true : false }">
+										<!--
+										<Input id="BatchDetailsQuantityInput" editable="true" ariaLabelledBy="BatchDetailsQuantityLabel" change="handleBatchDetailsQuantityChange"
+											textAlign="End" value="{Functional>/CurrentBatchDetails/ValidatedQuantity}"></Input>
+										-->
+										<Input id="BatchDetailsQuantityInput" editable="true" ariaLabelledBy="BatchDetailsQuantityLabel" change="handleBatchDetailsQuantityChange"
+											textAlign="End" value="{path:'Functional>/CurrentBatchDetails/ValidatedQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+											valueState="{= ${WizardUI>/BatchDetailsValidatedQuantityState} ? ${WizardUI>/BatchDetailsValidatedQuantityState} : null }"
+											valueStateText="{= ${WizardUI>/BatchDetailsValidatedQuantityStateText} ? ${WizardUI>/BatchDetailsValidatedQuantityStateText} : '' }"
+											/>
+										<Input id="BatchDetailsUnitInput" editable="false" ariaLabelledBy="BatchDetailsQuantityLabel" textAlign="Center"
+											value="{Functional>/UnitOfMeasure}" width="4rem" class="sapUiTinyMarginBegin"></Input>
+									</FlexBox>
+								</FlexBox>
+							</WizardStep>
+							<WizardStep id="ResultsStep" title="{i18n>wizardResultsPageTitle}" validated="false">
+								<ObjectHeader id="ResultsListHeader" title="{Functional>/StorageBin}"
+									number="{path:'Functional>/PostedCummulativeQuantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+									numberUnit="{Functional>/UnitOfMeasure}" condensed="true">
+									<ObjectAttribute id="ResultsListHeaderStorageLocation" text="{Functional>/StorageLocationName} ({Functional>/StorageLocation})"/>
+								</ObjectHeader>
+								<List id="ResultsList" headerText="{i18n>listTitleResults}" noDataText="{i18n>listLabelNoItems}"
+									items="{Functional>/PostedInventoryEntries}">
+									<ObjectListItem id="ResultsListItem" title="{Functional>Batch}"
+										number="{path:'Functional>Quantity', type:'sap.ui.model.type.Float', formatOptions : {maxFractionDigits:3, minFractionDigits:3, maxIntegerDigits:10, minIntegerDigits:1}}"
+										numberUnit="{Functional>UnitOfMeasure}" type="Inactive" class="custTinyPaddingTopBottom custSmallPaddingBeginEnd">
+										<attributes>
+											<ObjectAttribute id="ResultsListItemMaterial" text="{Functional>MaterialName} ({Functional>Material})"/>
+											<ObjectAttribute id="ResultsListItemSupplierBatch" text="{Functional>SupplierBatch}"/>
+										</attributes>
+										<firstStatus>
+											<ObjectStatus id="ResultsListItemStatus" state="{Functional>EntryStatus}" text="{Functional>EntryStatusText}"
+												icon="{Functional>EntryStatusIcon}"/>
+										</firstStatus>
+									</ObjectListItem>
+								</List>
+							</WizardStep>
+						</Wizard>
+					</content>
+					<footer>
+						<OverflowToolbar id="FooterBar">
+							<ToolbarSpacer id="FooterBarSpacer01"/>
+							<Button id="GoToBin" text="{i18n>buttonNext}" press="handleGoToBin" visible="{WizardUI>/GoToBinBtnVisible}"
+								enabled="{WizardUI>/GoToBinBtnEnabled}" width="6rem" type="Accept"/>
+							<Button id="BinBack" text="{i18n>buttonBinBack}" press="handleBinBack" visible="{WizardUI>/BinBackBtnVisible}" width="6rem" type="Back"/>
+							<Button id="BinConfirm" text="{i18n>buttonBinConfirm}" press="handleBinConfirm" visible="{WizardUI>/BinNextBtnVisible}"
+								enabled="{WizardUI>/BinNextBtnEnabled}" width="6rem" type="Accept"/>
+							<Button id="BinEmpty" text="{i18n>buttonBinEmpty}" press="handleBinEmpty" visible="{WizardUI>/BinNextBtnVisible}"
+								enabled="{WizardUI>/BinNextBtnEnabled}" width="6rem" type="Accept"/>
+							<Button id="BinExtraBack" text="{i18n>buttonBinExtraBack}" press="handleBinExtraBack" visible="{WizardUI>/BinExtraBackBtnVisible}"
+								width="6rem" type="Back"/>
+							<Button id="BinExtraValidate" text="{i18n>buttonBinExtraValidate}" press="handleBinExtraValidate"
+								visible="{WizardUI>/BinExtraValidateBtnVisible}" enabled="{WizardUI>/BinExtraValidateBtnEnabled}" width="6rem" type="Accept"/>
+							<Button id="BinExtraFinish" text="{i18n>buttonBinExtraFinish}" press="handleBinExtraFinish" visible="{WizardUI>/BinExtraFinishBtnVisible}"
+								enabled="{WizardUI>/BinExtraFinishBtnEnabled}" width="6rem" type="Accept"/>
+							<Button id="BatchDetailsBack" text="{i18n>buttonBatchDetailsBack}" press="handleBatchDetailsBack"
+								visible="{WizardUI>/BatchDetailsBackBtnVisible}" width="6rem" type="Back"/>
+							<Button id="BatchDetailsValidate" text="{i18n>buttonBatchDetailsValidate}" press="handleBatchDetailsValidate"
+								visible="{WizardUI>/BatchDetailsValidateBtnVisible}" enabled="{WizardUI>/BatchDetailsValidateBtnEnabled}" width="6rem" type="Accept"/>
+							<Button id="BatchDetailsReset" text="{i18n>buttonBatchDetailsReset}" press="handleBatchDetailsReset"
+								visible="{WizardUI>/BatchDetailsResetBtnVisible}" width="4rem" type="Reject"/>
+							<Button id="BatchDetailsFinish" text="{i18n>buttonBatchDetailsFinish}" press="handleBatchDetailsFinish"
+								visible="{WizardUI>/BatchDetailsFinishBtnVisible}" enabled="{WizardUI>/BatchDetailsFinishBtnEnabled}" width="6rem" type="Accept"/>
+							<Button id="BatchDetailsOverview" text="{i18n>buttonBatchDetailsOverview}" press="handleBatchDetailsOverview"
+								visible="{WizardUI>/BatchDetailsOverviewBtnVisible}" enabled="{WizardUI>/BatchDetailsOverviewBtnEnabled}" width="5rem" type="Attention"/>
+							<Button id="ResultsNewBin" text="{i18n>buttonResultsNewBin}" press="handleResultsNewBin" visible="{WizardUI>/ResultsNewBinBtnVisible}"
+								width="6rem" type="Back"/>
+							<Button id="ResultsRestart" text="{i18n>buttonResultsRestart}" press="handleResultsRestart" visible="{WizardUI>/ResultsRestartBtnVisible}"
+								width="6rem" type="Reject"/>
+							<ToolbarSpacer id="FooterBarSpacer02"/>
+						</OverflowToolbar>
+					</footer>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>

@@ -1,0 +1,44 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ViewSettingsDialog confirm="handleConfirm">
+		<customTabs>
+			<ViewSettingsCustomTab id="app-settings" icon="sap-icon://action-settings" title="Settings" tooltip="Application Settings">
+				<content>
+					<Panel height="338px">
+						<content>
+							<List id="oList" mode="MultiSelect">
+								<items>
+									<StandardListItem title="Reference id" selected="{hModel>/referenceIdSelect}"/>
+									<StandardListItem title="Direction" selected="{hModel>/directionSelect}"/>
+									<StandardListItem title="Planned CI Date" selected="{hModel>/pCIDateSelect}"/>
+									<StandardListItem title="Planned CI Time" selected="{hModel>/pCITimeSelect}"/>
+									<StandardListItem title="Status" selected="{hModel>/statusSelect}"/>
+									<StandardListItem title="Forwarding Agent" selected="{hModel>/forAgentSelect}"/>
+									<StandardListItem title="Rec/Ship Point" selected="{hModel>/rsPointSelect}"/>
+									<StandardListItem title="Material" selected="{hModel>/materialSelect}"/>
+									<StandardListItem title="Actual CI Date" selected="{hModel>/aCIDateSelect}"/>
+									<StandardListItem title="Actual CI Time" selected="{hModel>/aCITimeSelect}"/>
+									<StandardListItem title="Actual CO Date" selected="{hModel>/acdSelect}"/>
+									<StandardListItem title="Actual CO Time" selected="{hModel>/actSelect}"/>
+									<StandardListItem title="SCAC" selected="{hModel>/scacSelect}"/>
+									<StandardListItem title="Truck Number" selected="{hModel>/truckNumSelect}"/>
+									<StandardListItem title="Trailer Number" selected="{hModel>/trailNumSelect}"/>
+									<StandardListItem title="Driver" selected="{hModel>/driverSelect}"/>
+									<StandardListItem title="Seal" selected="{hModel>/sealSelect}"/>
+									<StandardListItem title="Incoming Weight" selected="{hModel>/inWeightSelect}"/>
+									<StandardListItem title="Outgoing Weight" selected="{hModel>/outWeightSelect}"/>
+									<StandardListItem title="Net Weight" selected="{hModel>/netWeightSelect}"/>
+									<StandardListItem title="Actual Carrier" selected="{hModel>/actCarrierSelect}"/>
+									<StandardListItem title="Means Of Transport" selected="{hModel>/mTransportSelect}"/>
+									<StandardListItem title="Shipment" selected="{hModel>/shipmentSelect}"/>
+									<StandardListItem title="Shipment Type" selected="{hModel>/shTypeSelect}"/>
+									<StandardListItem title="Actual CO Date" selected="{hModel>/aCODateSelect}"/>
+									<StandardListItem title="Actual CO Time" selected="{hModel>/aCOTimeSelect}"/>
+								</items>
+							</List>
+						</content>
+					</Panel>
+				</content>
+			</ViewSettingsCustomTab>
+		</customTabs>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

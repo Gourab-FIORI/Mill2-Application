@@ -1,0 +1,150 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "webapp.ZGoodsIssue4PM",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "sourceTemplate": {
+            "id": "servicecatalog.connectivityComponentForManifest",
+            "version": "0.0.0",
+            "toolsId": "cb8a61eb-51c5-40f5-aadb-e9a0c2eeed02"
+        },
+        "dataSources": {
+            "ZGOODSISSUE4PM_SRV": {
+                "uri": "/sap/opu/odata/sap/ZGOODSISSUE4PM_SRV/",
+                "type": "OData",
+                "settings": {
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "rootView": {
+            "viewName": "webapp.ZGoodsIssue4PM.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        },
+        "dependencies": {
+            "minUI5Version": "1.65.6",
+            "libs": {
+                "sap.ui.layout": {},
+                "sap.ui.core": {},
+                "sap.m": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "webapp.ZGoodsIssue4PM.i18n.i18n"
+                }
+            },
+            "app": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
+            "": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                },
+                "dataSource": "ZGOODSISSUE4PM_SRV",
+                "preload": true
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "webapp.ZGoodsIssue4PM.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false,
+                "bypassed": {
+                    "target": []
+                }
+            },
+            "routes": [
+                {
+                    "name": "CostCenter",
+                    "pattern": "",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "CostCenter"
+                    ]
+                },
+                {
+                    "name": "MaterialList",
+                    "pattern": "MaterialList",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "MaterialList"
+                    ]
+                }
+            ],
+            "targets": {
+                "CostCenter": {
+                    "viewType": "XML",
+                    "viewName": "CostCenter",
+                    "viewLevel": 1,
+                    "controlAggregation": "pages",
+                    "controlId": "idApp",
+                    "viewId": "idCostCenter",
+                    "title": "Cost Center"
+                },
+                "MaterialList": {
+                    "viewType": "XML",
+                    "viewName": "MaterialList",
+                    "title": "Material List",
+                    "viewId": "IdMaterial",
+                    "viewLevel": 2,
+                    "controlAggregation": "pages",
+                    "controlId": "idApp"
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/zgoodsissue4pm/webapp",
+        "_version": "1.1.0"
+    }
+}

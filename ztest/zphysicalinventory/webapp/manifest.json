@@ -1,0 +1,167 @@
+{
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "ordina.zmmphysicalinvn",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "Z_MMIM_GR4PO_DL_SRV": {
+                "uri": "/sap/opu/odata/sap/Z_MMIM_GR4PO_DL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml"
+                }
+            },
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/ZMATPHYSINV_APP_N_SRV",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/ZMATPHYSINV_APP_N_SRV/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "@sap/ux-app-migrator:freestyle",
+            "version": "1.14.4",
+            "toolsId": "ab35beaf-a86b-4801-ac76-9ce8ffa74c37"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.84.0",
+            "libs": {
+                "sap.ui.core": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "ordina.zmmphysicalinvn.i18n.i18n"
+                }
+            },
+            "app": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
+            "oData": {
+                "dataSource": "Z_MMIM_GR4PO_DL_SRV",
+                "preload": true,
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false
+                }
+            },
+            "": {
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request"
+                }
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "ordina.zmmphysicalinvn.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false,
+                "bypassed": {
+                    "target": []
+                }
+            },
+            "routes": [
+                {
+                    "name": "list",
+                    "pattern": "",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "list"
+                    ]
+                },
+                {
+                    "name": "object",
+                    "pattern": "object",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "object"
+                    ]
+                }
+            ],
+            "targets": {
+                "list": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewName": "List",
+                    "viewId": "idList",
+                    "viewLevel": 1,
+                    "controlAggregation": "pages",
+                    "controlId": "idApp"
+                },
+                "object": {
+                    "viewType": "XML",
+                    "viewName": "Object",
+                    "viewId": "idObject",
+                    "viewLevel": 2,
+                    "controlAggregation": "pages",
+                    "controlId": "idApp"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "ordina.zmmphysicalinvn.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/zmm_inventory01/webapp",
+        "_version": "1.1.0"
+    }
+}

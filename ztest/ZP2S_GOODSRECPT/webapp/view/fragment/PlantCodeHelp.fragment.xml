@@ -1,0 +1,15 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Plant Code"
+		class="sapUiPopupWithPadding"
+		items="{oPlantModel>/}"
+		search="_handlePlantCodeSearch"
+		confirm="_handlePlantCodeSelect"
+		cancel="_handlePlantCodeClose">
+		<StandardListItem
+			title="{oPlantModel>Werks}"
+			description="{oPlantModel>Name1}" />
+	</SelectDialog>
+</core:FragmentDefinition>
