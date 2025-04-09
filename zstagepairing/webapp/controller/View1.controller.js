@@ -136,6 +136,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                     BusyIndicator.hide();
                     that.onAddBarcode(sBarcode);
                     MessageToast.show("Barcode is Valid!");
+                    that._updateFooterButtons();
                 },
                 error: function (oError) {
                     BusyIndicator.hide();
@@ -153,7 +154,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                     MessageBox.error(sErrorMessage);
                     that.byId("barcodeinput1").setValue("");
                     that.byId("barcodeinput2").setValue("");
-                    
+                    that._updateFooterButtons();
                     console.error(oError);
                 }
             });
@@ -162,7 +163,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             var sBarcode = ev.getSource().getValue();
             this.onCheckBarcode(sBarcode);
         },
-        onAddBarcode: function (sBarcode) {
+        onAddBarcode_old: function (sBarcode) {
             var oInput1 = this.byId("barcodeinput1");
              var sBarcode1 = oInput1.getValue();
              var oInput2 = this.byId("barcodeinput2");
@@ -181,6 +182,53 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                 oInput2.setValue("");
             }
         },
+        //added fucntionality for duplicate check.
+        onAddBarcode: function (sBarcode) {
+            var oInput1 = this.byId("barcodeinput1");
+            var sBarcode1 = oInput1.getValue();
+            var oInput2 = this.byId("barcodeinput2");
+            var sBarcode2 = oInput2.getValue();
+            var oModel, aBarcodes;
+        
+            if (sBarcode1) {
+                oModel = this.getView().byId("barcodeList1").getModel();
+                aBarcodes = oModel.getProperty("/barcodes") || [];
+        
+                var bExists = aBarcodes.some(function (oItem) {
+                    return oItem.barcode === sBarcode;
+                });
+        
+                if (bExists) {
+                    oInput1.setValue("");
+                    sap.m.MessageBox.warning("Duplicate barcode entry!");
+                    return;
+                }
+        
+                aBarcodes.push({ barcode: sBarcode });
+                oModel.setProperty("/barcodes", aBarcodes);
+                oInput1.setValue("");
+        
+            } else if (sBarcode2) {
+                oModel = this.getView().byId("barcodeList2").getModel();
+                aBarcodes = oModel.getProperty("/barcodes") || [];
+        
+                var bExists = aBarcodes.some(function (oItem) {
+                    return oItem.barcode === sBarcode;
+                });
+        
+                if (bExists) {
+                    oInput2.setValue("");
+                    sap.m.MessageBox.warning("Duplicate barcode entry!");
+                    return;
+                }
+        
+                aBarcodes.push({ barcode: sBarcode });
+                oModel.setProperty("/barcodes", aBarcodes);
+                oInput2.setValue("");
+            }
+        },
+        
+        
         //just for demo purpose
         onScanBarcode1: function (sBarcode) {
             var oInput = this.byId("barcodeinput1");
@@ -396,6 +444,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             oModel.setProperty("/barcodes", []);
             var oModel1 = this.getView().byId("barcodeList2").getModel();
             oModel1.setProperty("/barcodes", []);
+            this._updateFooterButtons();
             //this.onClearAll();
             //this.toggleVisibility();
         },
@@ -421,21 +470,11 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             this.oNextBtn = this.byId("nextBtn");
             this.oBackBtn = this.byId("backBtn");
             this.oFinishBtn = this.byId("finishBtn");
+            
+            // Wait for rendering
+            setTimeout(() => this._updateFooterButtons(), 0);
         },
         
-        onNextStep: function () {
-            this.oWizard.nextStep();
-            this._updateFooterButtons();
-        },
-        
-        onBackStep: function () {
-            this.oWizard.previousStep();
-            this._updateFooterButtons();
-        },
-        
-        onConfirmPair: function () {
-            this.fnPair(); // triggers wizard completion logic
-        },
         
         onActivate: function (oEvent) {
             const oWizard = this.byId("wizard");
@@ -459,17 +498,57 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             this._updateFooterButtons();
         },
         
-        _updateFooterButtons: function () {
-            const oWizard = this.byId("wizard");
-            const aSteps = oWizard.getSteps();
-            const oCurrentStep = oWizard.getCurrentStep();
-            const iCurrentIndex = aSteps.indexOf(oCurrentStep);
-        
-            this.byId("backBtn").setVisible(iCurrentIndex > 0);
-            this.byId("nextBtn").setVisible(iCurrentIndex < aSteps.length - 1);
-            this.byId("finishBtn").setVisible(iCurrentIndex === aSteps.length - 1);
+        onNextStep: function () {
+            var oWizard = this.byId("wizard");
+            oWizard.nextStep();
+            this._updateFooterButtons();
         },
-       
+
+        onBackStep: function () {
+            var oWizard = this.byId("wizard");
+            oWizard.previousStep();
+            this._updateFooterButtons();
+        },
+
+        onConfirmPair: function () {
+            this.fnPair(); // Your existing complete function
+        },
+
+        _updateFooterButtons: function () {
+            var oWizard = this.byId("wizard");
+            var aSteps = oWizard.getSteps();
+            var oCurrentStep = oWizard.getProgressStep();
+        
+            if (!oCurrentStep) return;
+        
+            var iCurrentIndex = aSteps.indexOf(oCurrentStep);
+            var oBackBtn = this.byId("backBtn");
+            var oNextBtn = this.byId("nextBtn");
+            var oFinishBtn = this.byId("finishBtn");
+        
+            // Show/hide buttons
+            oBackBtn.setVisible(iCurrentIndex > 0);
+            oNextBtn.setVisible(iCurrentIndex < aSteps.length - 1);
+            oFinishBtn.setVisible(iCurrentIndex === aSteps.length - 1);
+        
+            // Enable/disable Next based on step content
+            if (iCurrentIndex === 0) {
+                // Step 1: Check printer selection
+                var sSelectedKey = this.byId("printerSelect").getSelectedKey();
+                oNextBtn.setEnabled(!!sSelectedKey);
+            } else if (iCurrentIndex === 1) {
+                // Step 2: Check barcode list 1
+                var aBarcodes1 = this.byId("barcodeList1").getModel().getData().barcodes || [];
+                oNextBtn.setEnabled(aBarcodes1.length > 0);
+            } else if (iCurrentIndex === 2) {
+                // Step 3: Check barcode list 2
+                var aBarcodes2 = this.byId("barcodeList2").getModel().getData().barcodes || [];
+                oNextBtn.setEnabled(aBarcodes2.length > 0);
+            } else {
+                oNextBtn.setEnabled(true);
+            }
+        }
+        
         
   
     });
