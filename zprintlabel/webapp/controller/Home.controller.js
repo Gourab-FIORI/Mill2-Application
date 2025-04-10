@@ -73,7 +73,7 @@ sap.ui.define([
                 	//oScanResultText = Element.getElementById(prefixId + 'sampleBarcodeScannerResult');
             },
             onBeforeRendering:function(){
-                this.onCheckPrinter('0');
+                //this.onCheckPrinter('0');
             },
             onLanguageChange: function (oEvent) {
                 var sSelectedLanguage = oEvent.getParameter("selectedItem").getKey();
@@ -157,17 +157,18 @@ sap.ui.define([
               //on check default printner 
               onCheckPrinter: function (code) {
                 var oModel = this.getView().getModel();
-                var sPath = "/ZshOutputDeviceSet('" + code + "')";
+                var sPath = "/ZshOutputDevice1Set('" + code + "')";
                 var that = this;
                 // Show Busy Indicator
                 BusyIndicator.show(0);
                 oModel.read(sPath, {
                     success: function (oData) {
                         BusyIndicator.hide();
-                      if(oData.Padest === "$NULL"){
+                      if(oData.OutputDevice === "$NULL"){
                         MessageToast.show("Default Printer hasn't been set to your User Profile");
+                        // MessageBox.warning("Default Printer hasn't been set to your User Profile or Printer ID is not Valid");
                       }else{
-                        that.getView().byId("printerSelect").setSelectedKey(oData.Padest);
+                        that.getView().byId("printerSelect").setSelectedKey(oData.OutputDevice);
                         that.byId("printerStep").setValidated(true);
                       }
                       
@@ -188,7 +189,7 @@ sap.ui.define([
                         }
 
                         MessageBox.error(sErrorMessage);
-                  
+                        that.byId("printerStep").setValidated(false);
                         console.error(oError);
                     }
                 });
@@ -373,20 +374,40 @@ sap.ui.define([
             onScanError: function(oEvent) {
                 MessageToast.show("Scan failed: " + oEvent, { duration:1000 });
             },
+            
+            // Handler for successful printer scan events
+            onPrinterScanSuccess: function (oEvent) {
+                var sScannedValue = oEvent.getParameter("text").toUpperCase(); // Force uppercase
+                var oComboBox = this.byId("printerSelect");
+                // Retrieve all items from the ComboBox
+                var oItems = oComboBox.getItems();
+                // Initialize a flag to track if a matching printer was found
+                var bFound = false;
 
-            onScanLiveupdate: function(oEvent) {
-                // User can implement the validation about inputting value
-            },
+                // Loop through each item in the ComboBox to check for a match
+                for (var i = 0; i < oItems.length; i++) {
+                    var oItem = oItems[i];
+                    // Compare the scanned value with the item's key (case-insensitive)
+                    if (oItem.getKey().toUpperCase() === sScannedValue) {
+                        oComboBox.setSelectedKey(oItem.getKey()); // Use original key (case-sensitive)
+                        bFound = true;
+                        this.byId("printerStep").setValidated(true);
+                        break;
+                    }
+                }
 
-            onAfterRendering: function() {
-                // Reset the scan result
-                // var oScanButton = Element.getElementById(prefixId + 'sampleBarcodeScannerButton');
-                // if (oScanButton) {
-                //     $(oScanButton.getDomRef()).on("click", function(){
-                //         oScanResultText.setText('');
-                //     });
-                // }
+                // If no matching printer was found, clear the selection
+                if (!bFound) {
+                    oComboBox.setSelectedKey(""); // Clear selection
+                    this.byId("printerStep").setValidated(false);
+                    sap.m.MessageBox.warning("Printer not found for scanned value: " + sScannedValue, {
+                        title: "Scan Failed",
+                        actions: [sap.m.MessageBox.Action.OK]
+                    });
+                }
             }
+            
+            
       
         });
     });

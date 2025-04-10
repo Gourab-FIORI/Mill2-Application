@@ -4,15 +4,15 @@
     xmlns:ndc="sap.ndc"
     xmlns:core="sap.ui.core">
     <Page id="page" title="{i18n>title}">
-        <headerContent>
+        <!-- <headerContent>
             <Select id="languageSelect" change="onLanguageChange">
                 <core:Item key="en" text="English"/>
                 <core:Item key="fr" text="Français"/>
             </Select>
-        </headerContent>
+        </headerContent> -->
         <content>
             <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="false" finishButtonText="Confirm and Finish">
-                <WizardStep id="Step1" title="{i18n>WizardStep1}" activate="onActivate" validated="true">
+                <WizardStep id="Step1" title="{i18n>WizardStep1}" activate="onActivate" validated="false">
                     <VBox id="vbox1">
                         <HBox>
                             <ndc:BarcodeScannerButton id="sampleBarcodeScannerButton" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
@@ -20,97 +20,88 @@
                             <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
                             <Button text="{i18n>Button1}" press="onClearAll"/>
                         </HBox>
+                        <!-- <Label text="{i18n>Label}" class="sapUiResponsiveContentPadding" required="true" labelFor="warehouse"></Label>
+                        <Input id="idContrem" width="13rem" required="true"/> -->
                     </VBox>
-                 
-    <Table id="barDefectsTable" inset="false" width="auto" mode="MultiSelect"
-           items="{/barDefectsSet}" 
-           class="sapUiResponsiveContentPadding">
-           
-        <!-- Table Header with Export Button -->
-        <headerToolbar>
-            <Toolbar>
-                <Title text="{i18n>BAR_DEF}" />
-                <ToolbarSpacer />
-                
-            </Toolbar>
-        </headerToolbar>
 
-        <columns>
-    <Column>
-        <Text text="{i18n>BAR_NBR}" />
-    </Column>
-    <Column>
-        <Text text="{i18n>DEFECT_TYPE}" />
-    </Column>
-    <Column hAlign="Center">
-        <Text text="{i18n>POS_SEC}" />
-    </Column>
-    <Column hAlign="Center">
-        <Text text="{i18n>POS_JAW}" />
-    </Column>
-    <Column hAlign="Center">
-        <Text text="{i18n>POS_LEN}" />
-    </Column>
-    <Column hAlign="Center">
-        <Text text="{i18n>POS_REP}" />
-    </Column>
-    <Column hAlign="Center">
-        <Text text="{i18n>POS_MIT}" />
-    </Column>
-    <Column>
-        <Text text="{i18n>DESCRIPTION}" />
-    </Column>
-</columns>
 
-        <!-- Row template with highlighted key cells -->
-        <items>
-            <ColumnListItem>
-                <cells>
-                    <ObjectIdentifier title="{BAR_NBR}" />
-                    <Text text="{Type}" />
-                    <Text text="{Pos_Sec}" />
-                    <Text text="{Pos_Jaw}" />
-                    <Text text="{Pos_Len}" />
-                    <Text text="{Pos_Rep}" />
-                    <Text text="{Pos_Mit}" />
-                    <Text text="{Desc}" />
-                </cells>
-            </ColumnListItem>
-        </items>
-        
-        
-    </Table>
-    
-			<VBox >
-            <Button type="Emphasized" text="New Defect" press="onNew" />
-            <Button type="Emphasized" text="Remove Defect" press="onRemove" />
-            
-            </VBox>
-				
-				
-				
-	
-		
+                    <Table id="barDefectsTable" inset="false" width="auto" mode="MultiSelect" items="{/barDefectsSet}" class="sapUiResponsiveContentPadding">
+
+                        <!-- Table Header with Export Button -->
+                        <headerToolbar>
+                            <Toolbar>
+                                <Title text="{i18n>BAR_DEF}" />
+                                <ToolbarSpacer />
+
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <columns>
+                            <Column minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="{i18n>BAR_NBR}" />
+                            </Column>
+                            <Column minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="{i18n>DEFECT_TYPE}" />
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="{i18n>POS_SEC}" />
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="{i18n>POS_JAW}" />
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="{i18n>POS_LEN}" />
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="{i18n>POS_REP}" />
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="{i18n>POS_MIT}" />
+                            </Column>
+                            <Column minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="{i18n>DESCRIPTION}" />
+                            </Column>
+                        </columns>
+
+                        <!-- Row template with highlighted key cells -->
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <ObjectIdentifier title="{BAR_NBR}" />
+                                    <Text text="{Type}" />
+                                    <Text text="{Pos_Sec}" />
+                                    <Text text="{Pos_Jaw}" />
+                                    <Text text="{Pos_Len}" />
+                                    <Text text="{Pos_Rep}" />
+                                    <Text text="{
+                                path: 'Pos_Mit',
+                                 type: 'sap.ui.model.type.Float',
+                                formatOptions: {
+                                 maxFractionDigits: 2
+                             }
+                             }" />
+                                    <Text text="{Desc}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+
+
+                    </Table>
+
+                    <VBox >
+                        <Button type="Emphasized" text="{i18n>Button4}" press="onNew" />
+                        <Button type="Emphasized" text="{i18n>Button5}" press="onRemove" />
+
+                    </VBox>
+
+
+
+
+
                 </WizardStep>
                 <WizardStep id="Step2" title="{i18n>WizardStep2}" activate="onActivate" validated="true">
                     <VBox id="vbox2" class="sapUiSmallMargin sapUiResponsivePadding--content">
-                        <!-- <Label text="{i18n>Label1}" class="sapUiResponsiveContentPadding" required="true"/>
-            <ComboBox class="sapUiResponsiveContentPadding" id="idType" required="true" change="" width="auto" showSecondaryValues="true" busyIndicatorDelay="100" items="{ path: '/ZshDefectTypeSet',length : 1500}">
-            <core:ListItem key="{Value}" text="{Value}" additionalText="{Description}"/>
-            </ComboBox>
-            <Label text="{i18n>Label2}" class="sapUiResponsiveContentPadding" required="true"/>
-            <ComboBox id="idPosition" required="true" class="sapUiResponsiveContentPadding" change="" width="auto" showSecondaryValues="true" items="{ path: '/ZshDefectSecSet',length : 1500}">
-             <core:ListItem key="{Value}" text="{Value}" additionalText="{PositionSection}"/>
-            </ComboBox>
-            <Label text="{i18n>Label3}" class="sapUiResponsiveContentPadding" required="true"/>
-            <ComboBox id="idDetailedposition" class="sapUiResponsiveContentPadding" required="true" change="" showSecondaryValues="true" width="auto" items="{ path: '/ZshDefectJawSet',length : 1500}">
-             <core:ListItem key="{Value}" text="{Value}" additionalText="{PositionJaw}"/>
-            </ComboBox>
-            <Label text="{i18n>Label4}" class="sapUiResponsiveContentPadding" required="true"/>
-            <ComboBox id="idDetailedpositionleng" class="sapUiResponsiveContentPadding" required="true" change="" showSecondaryValues="true" width="auto" items="{ path: '/ZshDefectLengthSet',length : 1500}">
-            <core:ListItem key="{Value}" text="{Value}" additionalText="{PositionLength}"/>
-            </ComboBox> -->
-                        <!-- Type ComboBox -->
+                        <Button text="{i18n>Schema}" icon="sap-icon://inspect" press=".onSchemaPress" />
                         <Label text="{i18n>Label1}" class="sapUiResponsiveContentPadding" required="true"/>
                         <ComboBox class="sapUiResponsiveContentPadding" id="idType" required="true" change="onTypeChange" width="auto" showSecondaryValues="true" busyIndicatorDelay="100" items="{ path: '/ZshDefectTypeSet', length: 1500}">
                             <core:ListItem key="{Value}" text="{Value}" additionalText="{Description}"/>
@@ -135,12 +126,12 @@
                         </ComboBox>
                         <!-- Repair ComboBox -->
                         <Label text="{i18n>Label5}" class="sapUiResponsiveContentPadding" required="false"/>
-                        <ComboBox id="idDetailedpositionRep" class="sapUiResponsiveContentPadding" required="true" change="onRepChange" showSecondaryValues="false" width="auto" items="{ path: '/ZshDefectSecRepSet', length: 1500}">
-                            <core:ListItem key="{Value}" text="{PositionRepair}"/>
+                        <ComboBox id="idDetailedpositionRep" class="sapUiResponsiveContentPadding" required="true" change="onRepChange" showSecondaryValues="true" width="auto" items="{ path: '/ZshDefectSecRepSet', length: 1500}">
+                            <core:ListItem key="{PositionRepair}" text="{PositionRepair}" additionalText="{Description}"/>
                         </ComboBox>
-                         <Label text="{i18n>Label6}" class="sapUiResponsiveContentPadding" required="false"/>
-                       <Input id="idMIT" width="auto" ></Input>
-                        <Button type="Emphasized" text="Confirm and Finish" press="onConfirm" />
+                        <Label text="{i18n>Label6}" class="sapUiResponsiveContentPadding" required="false"/>
+                        <Input id="idMIT" width="auto"></Input>
+                        <Button type="Emphasized" text="{i18n>Button2}" press="onConfirm" />
                     </VBox>
                 </WizardStep>
                 <!-- <WizardStep id="Step3" title="{i18n>WizardStep3}" activate="onActivate" validated="false">

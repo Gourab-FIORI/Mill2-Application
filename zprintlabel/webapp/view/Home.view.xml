@@ -1,9 +1,11 @@
-<mvc:View controllerName="com.ami.zprintlabel.controller.Home" 
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"  xmlns:ndc="sap.ndc" xmlns="sap.m" xmlns:core="sap.ui.core">
-     <App id="app">
-        <Page id="page" title="{i18n>title}" floatingFooter="true"
-		class="sapUiResponsivePadding--header sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter">
-         <!-- <headerContent>
+<mvc:View controllerName="com.ami.zprintlabel.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:ndc="sap.ndc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <App id="app">
+        <Page id="page" title="{i18n>title}" floatingFooter="true" class="sapUiResponsivePadding--header sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter">
+            <!-- <headerContent>
             <Select id="languageSelect" change="onLanguageChange">
                 <core:Item key="en" text="English"/>
                 <core:Item key="fr" text="Français"/>
@@ -11,28 +13,27 @@
         </headerContent> -->
             <content>
                 <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="true" finishButtonText="Finish">
-                    <WizardStep id="printerStep" title="{i18n>S_Printer}" activate="onActivate" validated="false" >
+                    <WizardStep id="printerStep" title="{i18n>S_Printer}" activate="onActivate" validated="false">
                         <VBox id="vbox">
-                            <ComboBox id="printerSelect" required="true" change="onComboBoxChange" placeholder="{i18n>P_Printer}" width="auto" showSecondaryValues="true" items="{ path: '/ZshOutputDeviceSet',length : 1500}">
-					<core:ListItem key="{Padest}" text="{Padest}" additionalText="{Pastandort}"/>
-                            </ComboBox>
+                            <HBox>
+                                <ndc:BarcodeScannerButton id="printerBarcodeScannerButton" scanSuccess="onPrinterScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true" />
+                                <ComboBox id="printerSelect" required="true" change="onComboBoxChange" placeholder="{i18n>P_Printer}" width="auto" showSecondaryValues="false" items="{ path: '/ZshOutputDevice1Set',length : 1500}">
+                                    <core:ListItem key="{OutputDevice}" text="{OutputDevice}" additionalText="{OutputDevice}"/>
+                                </ComboBox>
+                            </HBox>
                         </VBox>
                     </WizardStep>
                     <WizardStep id="barcodeStep" title="{i18n>S_Barcode}" activate="onActivate" validated="false">
-                    
+
                         <VBox id="vbox2">
-                        <HBox 
+                            <HBox 
                         >
-            <ndc:BarcodeScannerButton
-			id="sampleBarcodeScannerButton"
-			scanSuccess="onScanSuccess"
-			scanFail="onScanError"
-			inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
+<ndc:BarcodeScannerButton id="sampleBarcodeScannerButton" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
                             <Input id="barcodeInput" type="Number" maxLength="10" liveChange="onInputChange" submit="onScanBarcode" placeholder="{i18n>S_Enter}"/>
-                             <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
-                               <Button text="{i18n>C_All}" press="onClearAll"/>
-                            </HBox>
-                           <VBox >
+                            <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+                            <Button text="{i18n>C_All}" press="onClearAll"/>
+                        </HBox>
+                        <VBox >
                             <List id="barcodeList" items="{/barcodes}" width="auto" class="sapUiResponsivePadding">
                                 <CustomListItem>
                                     <HBox>
@@ -40,30 +41,31 @@
                                         <Button text="{barcode}  " width="auto" icon="sap-icon://decline" iconFirst="false" press="onDeleteBarcode"/>
                                     </HBox>
                                 </CustomListItem>
-                            </List></VBox>
-                           
-                          
+                            </List>
                         </VBox>
-                        	
-                    </WizardStep>
-                    <!-- <WizardStep id="PrintStep" title="Print Labels">
+
+
+                    </VBox>
+
+                </WizardStep>
+                <!-- <WizardStep id="PrintStep" title="Print Labels">
                         <VBox id="vbox3">
                           <Button text="Print Plant Label" press="onPrintPlantLabel" enabled="true"/>
                 <Button text="Print Customer Label" press="onPrintCustomerLabel" enabled="true"/>
                         </VBox>
                     </WizardStep> -->
-                </Wizard>
-              
-            </content>
-            <footer>
-			<OverflowToolbar>
-				<!-- <Button text="Exit"/> -->
-                	<ToolbarSpacer/>
-				<Button text="{i18n>P_label}" press="onPrintPlantLabel" enabled="true" type="Emphasized"/>
+            </Wizard>
+
+        </content>
+        <footer>
+            <OverflowToolbar>
+                <!-- <Button text="Exit"/> -->
+                <ToolbarSpacer/>
+                <Button text="{i18n>P_label}" press="onPrintPlantLabel" enabled="true" type="Emphasized"/>
                 <Button text="{i18n>C_label}" press="onPrintCustomerLabel" enabled="true" type="Emphasized"/>
                 <ToolbarSpacer/>
-			</OverflowToolbar>
-		</footer>
-        </Page>
-    </App>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</App>
 </mvc:View>
