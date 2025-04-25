@@ -4,14 +4,14 @@
      <App id="app">
         <Page id="page" title="{i18n>title}"
 		class="sapUiResponsivePadding--header sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter">
-         <headerContent>
+         <!-- <headerContent>
             <Select id="languageSelect" change="onLanguageChange">
                 <core:Item key="en" text="English"/>
                 <core:Item key="fr" text="Français"/>
             </Select>
-        </headerContent>
+        </headerContent> -->
             <content>
-                <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="true" finishButtonText="{i18n>finish}" complete="onConfirm">
+                <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="false" finishButtonText="{i18n>finish}" complete="onConfirm">
                     <WizardStep id="printerStep" title="{i18n>WizardStep1}" activate="onActivate" validated="false" >
                         <VBox id="vbox" class="sapUiSmallMargin sapUiResponsivePadding--content">
                         <Label text="{i18n>Label1}" class="sapUiResponsiveContentPadding" required="true" labelFor="warehouse"></Label>
@@ -27,8 +27,11 @@
 					<core:ListItem key="{storageBin>lgpla}" text="{storageBin>lgpla}"/>
                             </ComboBox>
                             <Label text="{i18n>Label7}" class="sapUiResponsiveContentPadding" required="true" labelFor="printer"></Label>
-                            <ComboBox id="printer" required="true" change="onComboBoxChange" width="auto" showSecondaryValues="true" items="{ path: '/ZshOutputDeviceSet',length : 1500}">
+                            <!-- <ComboBox id="printer" required="true" change="onComboBoxChange" width="auto" showSecondaryValues="true" items="{ path: '/ZshOutputDeviceSet',length : 1500}">
 					<core:ListItem key="{Padest}" text="{Padest}" additionalText="{Pastandort}"/>
+                            </ComboBox> -->
+                             <ComboBox id="printer" required="true" change="onComboBoxChange" width="auto" showSecondaryValues="true" items="{ path: '/ZshOutputDevice1Set',length : 1500}">
+					<core:ListItem key="{OutputDevice}" text="{OutputDevice}" additionalText="{Pastandort}"/>
                             </ComboBox>
                         </VBox>
                     </WizardStep>
@@ -104,10 +107,10 @@
       
       <Label text="{i18n>ratio}" />
       <!-- <Text text="{checkBarModel>/ratio}" /> -->
-      <Input value="{checkBarModel>/ratio}" width="auto" />
+      <Input value="{checkBarModel>/ratio}" width="auto" submit="fnComputeCutlength" />
       <!-- Editable Field -->
       <Label text="{i18n>cut_length}" />
-      <Input value="{checkBarModel>/cut_length}" width="auto" />
+      <Input value="{checkBarModel>/cut_length}" width="auto" submit="fnComputeCutlength"/>
       
       <!-- Display Mode Fields -->
       <Label text="{i18n>remain}" />
@@ -119,7 +122,7 @@
   </VBox>
                            
                            
-                           <Button text="{i18n>Skip}" type="Attention" press="onSkip"/>
+                           <!-- <Button text="{i18n>Skip}" type="Attention" press="onSkip"/> -->
                         </VBox>
                         	
                     </WizardStep>
@@ -127,6 +130,25 @@
                 </Wizard>
               
             </content>
+            <footer>
+    <OverflowToolbar>
+      <!-- Left: Back -->
+      <Button id="backButton" icon="sap-icon://nav-back" text="{i18n>Back}" press="onBackPress" visible="false" />
+
+      <!-- Spacer before finish -->
+      <ToolbarSpacer />
+
+      <!-- Center: Finish -->
+      <Button id="finishButton" icon="sap-icon://accept" text="{i18n>finish}" press="onFinishPress" visible="false" type="Accept" />
+
+      <!-- Spacer before skip -->
+      <ToolbarSpacer />
+
+      <!-- Right: Next OR Skip -->
+      <Button id="nextButton" icon="sap-icon://navigation-right-arrow" text="{i18n>Next}" iconFirst="false" press="onNextPress" />
+      <Button id="skipButton" text="{i18n>Skip}" type="Attention" press="onSkip" visible="false" />
+    </OverflowToolbar>
+  </footer>
            
         </Page>
     </App>

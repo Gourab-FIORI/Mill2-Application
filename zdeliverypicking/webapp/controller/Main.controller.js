@@ -23,11 +23,13 @@
  ***********************************************/
 sap.ui.define([
     "sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", "sap/m/MessageBox",
-    "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel"
+    "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel", "sap/m/Input",
+    "sap/m/Label",
+    "sap/m/Button","sap/m/SelectDialog","sap/m/Dialog"
 ],
-function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel) {
+function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel,Input, Label, Button,SelectDialog,Dialog) {
     "use strict";
-
+    var gContrem = ""; // Global variable to store Contrem value
     return Controller.extend("com.ami.zdeliverypicking.controller.Main", {
         onInit: function () {
              // Create JSON model for barcodes
@@ -37,6 +39,10 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
              this.getView().byId("barcodeList").setModel(oModel);
              var sDefaultLanguage = sap.ui.getCore().getConfiguration().getLanguage();
              this._setLanguage(sDefaultLanguage);
+              // Open the Contrem dialog for user input ++09.04.2025
+                // This function displays a dialog that prompts the user to enter a Contrem value.
+                // The entered value will be stored in a global variable for later use.
+                this._openContremDialog();
         },
         onLanguageChange: function (oEvent) {
           var sSelectedLanguage = oEvent.getParameter("selectedItem").getKey();
@@ -58,13 +64,31 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
         // Show Busy Indicator
         BusyIndicator.show(0);
         oModel.read(sPath, {
-            success: function (oData) {
+            success: function (oData,response) {
                 BusyIndicator.hide();
+                if (response.headers["sap-message"]) {
+                    const parsedMessage = JSON.parse(response.headers["sap-message"]);
+                    
+                    if (parsedMessage.severity === 'warning') {
+                        // Show the warning message using MessageBox.warning
+                        sap.m.MessageBox.warning(parsedMessage.message, {
+                            title: parsedMessage.code,
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+                                // Optionally handle the close action if needed
+                                that.onAddBarcode(sBarcode);
+                               
+                                that.byId("Step2").setValidated(true);
+                                that._updateWizardButtons(); // update buttons
+                            }
+                        });
+                    }
+                } else {
                 that.onAddBarcode(sBarcode);
                 MessageToast.show("Barcode is Valid!");
                 that.byId("Step2").setValidated(true);
-                // Handle successful barcode check here
-                //console.log(oData);
+                that._updateWizardButtons(); // update buttons
+                }
             },
             error: function (oError) {
                 BusyIndicator.hide();
@@ -82,6 +106,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                 MessageBox.error(sErrorMessage);
                 that.byId("barcodeInput").setValue("");
                 that.byId("Step2").setValidated(false);
+                that._updateWizardButtons(); // update buttons
                 console.error(oError);
             }
         });
@@ -96,17 +121,42 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
         var sBarcode = ev.getSource().getValue();
         this.fnDeliveryData(sBarcode);
     },
+    // onAddBarcode: function (sBarcode) {
+    //     var oInput = this.byId("barcodeInput");
+    //     // var sBarcode = oInput.getValue();
+    //     if (sBarcode) {
+    //         var oModel = this.getView().byId("barcodeList").getModel();
+    //         var aBarcodes = oModel.getProperty("/barcodes");
+    //         aBarcodes.push({ barcode: sBarcode });
+    //         oModel.setProperty("/barcodes", aBarcodes);
+    //         oInput.setValue("");
+    //     }
+    // },
+    //Check duplicate entries
     onAddBarcode: function (sBarcode) {
         var oInput = this.byId("barcodeInput");
-        // var sBarcode = oInput.getValue();
+    
         if (sBarcode) {
             var oModel = this.getView().byId("barcodeList").getModel();
-            var aBarcodes = oModel.getProperty("/barcodes");
+            var aBarcodes = oModel.getProperty("/barcodes") || [];
+    
+            // Check for duplicates
+            var bExists = aBarcodes.some(function (oItem) {
+                return oItem.barcode === sBarcode;
+            });
+    
+            if (bExists) {
+                MessageBox.warning("This barcode already exists.");
+                oInput.setValue("");
+                return;
+            }
+    
             aBarcodes.push({ barcode: sBarcode });
             oModel.setProperty("/barcodes", aBarcodes);
             oInput.setValue("");
         }
     },
+    
       //Deletes the barcode
       onDeleteBarcode: function (oEvent) {
         var oItem = oEvent.getSource().getParent();
@@ -154,15 +204,32 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             // Show Busy Indicator
             BusyIndicator.show(0);
             oModel.read(sPath, {
-                success: function (oData) {
+                success: function (oData,response) {
                     BusyIndicator.hide();
+                    if (response.headers["sap-message"]) {
+                        const parsedMessage = JSON.parse(response.headers["sap-message"]);
+                        
+                        if (parsedMessage.severity === 'warning') {
+                            // Show the warning message using MessageBox.warning
+                            sap.m.MessageBox.warning(parsedMessage.message, {
+                                title: parsedMessage.code,
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
+                                    // Optionally handle the close action if needed
+                                    var data = new JSONModel(oData);
+                                    that.byId("simpleFormId").setModel(data,"deliveryModel");
+                                     that._wizard.validateStep(that.byId("Step1"));
+                                     that._updateWizardButtons(); // update buttons
+                                }
+                            });
+                        }
+                    } else {
                     MessageToast.show("Delivery Item No. is Valid!");
                     var data = new JSONModel(oData);
                     that.byId("simpleFormId").setModel(data,"deliveryModel");
                      that._wizard.validateStep(that.byId("Step1"));
-                     //that.onAddBarcode(sBarcode);
-                    // Handle successful barcode check here
-                    //console.log(oData);
+                     that._updateWizardButtons(); // update buttons
+                    }
                 },
                 error: function (oError) {
                     BusyIndicator.hide();
@@ -182,6 +249,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                     var data = new JSONModel();
                     that.byId("simpleFormId").setModel(data,"deliveryModel");
                     that._wizard.invalidateStep(that.byId("Step1"));
+                    that._updateWizardButtons(); // update buttons
                     console.error(oError);
                 }
             });
@@ -218,7 +286,8 @@ fnPost:function(str){
     var oPayload = {
         BAR_NBR: barNumbers1String,
         ZZSD_DEL_ITEM: sDelivery,
-        Function : str
+        Function : str,
+        contrem : this.getContremValue()
     };
 
     // Get the OData model
@@ -315,6 +384,7 @@ fnPost:function(str){
         //this._disableStep2Fields(true);
         // this.getView().byId("confirmPrint").setSelected(false);
         this.byId("Step1").setValidated(false);
+        that._updateWizardButtons(); // update buttons
         
       
     },
@@ -346,7 +416,116 @@ fnPost:function(str){
         var data = new JSONModel();
                     this.byId("simpleFormId").setModel(data,"deliveryModel");
                     this.byId("Step1").setValidated(false);
+                    this._wizard.discardProgress(this.byId("Step1"));
+                    this._updateWizardButtons(); // update buttons
     },
-
+    _openContremDialog: function () {
+        if (!this._oContremDialog) {
+          this._oContremDialog = new Dialog({
+            title: "Select Contrem",
+            type: "Message",
+            content: [
+              new Label({ text: "Contrem", labelFor: "contremInput" }),
+              new Input("contremInput", {
+                showValueHelp: true,
+                valueHelpOnly: true,
+                editable: true,
+                placeholder: "Choose from list...",
+                valueHelpRequest: this._onContremValueHelp.bind(this)
+              })
+            ],
+            beginButton: new Button({
+              text: "Continue",
+              enabled: false,
+              press: function () {
+                gContrem = sap.ui.getCore().byId("contremInput").getValue(); // Save to global
+                this._oContremDialog.close();
+              }.bind(this)
+            }),
+            escapeHandler: function (oPromise) {
+              oPromise.reject(); // Prevent closing without input
+            },
+            afterClose: function () {
+              this._oContremDialog.destroy();
+              this._oContremDialog = null;
+            }.bind(this)
+          });
+  
+          this._oContremDialog.open();
+        }
+      },
+  
+      _onContremValueHelp: function () {
+        if (!this._oContremVHDialog) {
+          this._oContremVHDialog = new SelectDialog({
+            title: "Select Contrem",
+            items: {
+              path: "/ZzarpsContremSet",
+              template: new sap.m.StandardListItem({
+                title: "{ZzarpsCtrm}" // Adjust if different field name
+                //description: "{Description}" // Optional
+              })
+            },
+            search: function (oEvent) {
+              var sValue = oEvent.getParameter("value");
+              var oFilter = new sap.ui.model.Filter("ZzarpsCtrm", sap.ui.model.FilterOperator.Contains, sValue);
+              oEvent.getSource().getBinding("items").filter([oFilter]);
+            },
+            confirm: function (oEvent) {
+              var sSelected = oEvent.getParameter("selectedItem").getTitle();
+              sap.ui.getCore().byId("contremInput").setValue(sSelected);
+              this._oContremDialog.getBeginButton().setEnabled(true);
+            }.bind(this),
+            cancel: function () {}
+          });
+  
+          // Load OData model if not already
+          var oModel = this.getView().getModel(); // Assuming your OData model is set to default
+          this._oContremVHDialog.setModel(oModel);
+        }
+  
+        this._oContremVHDialog.open();
+      },
+  
+      getContremValue: function () {
+        return gContrem;
+      },
+      _updateWizardButtons: function () {
+        var oWizard = this.byId("wizard");
+        var oNextButton = this.byId("btnNext");
+        var oBackButton = this.byId("btnBack");
+        var oConfirmButton = this.byId("btnConfirm");
+        var oCurrentStep = oWizard.getCurrentStep();
+    
+        // Step references
+        var oStep1 = this.byId("Step1");
+        var oStep2 = this.byId("Step2");
+    
+        // Back button should be visible after first step
+        oBackButton.setVisible(oCurrentStep !== oStep1.getId());
+    
+        if (oCurrentStep === oStep1.getId()) {
+            oNextButton.setVisible(true);
+            oNextButton.setEnabled(oStep1.getValidated());
+            oConfirmButton.setVisible(false);
+        } else if (oCurrentStep === oStep2.getId()) {
+            oNextButton.setVisible(false);
+            oConfirmButton.setVisible(true);
+            oConfirmButton.setEnabled(oStep2.getValidated());
+        }
+    },
+    onNextPress: function () {
+        var oWizard = this.byId("wizard");
+        oWizard.nextStep();
+        this._updateWizardButtons();
+    },
+    
+    onBackPress: function () {
+        var oWizard = this.byId("wizard");
+        oWizard.previousStep();
+        this._updateWizardButtons();
+    }
+    
+    
     });
 });

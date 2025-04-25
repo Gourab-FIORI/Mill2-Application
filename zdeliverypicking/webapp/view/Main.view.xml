@@ -4,19 +4,19 @@
     xmlns:ndc="sap.ndc"
     xmlns:core="sap.ui.core">
     <Page id="page" title="{i18n>title}">
-        <headerContent>
+        <!-- <headerContent>
             <Select id="languageSelect" change="onLanguageChange">
                 <core:Item key="en" text="English"/>
                 <core:Item key="fr" text="Français"/>
             </Select>
-        </headerContent>
+        </headerContent> -->
         <content>
-            <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="true" finishButtonText="{i18n>PGI}" complete="onPGI">
+            <Wizard id="wizard" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="false"  finishButtonText="{i18n>PGI}" complete="onPGI">
                 <WizardStep id="Step1" title="{i18n>WizardStep1}" activate="onActivate" validated="false">
                     <VBox id="vbox1"  class="sapUiResponsiveMargin">
                         <HBox>
                             <ndc:BarcodeScannerButton id="sampleBarcodeScannerButtonDD" scanSuccess="onScanSuccessDD" scanFail="onScanError" inputLiveUpdate="onScanLiveupdateDD" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
-                            <Input id="barcodeInputDD" liveChange="onInputChange" submit="onScanBarcodeDD"/>
+                            <Input id="barcodeInputDD" liveChange="onInputChange" change="onScanBarcodeDD" submit="onScanBarcodeDD"/>
                             <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
                             <Button text="{i18n>Button1}" press="onClearDD"/>
                         </HBox>
@@ -36,66 +36,81 @@
 
                 <Title text="{i18n>deliveryDataTitle}"/>
                 
-                <!-- Delivery and Item -->
-                <Label text="{i18n>labelDeliveryItem}" />
-                <Text text="{deliveryModel>/ZZSD_DEL_ITEM}" />
-
+                 <!-- Delivery and Item -->
+                <!-- <Label text="{i18n>labelDeliveryItem}" />
+                <Text text="{deliveryModel>/ZZSD_DEL_ITEM}" /> -->
+ 
                 <!-- Ship-to Party -->
-                <Label text="{i18n>labelShipToParty}" />
-                <Text text="{deliveryModel>/Kunnr}" />
-
+                <!-- <Label text="{i18n>labelShipToParty}" />
+                <Text text="{deliveryModel>/Kunnr}" /> -->
+ 
                 <!-- Address -->
-                <Label text="{i18n>labelAddress}" />
-                <Text text="{deliveryModel>/Txtwe}" />
-
+                <!-- <Label text="{i18n>labelAddress}" />
+                <Text text="{deliveryModel>/Txtwe}" /> -->
+ 
                 <!-- Shipping Point -->
-                <Label text="{i18n>labelShippingPoint}" />
-                <Text text="{deliveryModel>/Vstel}" />
-
+                <!-- <Label text="{i18n>labelShippingPoint}" />
+                <Text text="{deliveryModel>/Vstel}" /> -->
+ 
                 <!-- Sales Org -->
-                <Label text="{i18n>labelSalesOrg}" />
-                <Text text="{deliveryModel>/Vkorg}" />
-
+                <!-- <Label text="{i18n>labelSalesOrg}" />
+                <Text text="{deliveryModel>/Vkorg}" /> -->
+ 
                 <!-- Pick Date -->
-                <Label text="{i18n>labelPickDate}" />
-                <Text text="{deliveryModel>/Kodat}" />
-
+                <!-- <Label text="{i18n>labelPickDate}" />
+                <Text text="{deliveryModel>/Kodat}" /> -->
+ 
                 <!-- Picking Time
                 <Label text="{i18n>labelPickTime}" />
                 <Text text="{deliveryModel>/Kouhr}" /> -->
-
+ 
                 <!-- Division -->
-                <Label text="{i18n>labelDivision}" />
-                <Text text="{deliveryModel>/Spart}" />
-
+                <!-- <Label text="{i18n>labelDivision}" />
+                <Text text="{deliveryModel>/Spart}" /> -->
+ 
                 <!-- Plant -->
-                <Label text="{i18n>labelPlant}" />
-                <Text text="{deliveryModel>/Werks}" />
-
+                <!-- <Label text="{i18n>labelPlant}" />
+                <Text text="{deliveryModel>/Werks}" /> -->
+ 
                 <!-- Warehouse No. -->
-                <Label text="{i18n>labelWarehouseNo}" />
-                <Text text="{deliveryModel>/Lgnum}" />
-
+                <!-- <Label text="{i18n>labelWarehouseNo}" />
+                <Text text="{deliveryModel>/Lgnum}" />  -->
+ 
                 <!-- Picking Status -->
                 <Label text="{i18n>labelPickingStatus}" />
                 <Text text="{deliveryModel>/Kosta}" />
-
+ 
                 <!-- Pick Quantity -->
                 <Label text="{i18n>labelPickQuantity}" />
                 <Text text="{deliveryModel>/Pikmg}" />
-
+ 
                 <!-- Delivery Quantity -->
                 <Label text="{i18n>labelDeliveryQuantity}" />
                 <Text text="{deliveryModel>/Lfimg}" />
-
+ 
+                <!-- Shipment -->
+                <Label text="{i18n>labelshipment}" />
+                <Text text="{deliveryModel>/TKNUM}" />
+ 
+                <!-- License Plate -->
+                <Label text="{i18n>labelLicenseplate}" />
+                <Text text="{deliveryModel>/EXIDV2}" />
+ 
+                <!-- Tare Weight -->
+                <Label text="{i18n>labelTareweight}" />
+                <Text text="{deliveryModel>/TARAG}{deliveryModel>/GEWEI}" />
+ 
+                <!-- Country -->
+                <Label text="{i18n>labelCountry}" />
+                <Text text="{deliveryModel>/LANDX}" />
+ 
                 <!-- Sales Unit -->
-                <Label text="{i18n>labelSalesUnit}" />
-                <Text text="{deliveryModel>/Vrkme}" />
-
+                <!-- <Label text="{i18n>labelSalesUnit}" />
+                <Text text="{deliveryModel>/Vrkme}" /> -->
+ 
                 <!-- Base Unit -->
-                <Label text="{i18n>labelBaseUnit}" />
-                <Text text="{deliveryModel>/Meins}" />
-
+                <!-- <Label text="{i18n>labelBaseUnit}" /> -->
+                <!-- <Text text="{deliveryModel>/Meins}" /> -->
             </f:SimpleForm>
                    
                     <!-- </Panel> -->
@@ -106,7 +121,7 @@
                         <HBox>
                             <ndc:BarcodeScannerButton id="sampleBarcodeScannerButton1" scanSuccess="onScanSuccess" scanFail="onScanError" inputLiveUpdate="onScanLiveupdate" disableBarcodeInputDialog="true" preferFrontCamera="true"/>
                             <Input id="barcodeInput" type="Number" maxLength="10" liveChange="onInputChange" submit="onScanBarcode" placeholder="{i18n>Enter Bar Number}"/>
-                            <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
+                            <!-- <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/> -->
                             <Button text="{i18n>Clear All}" press="onClearAll"/>
                         </HBox>
                         <VBox>
@@ -118,10 +133,49 @@
                                 </CustomListItem>
                             </List>
                         </VBox>
-                                   <Button text="{i18n>Confirm}" press="onConfirm"/>
+                                   <!-- <Button type="Emphasized" text="{i18n>Confirm}" press="onConfirm"/> -->
                     </VBox>
                 </WizardStep>
             </Wizard>
         </content>
+     <footer>
+  <OverflowToolbar>
+    <!-- Back button on the left with icon -->
+    <Button 
+      id="btnBack" 
+      text="Back" 
+      icon="sap-icon://nav-back" 
+      press="onBackPress" 
+      visible="false" 
+    />
+
+    <ToolbarSpacer/>
+
+    <!-- Confirm button in the center (optional icon can be added) -->
+    <Button 
+      id="btnConfirm" 
+      text="Confirm" 
+      type="Emphasized"
+      press="onConfirm" 
+      visible="false" 
+    />
+
+    <!-- <ToolbarSpacer/> -->
+
+    <!-- Next button on the right with icon -->
+    <Button 
+      id="btnNext" 
+      text="Next" 
+      iconFirst="false"
+      icon="sap-icon://navigation-right-arrow" 
+      press="onNextPress" 
+      enabled="false" 
+    />
+  </OverflowToolbar>
+</footer>
+
+
+
+
     </Page>
 </mvc:View>

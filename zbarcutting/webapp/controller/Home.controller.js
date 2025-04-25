@@ -31,12 +31,15 @@
 sap.ui.define([
         "sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", "sap/m/MessageBox",
         "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel", "sap/ui/model/Filter",
-        "sap/ui/model/FilterOperator"
+        "sap/ui/model/FilterOperator", "sap/m/Input",
+        "sap/m/Label",
+        "sap/m/Button", "sap/m/SelectDialog", "sap/m/Dialog"
     ],
-    function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel, Filter, FilterOperator) {
+    function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel, Filter, FilterOperator, Input, Label, Button, SelectDialog, Dialog) {
         "use strict";
         var prefixId;
         var oScanResultText;
+        var gContrem = ""; // Global variable to store Contrem value
         return Controller.extend("com.ami.zbarcutting.controller.Home", {
             onInit: function () {
                 // Create JSON model for barcodes
@@ -44,6 +47,11 @@ sap.ui.define([
                 //var oModel = new JSONModel({ barcodes: [] });
                 // this.getView().byId("barcodeList").setModel(oModel);
                 var sDefaultLanguage = sap.ui.getCore().getConfiguration().getLanguage();
+                this._wizard = this.byId("wizard");
+                this._backButton = this.byId("backButton");
+                this._nextButton = this.byId("nextButton");
+                this._finishButton = this.byId("finishButton");
+
                 this._setLanguage(sDefaultLanguage);
                 prefixId = this.createId();
                 if (prefixId) {
@@ -52,10 +60,14 @@ sap.ui.define([
                     prefixId = "";
                 }
                 //oScanResultText = Element.getElementById(prefixId + 'sampleBarcodeScannerResult');
+                // Open the Contrem dialog for user input ++09.04.2025
+                // This function displays a dialog that prompts the user to enter a Contrem value.
+                // The entered value will be stored in a global variable for later use.
+                this._openContremDialog();
             },
             onBeforeRendering: function () {
                 // this.onCheckPlant('DEF');
-                this.onCheckPrinter('0');
+                //this.onCheckPrinter('0');
             },
             //on check default printner 
             onCheckPrinter: function (code) {
@@ -257,11 +269,32 @@ sap.ui.define([
             //show buttons on next page
             onActivate: function (oEvent) {
                 var sCurrentStepId = oEvent.getParameter("id");
-                sCurrentStepId = sCurrentStepId.split('-').pop();
+                var currentStepId = sCurrentStepId.split('-').pop();
 
                 // this.toggleVisibility();
+                const oBack = this.byId("backButton");
+                const oNext = this.byId("nextButton");
+                const oFinish = this.byId("finishButton");
+                const oSkip = this.byId("skipButton");
 
-                if (sCurrentStepId === 'Step2') {
+                // Reset all visibility
+                oBack.setVisible(false);
+                oNext.setVisible(false);
+                oFinish.setVisible(false);
+                oSkip.setVisible(false);
+
+                // Determine visibility based on step ID
+                if (currentStepId.includes("printerStep")) {
+                    oNext.setVisible(true);
+                } else if (currentStepId.includes("Step2")) {
+                    oBack.setVisible(true);
+                    oNext.setVisible(true);
+                } else if (currentStepId.includes("barcodeStep")) {
+                    oBack.setVisible(true);
+                    oFinish.setVisible(true);
+                    oSkip.setVisible(true);
+                }
+                if (currentStepId === 'Step2') {
                     this.onCheckPlant("def");
                 }
             },
@@ -274,14 +307,31 @@ sap.ui.define([
                 // Show Busy Indicator
                 BusyIndicator.show(0);
                 oModel.read(sPath, {
-                    success: function (oData) {
+                    success: function (oData, response) {
                         BusyIndicator.hide();
-                        //that.onAddBarcode(sBarcode);      //not needed as single bar code to be scanned
-                        MessageToast.show("Barcode is Valid!");
-                        var formdata = new JSONModel(oData);
-                        that.getView().byId("cuttingdata").setModel(formdata, "checkBarModel");
-                        // Handle successful barcode check here
-                        //console.log(oData);
+                        if (response.headers["sap-message"]) {
+                            const parsedMessage = JSON.parse(response.headers["sap-message"]);
+
+                            if (parsedMessage.severity === 'warning') {
+                                // Show the warning message using MessageBox.warning
+                                sap.m.MessageBox.warning(parsedMessage.message, {
+                                    title: parsedMessage.code,
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+                                        var formdata = new JSONModel(oData);
+                                        that.getView().byId("cuttingdata").setModel(formdata, "checkBarModel");
+                                    }
+                                });
+                            }
+                        } else {
+
+                            //that.onAddBarcode(sBarcode);      //not needed as single bar code to be scanned
+                            MessageToast.show("Barcode is Valid!");
+                            var formdata = new JSONModel(oData);
+                            that.getView().byId("cuttingdata").setModel(formdata, "checkBarModel");
+                            // Handle successful barcode check here
+                            //console.log(oData);
+                        }
                     },
                     error: function (oError) {
                         BusyIndicator.hide();
@@ -394,15 +444,15 @@ sap.ui.define([
                 oView.byId("workcent").setValue();
                 //oView.byId("plant").setValue();
                 oView.byId("repairc").setValue();
-                var formdata= new JSONModel();
-                this.getView().byId("cuttingdata").setModel(formdata,"checkBarModel");
+                var formdata = new JSONModel();
+                this.getView().byId("cuttingdata").setModel(formdata, "checkBarModel");
                 this.byId("printerStep").setValidated(false);
             },
             onSkip: function () {
                 // Implement skip logic for skipping
                 this.byId("barcodeInput").setValue("");
-                var formdata= new JSONModel();
-                this.getView().byId("cuttingdata").setModel(formdata,"checkBarModel");
+                var formdata = new JSONModel();
+                this.getView().byId("cuttingdata").setModel(formdata, "checkBarModel");
             },
             onConfirm: function () {
                 // Implement Confirm logic for main post
@@ -435,15 +485,16 @@ sap.ui.define([
                     lgnum: sWarehouseNo,
                     lgtyp: sStorageType,
                     lgpla: sStorageBin,
-                    BAR_NBR: aBarcodes,                    
+                    BAR_NBR: aBarcodes,
                     WorkCenter: sWorkCenter,
                     Werks: sWerks,
                     Padest: sPrinter,
-                    CutCode : sRepaircode,
-                    Repaircode :cuttingdata.Repaircode,
-                    charg : cuttingdata.charg,
-                    ratio : cuttingdata.ratio,
-                    cut_length : cuttingdata.cut_length
+                    CutCode: sRepaircode,
+                    Repaircode: cuttingdata.Repaircode,
+                    charg: cuttingdata.charg,
+                    ratio: cuttingdata.ratio,
+                    cut_length: cuttingdata.cut_length,
+                    contrem : this.getContremValue()
                 };
                 BusyIndicator.show(0);
                 var that = this;
@@ -540,9 +591,10 @@ sap.ui.define([
                 // Reset wizard steps
                 wizard.setCurrentStep(wizard.getSteps()[0]);
                 this.onClearAll();
+                this._updateFooterButtons();
                 //this.toggleVisibility();
             },
-            onClear:function(){
+            onClear: function () {
                 this.byId("barcodeInput").setValue("");
             },
 
@@ -580,6 +632,155 @@ sap.ui.define([
                 //         oScanResultText.setText('');
                 //     });
                 // }
+            },
+            _openContremDialog: function () {
+                if (!this._oContremDialog) {
+                    this._oContremDialog = new Dialog({
+                        title: "Select Contrem",
+                        type: "Message",
+                        content: [
+                            new Label({
+                                text: "Contrem",
+                                labelFor: "contremInput"
+                            }),
+                            new Input("contremInput", {
+                                showValueHelp: true,
+                                valueHelpOnly: true,
+                                editable: true,
+                                placeholder: "Choose from list...",
+                                valueHelpRequest: this._onContremValueHelp.bind(this)
+                            })
+                        ],
+                        beginButton: new Button({
+                            text: "Continue",
+                            enabled: false,
+                            press: function () {
+                                gContrem = sap.ui.getCore().byId("contremInput").getValue(); // Save to global
+                                this._oContremDialog.close();
+                            }.bind(this)
+                        }),
+                        escapeHandler: function (oPromise) {
+                            oPromise.reject(); // Prevent closing without input
+                        },
+                        afterClose: function () {
+                            this._oContremDialog.destroy();
+                            this._oContremDialog = null;
+                        }.bind(this)
+                    });
+
+                    this._oContremDialog.open();
+                }
+            },
+
+            _onContremValueHelp: function () {
+                if (!this._oContremVHDialog) {
+                    this._oContremVHDialog = new SelectDialog({
+                        title: "Select Contrem",
+                        items: {
+                            path: "/ZzarpsContremSet",
+                            template: new sap.m.StandardListItem({
+                                title: "{ZzarpsCtrm}" // Adjust if different field name
+                                //description: "{Description}" // Optional
+                            })
+                        },
+                        search: function (oEvent) {
+                            var sValue = oEvent.getParameter("value");
+                            var oFilter = new sap.ui.model.Filter("ZzarpsCtrm", sap.ui.model.FilterOperator.Contains, sValue);
+                            oEvent.getSource().getBinding("items").filter([oFilter]);
+                        },
+                        confirm: function (oEvent) {
+                            var sSelected = oEvent.getParameter("selectedItem").getTitle();
+                            sap.ui.getCore().byId("contremInput").setValue(sSelected);
+                            this._oContremDialog.getBeginButton().setEnabled(true);
+                        }.bind(this),
+                        cancel: function () {}
+                    });
+
+                    // Load OData model if not already
+                    var oModel = this.getView().getModel(); // Assuming your OData model is set to default
+                    this._oContremVHDialog.setModel(oModel);
+                }
+
+                this._oContremVHDialog.open();
+            },
+
+            getContremValue: function () {
+                return gContrem;
+            },
+            _updateFooterButtons: function () {
+                const currentStepId = this.byId("wizard").getCurrentStep();
+
+                const oBack = this.byId("backButton");
+                const oNext = this.byId("nextButton");
+                const oFinish = this.byId("finishButton");
+                const oSkip = this.byId("skipButton");
+
+                oBack.setVisible(false);
+                oNext.setVisible(false);
+                oFinish.setVisible(false);
+                oSkip.setVisible(false);
+
+                if (currentStepId.includes("printerStep")) {
+                    oNext.setVisible(true);
+                } else if (currentStepId.includes("Step2")) {
+                    oBack.setVisible(true);
+                    oNext.setVisible(true);
+                } else if (currentStepId.includes("barcodeStep")) {
+                    oBack.setVisible(true);
+                    oFinish.setVisible(true);
+                    oSkip.setVisible(true);
+                }
+            },
+            onNextPress: function () {
+                this._wizard.nextStep();
+            },
+
+            onBackPress: function () {
+                this._wizard.previousStep();
+                this._updateFooterButtons();
+            },
+
+            onFinishPress: function () {
+                this.onConfirm();
+            },
+            fnComputeCutlength: function () {
+                // Get the model instance
+                var oCheckBarModel = this.getView().byId("cuttingdata").getModel("checkBarModel");
+
+                // Get the current data from the model
+                var oData = oCheckBarModel.getData();
+
+                // Extract the key fields from the current data
+                var sBarNbr = oData.BAR_NBR;
+                var sRatio = oData.ratio;
+                var sCutLength = oData.cut_length;
+                var sCutCode = oData.pairing;
+                BusyIndicator.show(0);
+                // Construct the OData path
+                var sPath = "/computeScrapLenSet(BAR_NBR='" + encodeURIComponent(sBarNbr) +
+                    "',Ratio='" + encodeURIComponent(sRatio) +
+                    "',CutLength='" + encodeURIComponent(sCutLength) +
+                    "',CutCode='" + encodeURIComponent(sCutCode) + "')";
+
+                // Perform the OData read and update the model on success
+                this.getView().getModel().read(sPath, {
+                    success: function (oData,oResponse) {
+                        BusyIndicator.hide();
+                        oCheckBarModel.setProperty("/remain", oData.remain.trim());
+                        oCheckBarModel.setProperty("/scrap", oData.scrap.trim());    
+                        oCheckBarModel.setProperty("/ratio", oData.Ratio.trim());  
+                        oCheckBarModel.setProperty("/cut_length", oData.CutLength.trim());     
+                        // Set updated data back to the model
+                        //oCheckBarModel.setData(oData);
+                        oCheckBarModel.refresh(true);   
+                        console.log("Model updated with scrap length response:", oResponse);
+                    },
+                    error: function (oError) {
+                        BusyIndicator.hide();
+                        console.error("Error retrieving scrap length data:", oError);
+                    }
+                });
+
             }
 
         });

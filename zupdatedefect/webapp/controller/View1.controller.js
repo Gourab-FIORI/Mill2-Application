@@ -187,7 +187,7 @@ sap.ui.define([
            var oLengthDropdown = this.byId("idDetailedpositionleng").getBinding("items");
            oLengthDropdown.filter([oFilter]);
            // Get the Repair dropdown binding and apply the filter
-           var oRepDropdown = this.byId("idDetailedpositionRep").getBinding("items");
+           var oRepDropdown = this.byId("idDetailedpositionRep").getBinding("items");       // ++added T_singhaG1 23.04.2025 ZshDefRepairCodeSet by Rahul 
            oRepDropdown.filter([oFilter]);
        
        
@@ -434,7 +434,8 @@ sap.ui.define([
                Pos_Jaw: aPos_Jaw.join(","),
                Pos_Len: aPos_Len.join(","),
                Pos_Rep: aPos_Rep.join(","),
-               Pos_Mit: aPos_Mit.join(",")
+               Pos_Mit: aPos_Mit.join(","),
+               contrem : this.getContremValue()
                
               
            };
@@ -514,7 +515,7 @@ sap.ui.define([
                Pos_Len: sPos_Len,
                Pos_Rep : sPos_Rep,
                Pos_Mit : sMit,
-               contrem : this.getContremValue
+               contrem : this.getContremValue()
                
            };
        

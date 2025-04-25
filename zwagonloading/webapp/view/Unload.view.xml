@@ -2,15 +2,15 @@
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m"
     xmlns:ndc="sap.ndc" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
     <Page id="page3" title="{i18n>title3}"   navButtonPress="onHomePress" showNavButton="true" >
-    <headerContent>
+    <!-- <headerContent>
         <Select id="languageSelect4" change="onLanguageChange">
         <core:Item key="en" text="English"/>
         <core:Item key="fr" text="Français"/>
         </Select>
-        </headerContent>
+        </headerContent> -->
         <content>
-                <Wizard id="wizard3" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="true" finishButtonText="Confirm Unload" complete="fnWagonDataUpdate">
-                    <WizardStep id="Step1" title="{i18n>WizardStep7}" activate="onActivate" validated="false" >
+                <Wizard id="wizard3" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="false" finishButtonText="Confirm Unload" complete="fnWagonDataUpdate">
+                    <WizardStep id="Step1" title="{i18n>WizardStep7}" activate="onActivate" validated="true" >
                         <VBox id="vbox" class="sapUiSmallMargin sapUiResponsivePadding--content">
                         <Label text="{i18n>Label24}" class="sapUiResponsiveContentPadding" required="true" labelFor="warehouse"></Label>
                             <ComboBox class="sapUiResponsiveContentPadding" id="warehouse" required="true" change="onWarehouseChange" placeholder="{i18n>placeholder1}" width="auto" showSecondaryValues="true" busyIndicatorDelay="100" items="{ path: '/warehouseNoSet',length : 1500}">
@@ -50,15 +50,19 @@
                     </WizardStep>
                 </Wizard>
             </content>
-            <!-- <footer>
-			<OverflowToolbar>
-                	<ToolbarSpacer/>
-				<Button text="{i18n>Button2}" press="onValidate" enabled="true" type="Emphasized"/>
-                <HBox>
-                <Button text="{i18n>Button3}" press="onValidate" enabled="true" type="Emphasized"/>
-                </HBox>
-                <ToolbarSpacer/>
-			</OverflowToolbar>
-		</footer> -->
+            <footer>
+            <Bar id="wizardFooter" design="Auto">
+                <contentLeft>
+                    <Button id="backButton" text="Back" press="onBackPress" icon="sap-icon://nav-back" visible="false"/>
+                </contentLeft>
+                <contentMiddle>
+                    <Button id="finishButton" text="Confirm Unload" press="fnWagonDataUpdate" visible="false"/>
+                </contentMiddle>
+                <contentRight>
+                    <Button id="nextButton" icon="sap-icon://navigation-right-arrow" iconFirst="false" enabled="false" text="Next" press="onNextPress"/>
+
+                </contentRight>
+            </Bar>
+        </footer>
     </Page>
 </mvc:View>

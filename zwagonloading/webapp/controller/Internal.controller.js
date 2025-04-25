@@ -36,7 +36,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             });
             this.getView().setModel(i18nModel, "i18n");
         },
-        onActivate: function (oEvent) {
+        onActivate_old: function (oEvent) {
             var sCurrentStepId = oEvent.getParameter("id");
             sCurrentStepId = sCurrentStepId.split('-').pop();
             var oInput = this.byId("wagonID").getValue();
@@ -53,6 +53,66 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
 
             }
         },
+        //Static buttons to control Wizard
+        onActivate: function (oEvent) {
+            const sCurrentStepId = oEvent.getParameter("id").split("-").pop();
+            const oInput = this.byId("wagonID").getValue();
+        
+            this._updateFooterButtons(sCurrentStepId);
+        
+            if (sCurrentStepId === 'Step3') {
+                this.fnBarcodeUpdate("INTERNAL_LOADING");
+                this.onLoadingWagonData(oInput);
+            }
+        },
+        
+        _updateFooterButtons: function (sCurrentStepId) {
+            const oBackButton = this.byId("backButton");
+            const oNextButton = this.byId("nextButton");
+            const oConfirmButton = this.byId("finishButton");
+           
+        
+            switch (sCurrentStepId) {
+                case "Step1":
+                    oBackButton.setVisible(false);
+                    oNextButton.setVisible(true);
+                    oConfirmButton.setVisible(false);
+                   
+                    break;
+        
+                case "Step2":
+                    oBackButton.setVisible(true);
+                    oNextButton.setVisible(true);
+                    oConfirmButton.setVisible(false);
+                  
+                    break;
+        
+                case "Step3":
+                    oBackButton.setVisible(true);
+                    oNextButton.setVisible(false);
+                    oConfirmButton.setVisible(true);
+                  
+                    break;
+            }
+        },
+            
+                
+        onNextPress: function () {
+            const wizard = this.byId("wizard1");
+            wizard.nextStep();
+            this._updateFooterButtons();
+            this.byId("nextButton").setEnabled(false);
+        },
+        
+        onBackPress: function () {
+            const oWizard = this.byId("wizard1");
+            oWizard.previousStep();
+            const sStepId = oWizard.getCurrentStep().split("-").pop();
+            this._updateFooterButtons(sStepId);
+            this.byId("nextButton").setEnabled(true);
+        },
+        
+        
         //filter wagonid on loading codes
         onLoadingCode:function(){
             
@@ -279,6 +339,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                     that.onLoadingStatusGet(sBarcode);
                     that.onLoadingStatus();
                      that._wizard.validateStep(that.byId("Step1"));
+                     that.byId("nextButton").setEnabled(true);
                      //that.onAddBarcode(sBarcode);
                     // Handle successful barcode check here
                     //console.log(oData);
@@ -311,11 +372,32 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             // Show Busy Indicator
             BusyIndicator.show(0);
             oModel.read(sPath, {
-                success: function (oData) {
+                success: function (oData,response) {
                     BusyIndicator.hide();
+                    ///warning messsage code block
+ 
+                        if (response.headers["sap-message"]) {
+                            const parsedMessage = JSON.parse(response.headers["sap-message"]);
+                            
+                            if (parsedMessage.severity === 'warning') {
+                                // Show the warning message using MessageBox.warning
+                                sap.m.MessageBox.warning(parsedMessage.message, {
+                                    title: parsedMessage.code,
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+                                        // Optionally handle the close action if needed
+                                        that.onAddBarcode(sBarcode);
+                                        that.byId("Step2").setValidated(true);
+                                        that.byId("nextButton").setEnabled(true);
+                                    }
+                                });
+                            }
+                        } else {
                     that.onAddBarcode(sBarcode);
                     MessageToast.show("Barcode is Valid!");
                     that.byId("Step2").setValidated(true);
+                    that.byId("nextButton").setEnabled(true);
+                        }
                     // Handle successful barcode check here
                     //console.log(oData);
                 },
@@ -437,10 +519,13 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
         },
         //Final confirm button function
         fnWagonDataUpdate : function(){
+           // var contremValue = this.getOwnerComponent().getModel("globalData").getProperty("/contrem");
+
             var oPayload = {
                 Exidv2: this.byId("wagonID").getValue(),
                 Vegr4 : this.byId("loadingcodestatic").getValue(),
                 Vegr1 :this.byId("loadingstatus").getSelectedKey()
+               // contrem : contremValue
             };
           
             BusyIndicator.show(0);
@@ -512,12 +597,14 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                 MessageBox.error("Scan the Barcodes first before Confirming");
                 return;
             }
+             var contremValue = this.getOwnerComponent().getModel("globalData").getProperty("/contrem");
             // Iterate through each BAR_NBR value and create filter
             var bar_nbr = barNumbers.map(item => item.barcode).join(",");
             var oPayload = {
                 BAR_NBR: bar_nbr,
                 Exidv2 : wagonID,
-                Function : Func 
+                Function : Func,
+                contrem : contremValue
             };
           
             BusyIndicator.show(0);
@@ -597,6 +684,8 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             
             this.byId("Step1").setValidated(false);
             this.byId("Step2").setValidated(false);
+            this.byId("nextButton").setEnabled(false);
+            this._updateFooterButtons("Step1");
           
         },
         _resetStep1Fields: function () {
@@ -625,6 +714,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             var oModel = this.getView().byId("barcodeList").getModel();
             oModel.setProperty("/barcodes", []);
             this._wizard.invalidateStep(this.byId("Step2")); 
+            this.byId("nextButton").setEnabled(false);
             this.onCloseDialogIO();  
         },
         onInfoPress: function () {
@@ -634,6 +724,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             this.byId("wagonID").setEditable(true);
             this.byId("wagonID").setValue("");
             this._wizard.invalidateStep(this.byId("Step1"));
+            this.byId("nextButton").setEnabled(false);
         },
         onAfterRendering: function() {
             this.onLoadingCode();

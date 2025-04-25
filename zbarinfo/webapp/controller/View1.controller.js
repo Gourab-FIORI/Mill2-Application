@@ -96,15 +96,29 @@ sap.ui.define([
                 // Show Busy Indicator
                 BusyIndicator.show(0);
                 oModel.read(sPath, {
-                    success: function (oData) {
+                    success: function (oData,response) {
                         BusyIndicator.hide();
+
+                        if(response.headers["sap-message"]){
+                        if(JSON.parse(response.headers["sap-message"]).severity === 'warning'){
+                           
+                            that.onWarningMessageBoxPress(sBarcode,JSON.parse(response.headers["sap-message"]).code,JSON.parse(response.headers["sap-message"]).message)
+                        }}
+                        else{
+                            MessageToast.show(that.fntranslate("Msg1"));
+                            that.onCheckBar(sBarcode,"wmmmstock");                   //++18.03.2025 T_singhag1 CR Changes by Loic
+                            that.onCheckBar(sBarcode,"batchchara");                  //++18.03.2025 T_singhag1 CR Changes by Loic
+                            that._wizard.nextStep();        //++18.03.2025 T_singhag1 CR Changes by Loic
+                        }
+
                         //that.onAddBarcode(sBarcode);
-                        MessageToast.show(that.fntranslate("Msg1"));
+                        
                         that.byId("barcodeInput").setEditable(false);
+                        that.byId("idStrtover").setEnabled(true);
                         that.byId("barcodeInput").setValue(sBarcode);
-                        that.onCheckBar(sBarcode,"wmmmstock");                   //++18.03.2025 T_singhag1 CR Changes by Loic
-                        that.onCheckBar(sBarcode,"batchchara");                  //++18.03.2025 T_singhag1 CR Changes by Loic
-                        that._wizard.nextStep();        //++18.03.2025 T_singhag1 CR Changes by Loic
+                        // that.onCheckBar(sBarcode,"wmmmstock");                   //++18.03.2025 T_singhag1 CR Changes by Loic
+                        // that.onCheckBar(sBarcode,"batchchara");                  //++18.03.2025 T_singhag1 CR Changes by Loic
+                        // that._wizard.nextStep();        //++18.03.2025 T_singhag1 CR Changes by Loic
                         // that._wizard.setCurrentStep("barcodeStep2");
                         //that._wizard.validateStep(that.byId("barcodeStep"));      //++18.03.2025 T_singhag1 CR Changes by Loic
                         // Handle successful barcode check here
@@ -112,19 +126,21 @@ sap.ui.define([
                     },
                     error: function (oError) {
                         BusyIndicator.hide();
-                        var sErrorMessage = "An error occurred,Please try again!";
-                        // that._wizard.invalidateStep(that.byId("barcodeStep")); //++18.03.2025 T_singhag1 CR Changes by Loic
-                        try {
-                            var oResponse = JSON.parse(oError.responseText);
-                            if (oResponse.error && oResponse.error.message && oResponse.error.message.value) {
-                                sErrorMessage = oResponse.error.message.value;
-                            }
-                        } catch (e) {
-                            console.error("Failed to parse error response", e);
-                        }
+                        // var sErrorMessage = "An error occurred,Please try again!";
+                        // // that._wizard.invalidateStep(that.byId("barcodeStep")); //++18.03.2025 T_singhag1 CR Changes by Loic
+                        // try {
+                        //     var oResponse = JSON.parse(oError.responseText);
+                        //     if (oResponse.error && oResponse.error.message && oResponse.error.message.value) {
+                        //         sErrorMessage = oResponse.error.message.value;
+                        //     }
+                        // } catch (e) {
+                        //     console.error("Failed to parse error response", e);
+                        // }
 
-                        MessageBox.error(sErrorMessage);
+                        // MessageBox.error(sErrorMessage);
+                        that.showBackendMessages(oError);
                         that.byId("barcodeInput").setValue("");
+                        that.byId("idStrtover").setEnabled(false);
                         console.error(oError);
                     }
                 });
@@ -169,6 +185,7 @@ sap.ui.define([
                 this._wizard.discardProgress(this.byId("barcodeStep"));
                 this.byId("barcodeInput").setEditable(true);
                 this.byId("barcodeInput").setValue("");
+                this.byId("idStrtover").setEnabled(false);
                  //this._wizard.invalidateStep(this.byId("barcodeStep"));       //++18.03.2025 T_singhag1 CR Changes by Loic
 
                  this._wizard.invalidateStep(this.byId("barcodeStep"));
@@ -230,8 +247,87 @@ sap.ui.define([
             onClearAll: function () {
                 this.byId("barcodeInput").setEditable(true);
                 this.byId("barcodeInput").setValue("");
+                this.byId("idStrtover").setEnabled(false);
                 this._wizard.discardProgress(this.byId("barcodeStep")); //++18.03.2025 T_singhag1 CR Changes by Loic
                  this._wizard.invalidateStep(this.byId("barcodeStep"));       //++18.03.2025 T_singhag1 CR Changes by Loic
             },
+            showBackendMessages: function (oError) {
+                var sDefaultMsg = "An error occurred, please try again!";
+                var aErrorDetails = [];
+          
+                try {
+                  var oResponse = JSON.parse(oError.responseText);
+                  aErrorDetails = oResponse?.error?.innererror?.errordetails || [];
+          
+                  if (aErrorDetails.length > 0) {
+                    const getUniqueMessages = (arr) => {
+                      const seen = new Set();
+                      return arr.filter(item => {
+                        if (!item.message || seen.has(item.message)) return false;
+                        seen.add(item.message);
+                        return true;
+                      });
+                    };
+          
+                    var aErrors = getUniqueMessages(aErrorDetails.filter(item => item.severity === "error"));
+                    var aWarnings = getUniqueMessages(aErrorDetails.filter(item => item.severity === "warning"));
+          
+                    var sFormattedMessage = "";
+          
+                    if (aErrors.length > 0) {
+                      sFormattedMessage += "❌ Errors:\n" + aErrors.map((item, i) => `${i + 1}. ${item.message}`).join("\n") + "\n\n";
+                    }
+          
+                    if (aWarnings.length > 0) {
+                      sFormattedMessage += "⚠️ Warnings:\n" + aWarnings.map((item, i) => `${i + 1}. ${item.message}`).join("\n");
+                    }
+          
+                    MessageBox.show(sFormattedMessage, {
+                      title: "System Messages",
+                      icon: aErrors.length > 0 ? MessageBox.Icon.ERROR : MessageBox.Icon.WARNING,
+                      styleClass: "sapUiSizeCompact",
+                      actions: [MessageBox.Action.OK],
+                      emphasizedAction: MessageBox.Action.OK
+                    });
+          
+                  } else if (oResponse?.error?.message?.value) {
+                    MessageBox.error(oResponse.error.message.value);
+                  } else {
+                    MessageBox.error(sDefaultMsg);
+                  }
+          
+                } catch (e) {
+                  console.error("Failed to parse error response", e);
+                  MessageBox.error(sDefaultMsg);
+                }
+          
+                console.error(oError);
+              },
+              onWarningMessageBoxPress: function (sBarcode,code,msg) {
+                var that = this;
+                MessageBox.warning(msg, {
+                    title:code,
+                    actions: ["Proceed", "Exit"],
+                    emphasizedAction: "Proceed",
+                    onClose: function (sAction) {
+                        if (sAction === "Proceed") {
+                            that.onCheckBar(sBarcode,"wmmmstock");                   //++14.04.2025 T_singhag1 CR Changes by Loic
+                            that.onCheckBar(sBarcode,"batchchara");                  //++14.04.2025 T_singhag1 CR Changes by Loic
+                            that._wizard.nextStep();        //++14.04.2025 T_singhag1 CR Changes by Loic
+                        } else {
+                           that.onExit();
+                        }
+    
+                    },
+                    dependentOn: this.getView()
+                });
+            },
+             //back to launchpad
+       onExit: function () {
+        var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
+        oCrossAppNav.toExternal({
+            target: { shellHash: "#" } // Navigate to the Fiori Launchpad home
+        });
+    },
         });
     });

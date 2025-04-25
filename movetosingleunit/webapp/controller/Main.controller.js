@@ -441,7 +441,7 @@ function (Controller,JSONModel, MessageBox, Element, MessageToast, BusyIndicator
             oView.byId("idrlifnr").setValue("");
         },
         onBeforeRendering:function(){
-            this.onCheckPrinter('0');
+            //this.onCheckPrinter('0');
             this.onCheckWh();
         },
           //on check default printner 

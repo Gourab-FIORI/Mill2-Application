@@ -126,7 +126,7 @@
                         </ComboBox>
                         <!-- Repair ComboBox -->
                         <Label text="{i18n>Label5}" class="sapUiResponsiveContentPadding" required="false"/>
-                        <ComboBox id="idDetailedpositionRep" class="sapUiResponsiveContentPadding" required="true" change="onRepChange" showSecondaryValues="true" width="auto" items="{ path: '/ZshDefectSecRepSet', length: 1500}">
+                        <ComboBox id="idDetailedpositionRep" class="sapUiResponsiveContentPadding" required="true" change="onRepChange" showSecondaryValues="true" width="auto" items="{ path: '/ZshDefRepairCodeSet', length: 1500}">
                             <core:ListItem key="{PositionRepair}" text="{PositionRepair}" additionalText="{Description}"/>
                         </ComboBox>
                         <Label text="{i18n>Label6}" class="sapUiResponsiveContentPadding" required="false"/>

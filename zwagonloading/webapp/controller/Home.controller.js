@@ -57,50 +57,136 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 // - Display info: Wagon ID, Handling Unit, Warehouse, Status, Loading Code, Lane, Tare/Allowed/Loading/Total Weight.
 // - Buttons: "Confirm" -> Save & exit | "Back" -> Screen 3
 
- /***********************************************/
+/***********************************************/
 
 sap.ui.define([
     "sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", "sap/m/MessageBox",
-    "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel"
-],
-function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel) {
+    "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel", "sap/m/Input",
+    "sap/m/Label",
+    "sap/m/Button", "sap/m/SelectDialog", "sap/m/Dialog"
+  ],
+  function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel, Input, Label, Button, SelectDialog, Dialog) {
     "use strict";
-
+    var gContrem = ""; // Global variable to store Contrem value
     return Controller.extend("com.ami.zwagonloading.controller.Home", {
-        onInit: function () {
+      onInit: function () {
+        // This function displays a dialog that prompts the user to enter a Contrem value.
+        // The entered value will be stored in a global variable for later use.
+        
+        // Create model if not already done
+        var oModel = new sap.ui.model.json.JSONModel({
+          contrem: gContrem
+        });
+        this.getOwnerComponent().setModel(oModel, "globalData"); // attach as named model
 
-        },
-        onLanguageChange: function (oEvent) {
-          var sSelectedLanguage = oEvent.getParameter("selectedItem").getKey();
-          this._setLanguage(sSelectedLanguage);
+        this._openContremDialog();
+      },
+      onLanguageChange: function (oEvent) {
+        var sSelectedLanguage = oEvent.getParameter("selectedItem").getKey();
+        this._setLanguage(sSelectedLanguage);
       },
 
       _setLanguage: function (sLanguage) {
-          var i18nModel = new ResourceModel({
-              bundleName: "com.ami.zwagonloading.i18n.i18n",
-              bundleLocale: sLanguage
-          });
-          this.getView().setModel(i18nModel, "i18n");
+        var i18nModel = new ResourceModel({
+          bundleName: "com.ami.zwagonloading.i18n.i18n",
+          bundleLocale: sLanguage
+        });
+        this.getView().setModel(i18nModel, "i18n");
       },
-        /**
-     * Navigates to the Internal view
-     */
-    onNavToInternal: function () {
+      /**
+       * Navigates to the Internal view
+       */
+      onNavToInternal: function () {
         this.getOwnerComponent().getRouter().navTo("RouteInternal");
       },
-  
+
       /**
        * Navigates to the Shipping view
        */
       onNavToShipping: function () {
         this.getOwnerComponent().getRouter().navTo("RouteShipping");
       },
-  
+
       /**
        * Navigates to the Unload view
        */
       onNavToUnload: function () {
         this.getOwnerComponent().getRouter().navTo("RouteUnload");
-      }
+      },
+      _openContremDialog: function () {
+        if (!this._oContremDialog) {
+            this._oContremDialog = new Dialog({
+                title: "Select Contrem",
+                type: "Message",
+                content: [
+                    new Label({
+                        text: "Contrem",
+                        labelFor: "contremInput"
+                    }),
+                    new Input("contremInput", {
+                        showValueHelp: true,
+                        valueHelpOnly: true,
+                        editable: true,
+                        placeholder: "Choose from list...",
+                        valueHelpRequest: this._onContremValueHelp.bind(this)
+                    })
+                ],
+                beginButton: new Button({
+                    text: "Continue",
+                    enabled: false,
+                    press: function () {
+                        gContrem = sap.ui.getCore().byId("contremInput").getValue(); // Save to global
+                        this._oContremDialog.close();
+                    }.bind(this)
+                }),
+                escapeHandler: function (oPromise) {
+                    oPromise.reject(); // Prevent closing without input
+                },
+                afterClose: function () {
+                    this._oContremDialog.destroy();
+                    this._oContremDialog = null;
+                }.bind(this)
+            });
+
+            this._oContremDialog.open();
+        }
+    },
+
+    _onContremValueHelp: function () {
+        if (!this._oContremVHDialog) {
+            this._oContremVHDialog = new SelectDialog({
+                title: "Select Contrem",
+                items: {
+                    path: "/ZzarpsContremSet",
+                    template: new sap.m.StandardListItem({
+                        title: "{ZzarpsCtrm}" // Adjust if different field name
+                        //description: "{Description}" // Optional
+                    })
+                },
+                search: function (oEvent) {
+                    var sValue = oEvent.getParameter("value");
+                    var oFilter = new sap.ui.model.Filter("ZzarpsCtrm", sap.ui.model.FilterOperator.Contains, sValue);
+                    oEvent.getSource().getBinding("items").filter([oFilter]);
+                },
+                confirm: function (oEvent) {
+                    var sSelected = oEvent.getParameter("selectedItem").getTitle();
+                    sap.ui.getCore().byId("contremInput").setValue(sSelected);
+                    this._oContremDialog.getBeginButton().setEnabled(true);
+                    this.getContremValue(sSelected);
+                }.bind(this),
+                cancel: function () {}
+            });
+
+            // Load OData model if not already
+            var oModel = this.getView().getModel(); // Assuming your OData model is set to default
+            this._oContremVHDialog.setModel(oModel);
+        }
+
+        this._oContremVHDialog.open();
+    },
+
+    getContremValue: function (contrem) {
+      this.getOwnerComponent().getModel("globalData").setProperty("/contrem", contrem);
+    },
     });
-});
+  });

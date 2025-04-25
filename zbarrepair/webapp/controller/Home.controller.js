@@ -31,12 +31,15 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", "sap/m/MessageBox",
     "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel",  "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
+    "sap/ui/model/FilterOperator","sap/m/Input",
+    "sap/m/Label",
+    "sap/m/Button","sap/m/SelectDialog","sap/m/Dialog"
 ],
-    function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel,Filter,FilterOperator) {
+    function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel,Filter,FilterOperator,Input, Label, Button,SelectDialog,Dialog) {
         "use strict";
         var prefixId;
         	var oScanResultText;
+            var gContrem = ""; // Global variable to store Contrem value
         return Controller.extend("com.ami.zbarrepair.controller.Home", {
             onInit: function () {
                 // Create JSON model for barcodes
@@ -52,6 +55,10 @@ sap.ui.define([
                 		prefixId = "";
                 	}
                 	//oScanResultText = Element.getElementById(prefixId + 'sampleBarcodeScannerResult');
+                     // Open the Contrem dialog for user input ++09.04.2025
+                // This function displays a dialog that prompts the user to enter a Contrem value.
+                // The entered value will be stored in a global variable for later use.
+                this._openContremDialog();
             },
             onBeforeRendering:function(){
                // this.onCheckPlant('DEF');
@@ -168,6 +175,7 @@ sap.ui.define([
                 });
             },
             onWorkCentChange: function(oEvent) {
+                this.byId("nextBtn").setEnabled(true);
                 var sSelectedStorageType = oEvent.getSource().getSelectedKey();
                 var sSelectedWarehouse = this.byId("workcent").getSelectedKey();
                 var oModel = this.getView().getModel();
@@ -211,29 +219,102 @@ sap.ui.define([
                 this._Page.setShowFooter(!this._Page.getShowFooter());
             },
             //show buttons on next page
-            onActivate: function (oEvent) {
+            onActivate_old: function (oEvent) {
                 var sCurrentStepId = oEvent.getParameter("id");
                 sCurrentStepId = sCurrentStepId.split('-').pop();
 
                // this.toggleVisibility();
 
                  if (sCurrentStepId === 'Step2') {
-                    this.onCheckPlant("def");
+                    //this.onCheckPlant("def");
                  }
             },
+            //new Wizard button static
+            onActivate: function (oEvent) {
+                const sCurrentStepId = oEvent.getParameter("id").split("-").pop();
+               
+                const oBackBtn = this.byId("backBtn");
+                const oNextBtn = this.byId("nextBtn");
+                const oScrapBtn = this.byId("scrapBtn");
+                const oFinishBtn = this.byId("finishBtn");
+            
+                if (sCurrentStepId === "Step2") {
+                    oBackBtn.setVisible(false);
+                    oNextBtn.setVisible(true);
+                    oScrapBtn.setVisible(false);
+                    oFinishBtn.setVisible(false);
+                } else if (sCurrentStepId === "barcodeStep") {
+                    oBackBtn.setVisible(true);
+                    oNextBtn.setVisible(false);
+                    oScrapBtn.setVisible(true);
+                    oFinishBtn.setVisible(true);
+                }
+            },
+             //new Wizard button static
+             wizardhandler: function (oEvent) {
+                var oWizard = this.byId("wizard");
+                // const sCurrentStepId = oEvent.getParameter("id").split("-").pop();
+                 var sCurrentStepId = oWizard.getCurrentStep().split("-").pop();
+                 const oBackBtn = this.byId("backBtn");
+                 const oNextBtn = this.byId("nextBtn");
+                 const oScrapBtn = this.byId("scrapBtn");
+                 const oFinishBtn = this.byId("finishBtn");
+             
+                 if (sCurrentStepId === "Step2") {
+                     oBackBtn.setVisible(false);
+                     oNextBtn.setVisible(true);
+                     oScrapBtn.setVisible(false);
+                     oFinishBtn.setVisible(false);
+                 } else if (sCurrentStepId === "barcodeStep") {
+                     oBackBtn.setVisible(true);
+                     oNextBtn.setVisible(false);
+                     oScrapBtn.setVisible(true);
+                     oFinishBtn.setVisible(true);
+                 }
+             },
+            onNextPress: function () {
+                var oWizard = this.byId("wizard");
+                oWizard.nextStep();
+               this.wizardhandler();
+            },
+            
+            onBackPress: function () {
+                var oWizard = this.byId("wizard");
+                oWizard.previousStep();
+                this.wizardhandler();
+            },
+            
+            
+            
             //on check Barcode from backend 
             onCheckBarcode: function (sBarcode) {
-                var srepcode =this.getView().byId("repairc").getValue();
+                //var srepcode =this.getView().byId("repairc").getValue();          //++T-singhag1 24.04.2025
                 var oModel = this.getView().getModel();
-                var sPath = "/checkBarSet(BAR_NBR='" + sBarcode + "',Repaircode='" + srepcode + "')";
+                // var sPath = "/checkBarSet(BAR_NBR='" + sBarcode + "',Repaircode='" + srepcode + "')";
+                var sPath = "/checkBarSet(BAR_NBR='" + sBarcode + "')";
                 var that = this;
                 // Show Busy Indicator
                 BusyIndicator.show(0);
                 oModel.read(sPath, {
-                    success: function (oData) {
+                    success: function (oData,response) {
                         BusyIndicator.hide();
+                        if (response.headers["sap-message"]) {
+                            const parsedMessage = JSON.parse(response.headers["sap-message"]);
+                            
+                            if (parsedMessage.severity === 'warning') {
+                                // Show the warning message using MessageBox.warning
+                                sap.m.MessageBox.warning(parsedMessage.message, {
+                                    title: parsedMessage.code,
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+                                        that.onAddBarcode(sBarcode);
+                                    }
+                                });
+                            }
+                        } else {
                         that.onAddBarcode(sBarcode);
                         MessageToast.show("Barcode is Valid!");
+                        }
                         // Handle successful barcode check here
                         //console.log(oData);
                     },
@@ -355,12 +436,12 @@ sap.ui.define([
                 var oView = this.getView();
                 var oModel = this.getView().getModel();
     
-                var sWarehouseNo = oView.byId("warehouse").getValue();
-                var sStorageType = oView.byId("sttyp").getValue();
-                var sStorageBin = oView.byId("stbin").getValue();
+                // var sWarehouseNo = oView.byId("warehouse").getValue();
+                // var sStorageType = oView.byId("sttyp").getValue();
+                // var sStorageBin = oView.byId("stbin").getValue();
                 var sWorkCenter = oView.byId("workcent").getValue();
-                var sWerks = oView.byId("plant").getValue();
-                var sRepaircode = oView.byId("repairc").getValue();
+                // var sWerks = oView.byId("plant").getValue();
+                //var sRepaircode = oView.byId("repairc").getValue();
 
                 var aBarcodes = this.getView().byId("barcodeList").getModel().getData().barcodes;
                 if (aBarcodes.length === 0) {
@@ -372,15 +453,23 @@ sap.ui.define([
                 return oData.barcode;
                  });
     
+                // var oData = {
+                //     lgnum: sWarehouseNo,
+                //     lgtyp: sStorageType,
+                //     lgpla: sStorageBin,
+                //     function : testflag,
+                //     BAR_NBR: abar_no.join(","),
+                //     Repaircode: sRepaircode,
+                //     WorkCenter:sWorkCenter               
+                //     Werks:sWerks
+                // };
                 var oData = {
-                    lgnum: sWarehouseNo,
-                    lgtyp: sStorageType,
-                    lgpla: sStorageBin,
+                    
                     function : testflag,
                     BAR_NBR: abar_no.join(","),
-                    Repaircode: sRepaircode,
                     WorkCenter:sWorkCenter,
-                    Werks:sWerks
+                    contrem : this.getContremValue()
+                    
                 };
                 BusyIndicator.show(0);
                 var that = this;
@@ -474,6 +563,8 @@ sap.ui.define([
 
                 // Reset wizard steps
                 wizard.setCurrentStep(wizard.getSteps()[0]);
+                this.wizardhandler();
+                //this.byId("nextBtn").setEnabled(false);
                 this.onClearAll();
                 //this.toggleVisibility();
             },
@@ -507,7 +598,78 @@ sap.ui.define([
                 //         oScanResultText.setText('');
                 //     });
                 // }
-            }
+            },
+            _openContremDialog: function () {
+                if (!this._oContremDialog) {
+                  this._oContremDialog = new Dialog({
+                    title: "Select Contrem",
+                    type: "Message",
+                    content: [
+                      new Label({ text: "Contrem", labelFor: "contremInput" }),
+                      new Input("contremInput", {
+                        showValueHelp: true,
+                        valueHelpOnly: true,
+                        editable: true,
+                        placeholder: "Choose from list...",
+                        valueHelpRequest: this._onContremValueHelp.bind(this)
+                      })
+                    ],
+                    beginButton: new Button({
+                      text: "Continue",
+                      enabled: false,
+                      press: function () {
+                        gContrem = sap.ui.getCore().byId("contremInput").getValue(); // Save to global
+                        this._oContremDialog.close();
+                      }.bind(this)
+                    }),
+                    escapeHandler: function (oPromise) {
+                      oPromise.reject(); // Prevent closing without input
+                    },
+                    afterClose: function () {
+                      this._oContremDialog.destroy();
+                      this._oContremDialog = null;
+                    }.bind(this)
+                  });
+          
+                  this._oContremDialog.open();
+                }
+              },
+          
+              _onContremValueHelp: function () {
+                if (!this._oContremVHDialog) {
+                  this._oContremVHDialog = new SelectDialog({
+                    title: "Select Contrem",
+                    items: {
+                      path: "/ZzarpsContremSet",
+                      template: new sap.m.StandardListItem({
+                        title: "{ZzarpsCtrm}" // Adjust if different field name
+                        //description: "{Description}" // Optional
+                      })
+                    },
+                    search: function (oEvent) {
+                      var sValue = oEvent.getParameter("value");
+                      var oFilter = new sap.ui.model.Filter("ZzarpsCtrm", sap.ui.model.FilterOperator.Contains, sValue);
+                      oEvent.getSource().getBinding("items").filter([oFilter]);
+                    },
+                    confirm: function (oEvent) {
+                      var sSelected = oEvent.getParameter("selectedItem").getTitle();
+                      sap.ui.getCore().byId("contremInput").setValue(sSelected);
+                      this._oContremDialog.getBeginButton().setEnabled(true);
+                    }.bind(this),
+                    cancel: function () {}
+                  });
+          
+                  // Load OData model if not already
+                  var oModel = this.getView().getModel(); // Assuming your OData model is set to default
+                  this._oContremVHDialog.setModel(oModel);
+                }
+          
+                this._oContremVHDialog.open();
+              },
+          
+              getContremValue: function () {
+                return gContrem;
+              },
       
         });
     });

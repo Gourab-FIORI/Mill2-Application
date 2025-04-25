@@ -44,8 +44,10 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
   
               if (sSelectedKey) {
                   oWizardStep1.setValidated(true);
+                  this.byId("nextButton").setEnabled(true);
               } else {
                   oWizardStep1.setValidated(false);
+                  this.byId("nextButton").setEnabled(false);
               }
           },
           onWarehouseChange: function(oEvent) {
@@ -133,7 +135,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
               this._Page.setShowFooter(!this._Page.getShowFooter());
           },
           //show buttons on next page
-          onActivate: function (oEvent) {
+          onActivate_old: function (oEvent) {
               var sCurrentStepId = oEvent.getParameter("id");
               sCurrentStepId = sCurrentStepId.split('-').pop();
 
@@ -143,6 +145,57 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
 
               // }
           },
+          
+      //Static buttons to control Wizard
+      onActivate: function (oEvent) {
+        const sCurrentStepId = oEvent.getParameter("id").split("-").pop();
+        
+    
+        this._updateFooterButtons(sCurrentStepId);
+    
+      
+    },
+    
+    _updateFooterButtons: function (sCurrentStepId) {
+        const oBackButton = this.byId("backButton");
+        const oNextButton = this.byId("nextButton");
+        const oConfirmButton = this.byId("finishButton");
+       
+    
+        switch (sCurrentStepId) {
+            case "Step1":
+                oBackButton.setVisible(false);
+                oNextButton.setVisible(true);
+                oConfirmButton.setVisible(false);
+               
+                break;
+    
+            case "Step2":
+                oBackButton.setVisible(true);
+                oNextButton.setVisible(false);
+                oConfirmButton.setVisible(true);
+              
+                break;
+    
+           
+        }
+    },
+        
+            
+    onNextPress: function () {
+        const wizard = this.byId("wizard3");
+        wizard.nextStep();
+        this._updateFooterButtons();
+        this.byId("nextButton").setEnabled(false);
+    },
+    
+    onBackPress: function () {
+        const oWizard = this.byId("wizard3");
+        oWizard.previousStep();
+        const sStepId = oWizard.getCurrentStep().split("-").pop();
+        this._updateFooterButtons(sStepId);
+        this.byId("nextButton").setEnabled(true);
+    },
     //Final confirm button function
     fnWagonDataUpdate : function(){
           // Get the data from the view or model
@@ -256,6 +309,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                   oModel.setProperty("/barcodes", aBarcodes);
                   oInput.setValue("");
                   oWizardStep1.setValidated(true);
+                  
               }
           },
           //just for demo purpose
@@ -364,6 +418,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             
             this.byId("Step1").setValidated(false);
             this.byId("Step2").setValidated(false);
+            this.byId("nextButton").setEnabled(false);
           
         },
         _resetStep1Fields: function () {
@@ -392,6 +447,7 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             var oModel = this.getView().byId("barcodeList").getModel();
             oModel.setProperty("/barcodes", []);
             this._wizard.invalidateStep(this.byId("Step2"));
+            this.byId("nextButton").setEnabled(false);
         },
        
     });

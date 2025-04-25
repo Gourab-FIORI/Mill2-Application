@@ -33,8 +33,11 @@
                         <Input id="barcodeInput" width="203px" type="Number" maxLength="20" liveChange="onComboBoxChange1" change="checkbarcode" submit="checkbarcode"/>
                         <!-- </HBox> -->
                         <Label text="{i18n>Label5}" class="sapUiResponsiveContentPadding" required="true" labelFor="printer"></Label>
-                        <ComboBox id="printer" required="true" change="onComboBoxChange" width="auto" showSecondaryValues="true" items="{ path: '/ZshOutputDeviceSet',length : 1500}">
+                        <!-- <ComboBox id="printer" required="true" change="onComboBoxChange" width="auto" showSecondaryValues="true" items="{ path: '/ZshOutputDeviceSet',length : 1500}">
                             <core:ListItem key="{Padest}" text="{Padest}" additionalText="{Pastandort}"/>
+                        </ComboBox> -->
+                        <ComboBox id="printer" required="true" change="onComboBoxChange" width="auto" showSecondaryValues="true" items="{ path: '/ZshOutputDevice1Set',length : 1500}">
+                            <core:ListItem key="{OutputDevice}" text="{OutputDevice}" additionalText="{OutputDevice}"/>
                         </ComboBox>
                         <Label text="{i18n>Label24}" class="sapUiResponsiveContentPadding"></Label>
                         <Input id="idrmark" width="13rem"/>

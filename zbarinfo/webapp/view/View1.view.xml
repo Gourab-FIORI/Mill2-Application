@@ -11,7 +11,7 @@
             </Select>
         </headerContent> -->
         <content>
-        <Wizard id="wizard" finishButtonText="{i18n>Start_over}" complete="wizardCompletedHandler" >
+        <Wizard id="wizard" showNextButton="false" >
         <WizardStep id="barcodeStep" title="{i18n>WizardStep1}" activate="onActivate" validated="false">
                         <VBox id="vbox1">
                         <HBox>
@@ -20,7 +20,7 @@
 			scanSuccess="onScanSuccess"
 			scanFail="onScanError"
 			 disableBarcodeInputDialog="true" preferFrontCamera="false"/>
-                            <Input id="barcodeInput" type="Number" maxLength="10" liveChange="onInputChange" submit="onScanBarcode" placeholder="{i18n>placeholder}"/>
+                            <Input id="barcodeInput" type="Number" maxLength="10" liveChange="onInputChange" change="onScanBarcode" submit="onScanBarcode" placeholder="{i18n>placeholder}"/>
                              <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
                                <Button icon="sap-icon://clear-all" press="onClearAll"/>
                             </HBox>
@@ -119,14 +119,13 @@
 						 </WizardStep> -->
 						 </Wizard>
         </content>
-		<!-- <footer>
+		<footer>
 <OverflowToolbar>
 <ToolbarSpacer/>
-<Button text="{i18n>Display Info}" press="onPPressDisplay" enabled="true" type="Emphasized"/>
-<Button text="{i18n>Exit}" press="onPressExit" enabled="true" type="Emphasized"/>
+<Button text="{i18n>Start_over}" press="wizardCompletedHandler" id="idStrtover" enabled="false" type="Emphasized"/>
 <ToolbarSpacer/>
 </OverflowToolbar>
-</footer> -->
+</footer>
     </Page>
      </App>
 </mvc:View>
