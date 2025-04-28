@@ -49,30 +49,32 @@
  ***********************************************/
 
 sap.ui.define([
-    "sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", "sap/m/MessageBox",
-    "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel"
-],
+        "sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", "sap/m/MessageBox",
+        "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel"
+    ],
     function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel) {
         "use strict";
         var prefixId;
-        	var oScanResultText;
+        var oScanResultText;
         return Controller.extend("com.ami.zprintlabel.controller.Home", {
             onInit: function () {
                 // Create JSON model for barcodes
                 this._Page = this.byId("page");
-                var oModel = new JSONModel({ barcodes: [] });
+                var oModel = new JSONModel({
+                    barcodes: []
+                });
                 this.getView().byId("barcodeList").setModel(oModel);
                 var sDefaultLanguage = sap.ui.getCore().getConfiguration().getLanguage();
                 this._setLanguage(sDefaultLanguage);
                 prefixId = this.createId();
-                	if (prefixId){
-                		prefixId = prefixId.split("--")[0] + "--";
-                	} else {
-                		prefixId = "";
-                	}
-                	//oScanResultText = Element.getElementById(prefixId + 'sampleBarcodeScannerResult');
+                if (prefixId) {
+                    prefixId = prefixId.split("--")[0] + "--";
+                } else {
+                    prefixId = "";
+                }
+                //oScanResultText = Element.getElementById(prefixId + 'sampleBarcodeScannerResult');
             },
-            onBeforeRendering:function(){
+            onBeforeRendering: function () {
                 //this.onCheckPrinter('0');
             },
             onLanguageChange: function (oEvent) {
@@ -91,7 +93,7 @@ sap.ui.define([
                 var oComboBox = oEvent.getSource();
                 var sSelectedKey = oComboBox.getSelectedKey();
                 var oWizardStep1 = this.byId("printerStep");
-    
+
                 if (sSelectedKey) {
                     oWizardStep1.setValidated(true);
                 } else {
@@ -115,7 +117,7 @@ sap.ui.define([
 
                 // }
             },
-            fntranslate: function(txt){
+            fntranslate: function (txt) {
                 var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
                 var sTxt = oResourceBundle.getText(txt);
                 return sTxt;
@@ -128,10 +130,28 @@ sap.ui.define([
                 // Show Busy Indicator
                 BusyIndicator.show(0);
                 oModel.read(sPath, {
-                    success: function (oData) {
+                    success: function (oData,response) {
                         BusyIndicator.hide();
-                        that.onAddBarcode(sBarcode);
-                        MessageToast.show(that.fntranslate("Msg1"));
+                        ///warning messsage code block
+
+                        if (response.headers["sap-message"]) {
+                            const parsedMessage = JSON.parse(response.headers["sap-message"]);
+
+                            if (parsedMessage.severity === 'warning') {
+                                // Show the warning message using MessageBox.warning
+                                sap.m.MessageBox.warning(parsedMessage.message, {
+                                    title: parsedMessage.code,
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+                                        that.onAddBarcode(sBarcode);
+                                    }
+                                });
+                            }
+                        } else {
+
+                            that.onAddBarcode(sBarcode);
+                            MessageToast.show(that.fntranslate("Msg1"));
+                        }
                         // Handle successful barcode check here
                         //console.log(oData);
                     },
@@ -154,8 +174,8 @@ sap.ui.define([
                     }
                 });
             },
-              //on check default printner 
-              onCheckPrinter: function (code) {
+            //on check default printner 
+            onCheckPrinter: function (code) {
                 var oModel = this.getView().getModel();
                 var sPath = "/ZshOutputDevice1Set('" + code + "')";
                 var that = this;
@@ -164,14 +184,14 @@ sap.ui.define([
                 oModel.read(sPath, {
                     success: function (oData) {
                         BusyIndicator.hide();
-                      if(oData.OutputDevice === "$NULL"){
-                        MessageToast.show("Default Printer hasn't been set to your User Profile");
-                        // MessageBox.warning("Default Printer hasn't been set to your User Profile or Printer ID is not Valid");
-                      }else{
-                        that.getView().byId("printerSelect").setSelectedKey(oData.OutputDevice);
-                        that.byId("printerStep").setValidated(true);
-                      }
-                      
+                        if (oData.OutputDevice === "$NULL") {
+                            MessageToast.show("Default Printer hasn't been set to your User Profile");
+                            // MessageBox.warning("Default Printer hasn't been set to your User Profile or Printer ID is not Valid");
+                        } else {
+                            that.getView().byId("printerSelect").setSelectedKey(oData.OutputDevice);
+                            that.byId("printerStep").setValidated(true);
+                        }
+
                         // Handle successful barcode check here
                         //console.log(oData);
                     },
@@ -205,7 +225,9 @@ sap.ui.define([
                 if (sBarcode) {
                     var oModel = this.getView().byId("barcodeList").getModel();
                     var aBarcodes = oModel.getProperty("/barcodes");
-                    aBarcodes.push({ barcode: sBarcode });
+                    aBarcodes.push({
+                        barcode: sBarcode
+                    });
                     oModel.setProperty("/barcodes", aBarcodes);
                     oInput.setValue("");
                 }
@@ -217,7 +239,9 @@ sap.ui.define([
                 if (sBarcode) {
                     var oModel = this.getView().byId("barcodeList").getModel();
                     var aBarcodes = oModel.getProperty("/barcodes");
-                    aBarcodes.push({ barcode: sBarcode });
+                    aBarcodes.push({
+                        barcode: sBarcode
+                    });
                     oModel.setProperty("/barcodes", aBarcodes);
                     oInput.setValue("");
                 }
@@ -304,7 +328,7 @@ sap.ui.define([
                 });
 
             },
-            fntranslate: function(txt){
+            fntranslate: function (txt) {
                 var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
                 var sTxt = oResourceBundle.getText(txt);
                 return sTxt;
@@ -328,7 +352,7 @@ sap.ui.define([
             onErrorMessageBoxPress: function (msg) {
                 var that = this;
                 MessageBox.error(msg, {
-                    actions:  [that.fntranslate("Start_over"), that.fntranslate("Exit")],
+                    actions: [that.fntranslate("Start_over"), that.fntranslate("Exit")],
                     emphasizedAction: that.fntranslate("Start_over"),
                     onClose: function (sAction) {
                         if (sAction === that.fntranslate("Start_over")) {
@@ -345,7 +369,9 @@ sap.ui.define([
             onExit: function () {
                 var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
                 oCrossAppNav.toExternal({
-                    target: { shellHash: "#" } // Navigate to the Fiori Launchpad home
+                    target: {
+                        shellHash: "#"
+                    } // Navigate to the Fiori Launchpad home
                 });
             },
             // Reset to the first step
@@ -357,11 +383,13 @@ sap.ui.define([
                 this.onClearAll();
                 this.toggleVisibility();
             },
-           
-           // Code was coomented because we will not be using camera module
-            onScanSuccess: function(oEvent) {
+
+            // Code was coomented because we will not be using camera module
+            onScanSuccess: function (oEvent) {
                 if (oEvent.getParameter("cancelled")) {
-                    MessageToast.show("Scan cancelled", { duration:1000 });
+                    MessageToast.show("Scan cancelled", {
+                        duration: 1000
+                    });
                 } else {
                     if (oEvent.getParameter("text")) {
                         this.onCheckBarcode(oEvent.getParameter("text"));
@@ -371,10 +399,12 @@ sap.ui.define([
                 }
             },
 
-            onScanError: function(oEvent) {
-                MessageToast.show("Scan failed: " + oEvent, { duration:1000 });
+            onScanError: function (oEvent) {
+                MessageToast.show("Scan failed: " + oEvent, {
+                    duration: 1000
+                });
             },
-            
+
             // Handler for successful printer scan events
             onPrinterScanSuccess: function (oEvent) {
                 var sScannedValue = oEvent.getParameter("text").toUpperCase(); // Force uppercase
@@ -406,8 +436,8 @@ sap.ui.define([
                     });
                 }
             }
-            
-            
-      
+
+
+
         });
     });

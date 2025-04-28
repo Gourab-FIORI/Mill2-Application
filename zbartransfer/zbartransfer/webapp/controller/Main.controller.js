@@ -57,80 +57,82 @@ tasks simpler and more reliable for warehouse personnel.
  ***********************************************/
 
 sap.ui.define([
-    "sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", "sap/m/MessageBox",
-    "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel",  "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator", "sap/m/Input",
-    "sap/m/Label",
-    "sap/m/Button","sap/m/SelectDialog","sap/m/Dialog"
-],
-    function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel,Filter,FilterOperator,Input, Label, Button,SelectDialog,Dialog) {
+        "sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel", "sap/m/MessageBox",
+        "sap/ui/core/Element", "sap/m/MessageToast", "sap/ui/core/BusyIndicator", "sap/ui/model/resource/ResourceModel", "sap/ui/model/Filter",
+        "sap/ui/model/FilterOperator", "sap/m/Input",
+        "sap/m/Label",
+        "sap/m/Button", "sap/m/SelectDialog", "sap/m/Dialog"
+    ],
+    function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicator, ResourceModel, Filter, FilterOperator, Input, Label, Button, SelectDialog, Dialog) {
         "use strict";
         var gContrem = ""; // Global variable to store Contrem value
         var prefixId;
-        	var oScanResultText;
+        var oScanResultText;
         return Controller.extend("com.ami.zbartransfer.controller.Main", {
             onInit: function () {
                 // Create JSON model for barcodes
                 this._Page = this.byId("page");
-                var oModel = new JSONModel({ barcodes: [] });
+                var oModel = new JSONModel({
+                    barcodes: []
+                });
                 this.getView().byId("barcodeList").setModel(oModel);
                 var sDefaultLanguage = sap.ui.getCore().getConfiguration().getLanguage();
                 this._setLanguage(sDefaultLanguage);
                 prefixId = this.createId();
-                	if (prefixId){
-                		prefixId = prefixId.split("--")[0] + "--";
-                	} else {
-                		prefixId = "";
-                	}
-                	//oScanResultText = Element.getElementById(prefixId + 'sampleBarcodeScannerResult');
-                      // Open the Contrem dialog for user input ++09.04.2025
+                if (prefixId) {
+                    prefixId = prefixId.split("--")[0] + "--";
+                } else {
+                    prefixId = "";
+                }
+                //oScanResultText = Element.getElementById(prefixId + 'sampleBarcodeScannerResult');
+                // Open the Contrem dialog for user input ++09.04.2025
                 // This function displays a dialog that prompts the user to enter a Contrem value.
                 // The entered value will be stored in a global variable for later use.
                 this._openContremDialog();
             },
-            onBeforeRendering:function(){
-              //  this.onCheckPrinter('0');
-              this.onCheckWh();
+            onBeforeRendering: function () {
+                //  this.onCheckPrinter('0');
+                this.onCheckWh();
             },
-               //on check default warehouse 
-         onCheckWh: function (code) {
-            var oModel = this.getView().getModel();
-            var sPath = "/warehouseNoSet";
-            var that = this;
-            // Show Busy Indicator
-            BusyIndicator.show(0);
-            oModel.read(sPath, {
-                success: function (oData) {
-                    BusyIndicator.hide();
-                  if(oData.results[0].lgnum === "$NULL" || oData.results.length===0){
-                    MessageToast.show("Default Warehouse hasn't been set to your User Profile(LRFMD)");
-                  }else{
-                    that.getView().byId("warehouse").setSelectedKey(oData.results[0].lgnum);
-                    that.onWarehouseChange();
-                  }
-                  
-                    // Handle successful barcode check here
-                    //console.log(oData);
-                },
-                error: function (oError) {
-                    BusyIndicator.hide();
-                    var sErrorMessage = "An error occurred,Please reload!";
-
-                    try {
-                        var oResponse = JSON.parse(oError.responseText);
-                        if (oResponse.error && oResponse.error.message && oResponse.error.message.value) {
-                            sErrorMessage = oResponse.error.message.value;
+            //on check default warehouse 
+            onCheckWh: function (code) {
+                var oModel = this.getView().getModel();
+                var sPath = "/warehouseNoSet";
+                var that = this;
+                // Show Busy Indicator
+                BusyIndicator.show(0);
+                oModel.read(sPath, {
+                    success: function (oData) {
+                        BusyIndicator.hide();
+                        if (oData.results[0].lgnum === "$NULL" || oData.results.length === 0) {
+                            MessageToast.show("Default Warehouse hasn't been set to your User Profile(LRFMD)");
+                        } else {
+                            that.getView().byId("warehouse").setSelectedKey(oData.results[0].lgnum);
+                            that.onWarehouseChange();
                         }
-                    } catch (e) {
-                        console.error("Failed to parse error response", e);
-                    }
 
-                    MessageBox.error(sErrorMessage);
-              
-                    console.error(oError);
-                }
-            });
-        },
+                        // Handle successful barcode check here
+                        //console.log(oData);
+                    },
+                    error: function (oError) {
+                        BusyIndicator.hide();
+                        var sErrorMessage = "An error occurred,Please reload!";
+
+                        try {
+                            var oResponse = JSON.parse(oError.responseText);
+                            if (oResponse.error && oResponse.error.message && oResponse.error.message.value) {
+                                sErrorMessage = oResponse.error.message.value;
+                            }
+                        } catch (e) {
+                            console.error("Failed to parse error response", e);
+                        }
+
+                        MessageBox.error(sErrorMessage);
+
+                        console.error(oError);
+                    }
+                });
+            },
             onLanguageChange: function (oEvent) {
                 var sSelectedLanguage = oEvent.getParameter("selectedItem").getKey();
                 this._setLanguage(sSelectedLanguage);
@@ -147,14 +149,14 @@ sap.ui.define([
                 var oComboBox = oEvent.getSource();
                 var sSelectedKey = oComboBox.getSelectedKey();
                 var oWizardStep1 = this.byId("printerStep");
-    
+
                 if (sSelectedKey) {
                     oWizardStep1.setValidated(true);
                 } else {
                     oWizardStep1.setValidated(false);
                 }
             },
-            onWarehouseChange: function(oEvent) {
+            onWarehouseChange: function (oEvent) {
                 // var sSelectedWarehouse = oEvent.getSource().getSelectedKey();
                 var sSelectedWarehouse = this.byId("warehouse").getSelectedKey();
                 var oModel = this.getView().getModel();
@@ -162,13 +164,13 @@ sap.ui.define([
                 // Load Storage Type data based on selected Warehouse
                 oModel.read("/storageTypeSet", {
                     filters: [new Filter("lgnum", FilterOperator.EQ, sSelectedWarehouse)],
-                    success: function(oData) {
+                    success: function (oData) {
                         BusyIndicator.hide();
                         var oStorageTypeModel = new sap.ui.model.json.JSONModel(oData);
                         this.getView().setModel(oStorageTypeModel, "storageType");
 
                     }.bind(this),
-                    error: function(oError) {
+                    error: function (oError) {
                         // Handle error
                         BusyIndicator.hide();
                         var sErrorMessage = "An error occurred,Please try again!";
@@ -183,20 +185,24 @@ sap.ui.define([
                         }
 
                         MessageBox.error(sErrorMessage);
-                       
+
                         console.error(oError);
                     }
                 });
-    
+
                 // Clear Storage Bin data
-                this.getView().setModel(new sap.ui.model.json.JSONModel({results: []}), "storageBin");
-                this.getView().setModel(new sap.ui.model.json.JSONModel({results: []}), "storageType");
+                this.getView().setModel(new sap.ui.model.json.JSONModel({
+                    results: []
+                }), "storageBin");
+                this.getView().setModel(new sap.ui.model.json.JSONModel({
+                    results: []
+                }), "storageType");
                 this.byId("stbin").setValue("");
                 this.byId("sttyp").setValue("");
                 this.byId("printerStep").setValidated(false);
             },
-    
-            onStorageTypeChange: function(oEvent) {
+
+            onStorageTypeChange: function (oEvent) {
                 var sSelectedStorageType = oEvent.getSource().getSelectedKey();
                 var sSelectedWarehouse = this.byId("warehouse").getSelectedKey();
                 var oModel = this.getView().getModel();
@@ -207,12 +213,12 @@ sap.ui.define([
                         new Filter("lgnum", FilterOperator.EQ, sSelectedWarehouse),
                         new Filter("lgtyp", FilterOperator.EQ, sSelectedStorageType)
                     ],
-                    success: function(oData) {
+                    success: function (oData) {
                         BusyIndicator.hide();
                         var oStorageBinModel = new sap.ui.model.json.JSONModel(oData);
                         this.getView().setModel(oStorageBinModel, "storageBin");
                     }.bind(this),
-                    error: function(oError) {
+                    error: function (oError) {
                         // Handle error
                         BusyIndicator.hide();
                         var sErrorMessage = "An error occurred,Please try again!";
@@ -225,14 +231,14 @@ sap.ui.define([
                         } catch (e) {
                             console.error("Failed to parse error response", e);
                         }
-                       
+
                         MessageBox.error(sErrorMessage);
-                        
+
                         console.error(oError);
                     }
                 });
             },
-    
+
             onInfoPress: function () {
                 MessageBox.information("Press Enter to Add more Barcodes.");
             },
@@ -250,7 +256,7 @@ sap.ui.define([
 
                 // }
             },
-            fntranslate: function(txt){
+            fntranslate: function (txt) {
                 var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
                 var sTxt = oResourceBundle.getText(txt);
                 return sTxt;
@@ -263,10 +269,28 @@ sap.ui.define([
                 // Show Busy Indicator
                 BusyIndicator.show(0);
                 oModel.read(sPath, {
-                    success: function (oData) {
+                    success: function (oData,response) {
                         BusyIndicator.hide();
-                        that.onAddBarcode(sBarcode);
-                        MessageToast.show(that.fntranslate("Msg1"));
+                        ///warning messsage code block
+
+                        if (response.headers["sap-message"]) {
+                            const parsedMessage = JSON.parse(response.headers["sap-message"]);
+
+                            if (parsedMessage.severity === 'warning') {
+                                // Show the warning message using MessageBox.warning
+                                sap.m.MessageBox.warning(parsedMessage.message, {
+                                    title: parsedMessage.code,
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+                                        that.onAddBarcode(sBarcode);
+                                    }
+                                });
+                            }
+                        } else {
+
+                            that.onAddBarcode(sBarcode);
+                            MessageToast.show(that.fntranslate("Msg1"));
+                        }
                         // Handle successful barcode check here
                         //console.log(oData);
                     },
@@ -289,8 +313,8 @@ sap.ui.define([
                     }
                 });
             },
-              //on check default printner 
-              onCheckPrinter: function (code) {
+            //on check default printner 
+            onCheckPrinter: function (code) {
                 var oModel = this.getView().getModel();
                 var sPath = "/ZshOutputDeviceSet('" + code + "')";
                 var that = this;
@@ -299,13 +323,13 @@ sap.ui.define([
                 oModel.read(sPath, {
                     success: function (oData) {
                         BusyIndicator.hide();
-                      if(oData.Padest === "$NULL"){
-                        MessageToast.show("Default Printer hasn't been set to your User Profile");
-                      }else{
-                        that.getView().byId("printerSelect").setSelectedKey(oData.Padest);
-                        that.byId("printerStep").setValidated(true);
-                      }
-                      
+                        if (oData.Padest === "$NULL") {
+                            MessageToast.show("Default Printer hasn't been set to your User Profile");
+                        } else {
+                            that.getView().byId("printerSelect").setSelectedKey(oData.Padest);
+                            that.byId("printerStep").setValidated(true);
+                        }
+
                         // Handle successful barcode check here
                         //console.log(oData);
                     },
@@ -323,7 +347,7 @@ sap.ui.define([
                         }
 
                         MessageBox.error(sErrorMessage);
-                  
+
                         console.error(oError);
                     }
                 });
@@ -343,7 +367,9 @@ sap.ui.define([
                 if (sBarcode) {
                     var oModel = this.getView().byId("barcodeList").getModel();
                     var aBarcodes = oModel.getProperty("/barcodes");
-                    aBarcodes.push({ barcode: sBarcode });
+                    aBarcodes.push({
+                        barcode: sBarcode
+                    });
                     oModel.setProperty("/barcodes", aBarcodes);
                     oInput.setValue("");
                 }
@@ -355,7 +381,9 @@ sap.ui.define([
                 if (sBarcode) {
                     var oModel = this.getView().byId("barcodeList").getModel();
                     var aBarcodes = oModel.getProperty("/barcodes");
-                    aBarcodes.push({ barcode: sBarcode });
+                    aBarcodes.push({
+                        barcode: sBarcode
+                    });
                     oModel.setProperty("/barcodes", aBarcodes);
                     oInput.setValue("");
                 }
@@ -377,16 +405,16 @@ sap.ui.define([
             },
             onValidate: function () {
                 // Implement print logic for plant label
-                this.onPostData("/headerSet",'X');
+                this.onPostData("/headerSet", 'X');
             },
             onConfirm: function () {
                 // Implement print logic for plant label
-                this.onPostData("/headerSet",'');
+                this.onPostData("/headerSet", '');
             },
-            onPostData: function (spath,testflag) {
+            onPostData: function (spath, testflag) {
                 var oView = this.getView();
                 var oModel = this.getView().getModel();
-    
+
                 var sWarehouseNo = oView.byId("warehouse").getValue();
                 var sStorageType = oView.byId("sttyp").getValue();
                 var sStorageBin = oView.byId("stbin").getValue();
@@ -395,18 +423,20 @@ sap.ui.define([
                     MessageBox.error("Scan the Barcodes first before Transfer");
                     return;
                 }
-    
+
                 var oData = {
                     lgnum: sWarehouseNo,
                     lgtyp: sStorageType,
                     lgpla: sStorageBin,
-                    flag : testflag,
-                    contrem : this.getContremValue(),
+                    flag: testflag,
+                    contrem: this.getContremValue(),
                     bar_no: aBarcodes.map(function (item) {
-                        return { lgnum: sWarehouseNo,
+                        return {
+                            lgnum: sWarehouseNo,
                             lgtyp: sStorageType,
                             lgpla: sStorageBin,
-                            BAR_NBR: item.barcode };
+                            BAR_NBR: item.barcode
+                        };
                     })
                 };
                 BusyIndicator.show(0);
@@ -420,7 +450,7 @@ sap.ui.define([
                         //     that.onSuccessMessageBoxPress("Bar Transfer is Successfull.");
                         // }
                         that.onSuccessMessageBoxPress(that.fntranslate("final_msg"));
-                        
+
                     },
                     error: function (oError) {
                         BusyIndicator.hide();
@@ -440,7 +470,7 @@ sap.ui.define([
                     }
                 });
             },
-           
+
             onSuccessMessageBoxPress: function (msg) {
                 var that = this;
                 MessageBox.success(msg, {
@@ -464,7 +494,7 @@ sap.ui.define([
                     emphasizedAction: "Confirm",
                     onClose: function (sAction) {
                         if (sAction === "Confirm") {
-                           that.onConfirm();
+                            that.onConfirm();
                         } else {
                             that.resetWizard();
                         }
@@ -493,7 +523,9 @@ sap.ui.define([
             onExit: function () {
                 var oCrossAppNav = sap.ushell.Container.getService("CrossApplicationNavigation");
                 oCrossAppNav.toExternal({
-                    target: { shellHash: "#" } // Navigate to the Fiori Launchpad home
+                    target: {
+                        shellHash: "#"
+                    } // Navigate to the Fiori Launchpad home
                 });
             },
             // Reset to the first step
@@ -505,11 +537,13 @@ sap.ui.define([
                 this.onClearAll();
                 this.toggleVisibility();
             },
-           
-           // Code was coomented because we will not be using camera module
-            onScanSuccess: function(oEvent) {
+
+            // Code was coomented because we will not be using camera module
+            onScanSuccess: function (oEvent) {
                 if (oEvent.getParameter("cancelled")) {
-                    MessageToast.show("Scan cancelled", { duration:1000 });
+                    MessageToast.show("Scan cancelled", {
+                        duration: 1000
+                    });
                 } else {
                     if (oEvent.getParameter("text")) {
                         this.onCheckBarcode(oEvent.getParameter("text"));
@@ -519,15 +553,17 @@ sap.ui.define([
                 }
             },
 
-            onScanError: function(oEvent) {
-                MessageToast.show("Scan failed: " + oEvent, { duration:1000 });
+            onScanError: function (oEvent) {
+                MessageToast.show("Scan failed: " + oEvent, {
+                    duration: 1000
+                });
             },
 
-            onScanLiveupdate: function(oEvent) {
+            onScanLiveupdate: function (oEvent) {
                 // User can implement the validation about inputting value
             },
 
-            onAfterRendering: function() {
+            onAfterRendering: function () {
                 // Reset the scan result
                 // var oScanButton = Element.getElementById(prefixId + 'sampleBarcodeScannerButton');
                 // if (oScanButton) {
@@ -538,75 +574,78 @@ sap.ui.define([
             },
             _openContremDialog: function () {
                 if (!this._oContremDialog) {
-                  this._oContremDialog = new Dialog({
-                    title: "Select Contrem",
-                    type: "Message",
-                    content: [
-                      new Label({ text: "Contrem", labelFor: "contremInput" }),
-                      new Input("contremInput", {
-                        showValueHelp: true,
-                        valueHelpOnly: true,
-                        editable: true,
-                        placeholder: "Choose from list...",
-                        valueHelpRequest: this._onContremValueHelp.bind(this)
-                      })
-                    ],
-                    beginButton: new Button({
-                      text: "Continue",
-                      enabled: false,
-                      press: function () {
-                        gContrem = sap.ui.getCore().byId("contremInput").getValue(); // Save to global
-                        this._oContremDialog.close();
-                      }.bind(this)
-                    }),
-                    escapeHandler: function (oPromise) {
-                      oPromise.reject(); // Prevent closing without input
-                    },
-                    afterClose: function () {
-                      this._oContremDialog.destroy();
-                      this._oContremDialog = null;
-                    }.bind(this)
-                  });
-          
-                  this._oContremDialog.open();
+                    this._oContremDialog = new Dialog({
+                        title: "Select Contrem",
+                        type: "Message",
+                        content: [
+                            new Label({
+                                text: "Contrem",
+                                labelFor: "contremInput"
+                            }),
+                            new Input("contremInput", {
+                                showValueHelp: true,
+                                valueHelpOnly: true,
+                                editable: true,
+                                placeholder: "Choose from list...",
+                                valueHelpRequest: this._onContremValueHelp.bind(this)
+                            })
+                        ],
+                        beginButton: new Button({
+                            text: "Continue",
+                            enabled: false,
+                            press: function () {
+                                gContrem = sap.ui.getCore().byId("contremInput").getValue(); // Save to global
+                                this._oContremDialog.close();
+                            }.bind(this)
+                        }),
+                        escapeHandler: function (oPromise) {
+                            oPromise.reject(); // Prevent closing without input
+                        },
+                        afterClose: function () {
+                            this._oContremDialog.destroy();
+                            this._oContremDialog = null;
+                        }.bind(this)
+                    });
+
+                    this._oContremDialog.open();
                 }
-              },
-          
-              _onContremValueHelp: function () {
+            },
+
+            _onContremValueHelp: function () {
                 if (!this._oContremVHDialog) {
-                  this._oContremVHDialog = new SelectDialog({
-                    title: "Select Contrem",
-                    items: {
-                      path: "/ZzarpsContremSet",
-                      template: new sap.m.StandardListItem({
-                        title: "{ZzarpsCtrm}" // Adjust if different field name
-                        //description: "{Description}" // Optional
-                      })
-                    },
-                    search: function (oEvent) {
-                      var sValue = oEvent.getParameter("value");
-                      var oFilter = new sap.ui.model.Filter("ZzarpsCtrm", sap.ui.model.FilterOperator.Contains, sValue);
-                      oEvent.getSource().getBinding("items").filter([oFilter]);
-                    },
-                    confirm: function (oEvent) {
-                      var sSelected = oEvent.getParameter("selectedItem").getTitle();
-                      sap.ui.getCore().byId("contremInput").setValue(sSelected);
-                      this._oContremDialog.getBeginButton().setEnabled(true);
-                    }.bind(this),
-                    cancel: function () {}
-                  });
-          
-                  // Load OData model if not already
-                  var oModel = this.getView().getModel(); // Assuming your OData model is set to default
-                  this._oContremVHDialog.setModel(oModel);
+                    this._oContremVHDialog = new SelectDialog({
+                        title: "Select Contrem",
+                        items: {
+                            path: "/ZzarpsContremSet",
+                            template: new sap.m.StandardListItem({
+                                title: "{ZzarpsCtrm}" // Adjust if different field name
+                                //description: "{Description}" // Optional
+                            })
+                        },
+                        search: function (oEvent) {
+                            var sValue = oEvent.getParameter("value");
+                            var oFilter = new sap.ui.model.Filter("ZzarpsCtrm", sap.ui.model.FilterOperator.Contains, sValue);
+                            oEvent.getSource().getBinding("items").filter([oFilter]);
+                        },
+                        confirm: function (oEvent) {
+                            var sSelected = oEvent.getParameter("selectedItem").getTitle();
+                            sap.ui.getCore().byId("contremInput").setValue(sSelected);
+                            this._oContremDialog.getBeginButton().setEnabled(true);
+                        }.bind(this),
+                        cancel: function () {}
+                    });
+
+                    // Load OData model if not already
+                    var oModel = this.getView().getModel(); // Assuming your OData model is set to default
+                    this._oContremVHDialog.setModel(oModel);
                 }
-          
+
                 this._oContremVHDialog.open();
-              },
-          
-              getContremValue: function () {
+            },
+
+            getContremValue: function () {
                 return gContrem;
-              },
-      
+            },
+
         });
     });
