@@ -68,6 +68,47 @@ sap.ui.define([
             onBeforeRendering: function () {
                 // this.onCheckPlant('DEF');
                 //this.onCheckPrinter('0');
+                this.onCheckWh();
+                this.onWarehouseChange();
+            },
+            //on check default warehouse 
+            onCheckWh: function (code) {
+                var oModel = this.getView().getModel();
+                var sPath = "/warehouseNoSet";
+                var that = this;
+                // Show Busy Indicator
+                BusyIndicator.show(0);
+                oModel.read(sPath, {
+                    success: function (oData) {
+                        BusyIndicator.hide();
+                        if (oData.results[0].lgnum === "$NULL" || oData.results.length === 0) {
+                            MessageToast.show("Default Warehouse hasn't been set to your User Profile(LRFMD)");
+                        } else {
+                            that.getView().byId("warehouse").setSelectedKey(oData.results[0].lgnum);
+                            that.onWarehouseChange();
+                        }
+
+                        // Handle successful barcode check here
+                        //console.log(oData);
+                    },
+                    error: function (oError) {
+                        BusyIndicator.hide();
+                        var sErrorMessage = "An error occurred,Please reload!";
+
+                        try {
+                            var oResponse = JSON.parse(oError.responseText);
+                            if (oResponse.error && oResponse.error.message && oResponse.error.message.value) {
+                                sErrorMessage = oResponse.error.message.value;
+                            }
+                        } catch (e) {
+                            console.error("Failed to parse error response", e);
+                        }
+
+                        MessageBox.error(sErrorMessage);
+
+                        console.error(oError);
+                    }
+                });
             },
             //on check default printner 
             onCheckPrinter: function (code) {
@@ -142,7 +183,8 @@ sap.ui.define([
                 }
             },
             onWarehouseChange: function (oEvent) {
-                var sSelectedWarehouse = oEvent.getSource().getSelectedKey();
+                // var sSelectedWarehouse = oEvent.getSource().getSelectedKey();
+                var sSelectedWarehouse = this.byId("warehouse").getSelectedKey();
                 var oModel = this.getView().getModel();
                 BusyIndicator.show(0);
                 // Load Storage Type data based on selected Warehouse
@@ -754,7 +796,8 @@ sap.ui.define([
                 var sBarNbr = oData.BAR_NBR;
                 var sRatio = oData.ratio;
                 var sCutLength = oData.cut_length;
-                var sCutCode = oData.pairing;
+                //var sCutCode = oData.pairing;
+                var sCutCode = this.getView().byId("repairc").getValue();
                 BusyIndicator.show(0);
                 // Construct the OData path
                 var sPath = "/computeScrapLenSet(BAR_NBR='" + encodeURIComponent(sBarNbr) +

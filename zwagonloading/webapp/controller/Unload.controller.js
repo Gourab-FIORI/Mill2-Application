@@ -23,8 +23,9 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
                 }
         },
         onBeforeRendering:function(){
-            //  this.onCheckPrinter('0');
-          },
+            //this.onCheckPrinter('0');
+            this.onCheckWh();
+        },
           onLanguageChange: function (oEvent) {
               var sSelectedLanguage = oEvent.getParameter("selectedItem").getKey();
               this._setLanguage(sSelectedLanguage);
@@ -51,7 +52,8 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
               }
           },
           onWarehouseChange: function(oEvent) {
-              var sSelectedWarehouse = oEvent.getSource().getSelectedKey();
+             // var sSelectedWarehouse = oEvent.getSource().getSelectedKey();
+              var sSelectedWarehouse = this.byId("warehouse").getSelectedKey();
               var oModel = this.getView().getModel();
               BusyIndicator.show(0);
               // Load Storage Type data based on selected Warehouse
@@ -448,6 +450,45 @@ function (Controller, JSONModel, MessageBox, Element, MessageToast, BusyIndicato
             oModel.setProperty("/barcodes", []);
             this._wizard.invalidateStep(this.byId("Step2"));
             this.byId("nextButton").setEnabled(false);
+        },
+          //on check default warehouse 
+          onCheckWh: function (code) {
+            var oModel = this.getView().getModel();
+            var sPath = "/warehouseNoSet";
+            var that = this;
+            // Show Busy Indicator
+            BusyIndicator.show(0);
+            oModel.read(sPath, {
+                success: function (oData) {
+                    BusyIndicator.hide();
+                  if(oData.results[0].lgnum === "$NULL" || oData.results.length===0){
+                    MessageToast.show("Default Warehouse hasn't been set to your User Profile(LRFMD)");
+                  }else{
+                    that.getView().byId("warehouse").setSelectedKey(oData.results[0].lgnum);
+                    that.onWarehouseChange();
+                  }
+                  
+                    // Handle successful barcode check here
+                    //console.log(oData);
+                },
+                error: function (oError) {
+                    BusyIndicator.hide();
+                    var sErrorMessage = "An error occurred,Please reload!";
+
+                    try {
+                        var oResponse = JSON.parse(oError.responseText);
+                        if (oResponse.error && oResponse.error.message && oResponse.error.message.value) {
+                            sErrorMessage = oResponse.error.message.value;
+                        }
+                    } catch (e) {
+                        console.error("Failed to parse error response", e);
+                    }
+
+                    MessageBox.error(sErrorMessage);
+              
+                    console.error(oError);
+                }
+            });
         },
        
     });

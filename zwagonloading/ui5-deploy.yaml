@@ -16,10 +16,11 @@ builder:
         target:
           destination: LSDCLNT040
           url: http://sapd4long.lce.arcelormittal.com:1415/
+          client: '040'
         app:
           name: ZWAGONLOADING
           description: Wagon Loading Fiori Application
           package: zfiodev
-          transport: LSDK9B06W8
+          transport: LSDK9B0BUI
         exclude:
           - /test/

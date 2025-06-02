@@ -20,7 +20,7 @@
 			scanSuccess="onScanSuccess"
 			scanFail="onScanError"
 			 disableBarcodeInputDialog="true" preferFrontCamera="false"/>
-                            <Input id="barcodeInput" type="Number" maxLength="10" liveChange="onInputChange" change="onScanBarcode" submit="onScanBarcode" placeholder="{i18n>placeholder}"/>
+                            <Input id="barcodeInput" type="Number" maxLength="10" liveChange="onInputChange" submit="onScanBarcode" placeholder="{i18n>placeholder}"/>
                              <Button icon="sap-icon://information" type="Transparent" tooltip="{i18n>Tip_info}" press="onInfoPress"/>
                                <Button icon="sap-icon://clear-all" press="onClearAll"/>
                             </HBox>
